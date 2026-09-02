@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { actualizarGrado, getGrados } from "../../api/academics";
+import { actualizarGrado, crearGrado, getGrados } from "../../api/academics";
+
+const GRADO_VACIO = { nombre: "", descripcion: "", orden: 0 };
 
 function FilaGrado({ grado, onGuardado }) {
   const [descripcion, setDescripcion] = useState(grado.descripcion);
@@ -35,13 +37,31 @@ function FilaGrado({ grado, onGuardado }) {
 
 export default function AdminGrados() {
   const [grados, setGrados] = useState(null);
+  const [nuevo, setNuevo] = useState(GRADO_VACIO);
+  const [creando, setCreando] = useState(false);
   const [error, setError] = useState("");
+  const [errorCreacion, setErrorCreacion] = useState("");
 
   useEffect(() => {
     getGrados()
       .then(setGrados)
       .catch(() => setError("No se pudieron cargar los grados."));
   }, []);
+
+  const onCrear = async (e) => {
+    e.preventDefault();
+    setErrorCreacion("");
+    setCreando(true);
+    try {
+      const creado = await crearGrado({ ...nuevo, orden: Number(nuevo.orden) || 0 });
+      setGrados([...grados, creado]);
+      setNuevo(GRADO_VACIO);
+    } catch (err) {
+      setErrorCreacion(err.response?.data?.nombre?.[0] || "No se pudo crear el grado.");
+    } finally {
+      setCreando(false);
+    }
+  };
 
   if (error) return <p className="error">{error}</p>;
 
@@ -52,8 +72,36 @@ export default function AdminGrados() {
       </Link>
       <h1>Grados</h1>
       <p className="placeholder">
-        Los 4 grados (8° a 11°) son fijos: no se pueden crear ni eliminar, solo editar su descripción.
+        Los 4 grados base (8° a 11°) vienen precargados. Puedes agregar secciones adicionales
+        (ej. "8B", "9C") con el formulario de abajo; no se pueden eliminar grados, solo editar su
+        descripción.
       </p>
+
+      <form className="form-gestion form-fila" onSubmit={onCrear}>
+        <input
+          placeholder="Nombre (ej. 8B)"
+          value={nuevo.nombre}
+          onChange={(e) => setNuevo({ ...nuevo, nombre: e.target.value })}
+          maxLength={10}
+          required
+        />
+        <input
+          placeholder="Descripción (opcional)"
+          value={nuevo.descripcion}
+          onChange={(e) => setNuevo({ ...nuevo, descripcion: e.target.value })}
+        />
+        <input
+          type="number"
+          className="input-orden"
+          placeholder="Orden"
+          value={nuevo.orden}
+          onChange={(e) => setNuevo({ ...nuevo, orden: e.target.value })}
+        />
+        <button type="submit" disabled={creando}>
+          {creando ? "Creando..." : "+ Agregar grado"}
+        </button>
+      </form>
+      {errorCreacion && <p className="error">{errorCreacion}</p>}
 
       {!grados ? (
         <p className="cargando">Cargando...</p>

@@ -105,7 +105,7 @@ Tres servicios en el mismo proyecto de Railway:
 ## Estado actual
 
 - ✅ Módulo `accounts`: usuarios con rol (admin/profesor/estudiante), login JWT, `/me`.
-- ✅ Módulo `academics`: grados fijos (8°-11°), registro público de estudiante, gestión de profesores y su asignación a grados.
+- ✅ Módulo `academics`: catálogo de grados (8°-11° vienen por fixture; el administrador puede agregar secciones como "8B"/"9C" desde `/admin/grados`, pero no eliminarlas), registro público de estudiante, gestión de profesores y su asignación a grados.
 - ✅ Módulo `content`: catálogo de módulos, asignación módulo-grado, contenidos, con datos reales de 8° a 11°. El estudiante ve sus propios módulos y contenidos en `/api/content/mis-modulos/`.
 - ✅ Módulo `labs` **completo**: los 6 tipos de laboratorio funcionando de punta a punta — `quiz` (autocalificado), `entrega_archivo`, `direccionamiento_ip`, `ensamble_pc` (drag & drop), `editor_web` (CodeMirror + vista previa en vivo) y `simulador_bd` (crear tablas/campos/registros/relaciones, validado por criterios configurables: mínimo de tablas, campos, registros y relaciones).
 - ✅ Módulos `assignments`/`submissions`: actividades (opcionalmente ligadas a un laboratorio, con preguntas propias) creadas por admin/profesor por grado; el estudiante entrega (respuestas + archivo opcional), las opción-múltiple/verdadero-falso se autocalifican, y el profesor revisa, califica y escribe observaciones desde el frontend.

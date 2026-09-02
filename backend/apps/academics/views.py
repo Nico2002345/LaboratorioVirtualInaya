@@ -20,12 +20,14 @@ from .serializers import (
 class GradoViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
+    mixins.CreateModelMixin,
     mixins.UpdateModelMixin,
     viewsets.GenericViewSet,
 ):
-    """Catálogo fijo de grados: lectura pública (necesaria antes de iniciar sesión, para el
-    registro), pero solo el administrador puede editar nombre/descripción. No se permite crear
-    ni eliminar grados: los 4 grados son fijos."""
+    """Catálogo de grados: lectura pública (necesaria antes de iniciar sesión, para el
+    registro); solo el administrador puede crear secciones nuevas (ej. "8B") o editar
+    nombre/descripción. No se permite eliminar: podría arrastrar estudiantes/contenidos ya
+    asociados."""
 
     queryset = Grado.objects.all()
     serializer_class = GradoSerializer

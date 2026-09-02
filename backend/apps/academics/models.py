@@ -3,7 +3,8 @@ from django.db import models
 
 
 class Grado(models.Model):
-    """Catálogo fijo de grados (8°-11°). No se crea desde el registro de estudiantes."""
+    """Catálogo de grados. Trae 8°-11° por fixture; el administrador puede agregar secciones
+    (ej. "8B", "9C") desde el panel. No se crea desde el registro de estudiantes."""
 
     nombre = models.CharField(max_length=10, unique=True)
     descripcion = models.TextField(blank=True)

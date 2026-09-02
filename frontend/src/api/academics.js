@@ -22,6 +22,8 @@ export const alternarActivoEstudiante = (id) =>
 export const actualizarGrado = (id, payload) =>
   api.patch(`/academics/grados/${id}/`, payload).then((res) => res.data);
 
+export const crearGrado = (payload) => api.post("/academics/grados/", payload).then((res) => res.data);
+
 export const getProfesores = () =>
   api.get("/academics/profesores/").then((res) => res.data.results ?? res.data);
 
