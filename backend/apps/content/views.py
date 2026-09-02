@@ -29,22 +29,39 @@ class ModuloViewSet(viewsets.ModelViewSet):
 
 
 class ModuloGradoViewSet(viewsets.ModelViewSet):
-    """Asignación de módulos a grados. Solo el administrador la gestiona."""
+    """Asignación de módulos a grados: admin sobre cualquier grado; profesor solo en sus grados asignados."""
 
     queryset = ModuloGrado.objects.select_related("modulo", "grado")
     serializer_class = ModuloGradoSerializer
-
-    def get_permissions(self):
-        if self.action in ("list", "retrieve"):
-            return [IsAdminOrProfesor()]
-        return [IsAdmin()]
+    permission_classes = [IsAdminOrProfesor]
 
     def get_queryset(self):
         qs = super().get_queryset()
+        user = self.request.user
+        if user.rol == Rol.PROFESOR:
+            qs = qs.filter(grado__in=user.profesor.grados.all())
         grado_id = self.request.query_params.get("grado")
         if grado_id:
             qs = qs.filter(grado_id=grado_id)
         return qs
+
+    def _validar_grado_profesor(self, grado):
+        user = self.request.user
+        if user.rol == Rol.PROFESOR and grado not in user.profesor.grados.all():
+            raise PermissionDenied("No tienes asignado ese grado.")
+
+    def perform_create(self, serializer):
+        self._validar_grado_profesor(serializer.validated_data["grado"])
+        serializer.save()
+
+    def perform_update(self, serializer):
+        grado = serializer.validated_data.get("grado", serializer.instance.grado)
+        self._validar_grado_profesor(grado)
+        serializer.save()
+
+    def perform_destroy(self, instance):
+        self._validar_grado_profesor(instance.grado)
+        instance.delete()
 
 
 class MisModulosView(generics.ListAPIView):

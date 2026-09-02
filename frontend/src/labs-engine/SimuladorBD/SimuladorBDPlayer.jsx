@@ -102,7 +102,7 @@ function TablaCard({ tabla, onCambiar, onEliminar }) {
               {tabla.campos.map((campo) => (
                 <td key={campo.id}>
                   <input
-                    value={registro.valores[campo.id] || ""}
+                    value={registro.valores?.[campo.id] || ""}
                     onChange={(e) => cambiarValor(registro.id, campo.id, e.target.value)}
                   />
                 </td>

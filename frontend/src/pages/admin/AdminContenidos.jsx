@@ -344,8 +344,7 @@ export default function AdminContenidos() {
       )}
       {!esAdmin && (
         <p className="placeholder">
-          Puedes crear/editar contenidos y materiales de apoyo en los módulos ya asignados a tus grados. La
-          asignación de módulos a un grado la administra el administrador.
+          Puedes asignar módulos a tus grados y crear/editar sus contenidos y materiales de apoyo.
         </p>
       )}
 
@@ -360,25 +359,23 @@ export default function AdminContenidos() {
         </select>
       </label>
 
-      {esAdmin && (
-        <form className="form-gestion form-fila" onSubmit={onAsignar}>
-          <select value={moduloParaAsignar} onChange={(e) => setModuloParaAsignar(e.target.value)}>
-            <option value="">Selecciona un módulo para asignar</option>
-            {modulosDisponibles.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.nombre}
-              </option>
-            ))}
-          </select>
-          <input
-            type="number"
-            className="input-orden"
-            value={ordenParaAsignar}
-            onChange={(e) => setOrdenParaAsignar(e.target.value)}
-          />
-          <button type="submit">+ Asignar al grado</button>
-        </form>
-      )}
+      <form className="form-gestion form-fila" onSubmit={onAsignar}>
+        <select value={moduloParaAsignar} onChange={(e) => setModuloParaAsignar(e.target.value)}>
+          <option value="">Selecciona un módulo para asignar</option>
+          {modulosDisponibles.map((m) => (
+            <option key={m.id} value={m.id}>
+              {m.nombre}
+            </option>
+          ))}
+        </select>
+        <input
+          type="number"
+          className="input-orden"
+          value={ordenParaAsignar}
+          onChange={(e) => setOrdenParaAsignar(e.target.value)}
+        />
+        <button type="submit">+ Asignar al grado</button>
+      </form>
 
       {!modulosGrado ? (
         <p className="cargando">Cargando...</p>
@@ -390,7 +387,7 @@ export default function AdminContenidos() {
             key={mg.id}
             moduloGrado={mg}
             onEliminarAsignacion={onEliminarAsignacion}
-            puedeGestionarModulos={esAdmin}
+            puedeGestionarModulos
           />
         ))
       )}
