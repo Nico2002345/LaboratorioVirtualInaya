@@ -113,6 +113,22 @@ section {
   color: #374151;
 }
 
+.lista-materiales-estudiante {
+  list-style: none;
+  margin: 0.2rem 0 0.4rem;
+  padding-left: 0.8rem;
+  font-size: 0.8rem;
+}
+
+.lista-materiales-estudiante a {
+  color: #457b9d;
+  text-decoration: none;
+}
+
+.lista-materiales-estudiante a:hover {
+  text-decoration: underline;
+}
+
 .grid-laboratorios {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -629,6 +645,57 @@ section {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.6rem;
+}
+
+.contenido-card {
+  background: #fafbfc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.materiales-contenido {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed #d1d5db;
+}
+
+.materiales-contenido h4 {
+  margin: 0 0 0.4rem;
+  font-size: 0.8rem;
+  color: #1d3557;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.lista-materiales {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+}
+
+.lista-materiales li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.material-tipo {
+  background: #e9f1fb;
+  color: #1d3557;
+  font-size: 0.7rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.material-form {
+  margin-top: 0;
 }
 
 .grupo-header h3 {

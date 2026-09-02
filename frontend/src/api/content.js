@@ -34,3 +34,22 @@ export const actualizarContenido = (id, payload) =>
   api.put(`/content/contenidos/${id}/`, payload).then((res) => res.data);
 
 export const eliminarContenido = (id) => api.delete(`/content/contenidos/${id}/`);
+
+export const getMateriales = (contenidoId) =>
+  api
+    .get("/content/materiales/", { params: contenidoId ? { contenido: contenidoId } : {} })
+    .then((res) => res.data.results ?? res.data);
+
+export const crearMaterial = ({ contenido, nombre, tipo, archivo, enlace }) => {
+  const formData = new FormData();
+  formData.append("contenido", contenido);
+  formData.append("nombre", nombre);
+  formData.append("tipo", tipo);
+  if (archivo) formData.append("archivo", archivo);
+  if (enlace) formData.append("enlace", enlace);
+  return api
+    .post("/content/materiales/", formData, { headers: { "Content-Type": "multipart/form-data" } })
+    .then((res) => res.data);
+};
+
+export const eliminarMaterial = (id) => api.delete(`/content/materiales/${id}/`);

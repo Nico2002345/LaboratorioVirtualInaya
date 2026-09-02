@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { MEDIA_BASE_URL } from "../../api/client";
+import { urlArchivo } from "../../api/client";
 import { getActividadProfesor } from "../../api/assignments";
 import { calificarEntrega, getEntregasActividad } from "../../api/submissions";
 import EstadoBadge from "../../components/EstadoBadge";
@@ -101,7 +101,7 @@ export default function ActividadEntregas() {
             {entrega.archivo && (
               <p>
                 Archivo:{" "}
-                <a href={`${MEDIA_BASE_URL}${entrega.archivo}`} target="_blank" rel="noreferrer">
+                <a href={urlArchivo(entrega.archivo)} target="_blank" rel="noreferrer">
                   ver archivo
                 </a>
               </p>

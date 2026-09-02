@@ -3,6 +3,15 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 export const MEDIA_BASE_URL = API_URL.replace(/\/api\/?$/, "");
 
+// Según el endpoint, el backend devuelve la ruta de un archivo como absoluta
+// (vistas basadas en ListAPIView/ModelViewSet, que inyectan el request en el
+// serializer) o relativa (vistas APIView manuales, sin ese contexto). Esta
+// función normaliza ambos casos para construir siempre un enlace válido.
+export const urlArchivo = (ruta) => {
+  if (!ruta) return null;
+  return ruta.startsWith("http") ? ruta : `${MEDIA_BASE_URL}${ruta}`;
+};
+
 const ACCESS_KEY = "lv_access";
 const REFRESH_KEY = "lv_refresh";
 

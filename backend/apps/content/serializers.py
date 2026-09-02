@@ -15,7 +15,16 @@ class ModuloSerializer(serializers.ModelSerializer):
 class MaterialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Material
-        fields = ["id", "nombre", "archivo", "enlace", "tipo", "subido_en"]
+        fields = ["id", "contenido", "nombre", "archivo", "enlace", "tipo", "subido_en"]
+        read_only_fields = ["id", "subido_en"]
+        extra_kwargs = {"contenido": {"required": True}}
+
+    def validate(self, attrs):
+        archivo = attrs.get("archivo", getattr(self.instance, "archivo", None))
+        enlace = attrs.get("enlace", getattr(self.instance, "enlace", ""))
+        if not archivo and not enlace:
+            raise serializers.ValidationError("Debes adjuntar un archivo o un enlace.")
+        return attrs
 
 
 class ContenidoSerializer(serializers.ModelSerializer):
@@ -37,9 +46,11 @@ class ContenidoSerializer(serializers.ModelSerializer):
 
 
 class ContenidoResumenSerializer(serializers.ModelSerializer):
+    materiales = MaterialSerializer(many=True, read_only=True)
+
     class Meta:
         model = Contenido
-        fields = ["id", "titulo", "descripcion", "orden"]
+        fields = ["id", "titulo", "descripcion", "orden", "materiales"]
 
 
 class ModuloGradoSerializer(serializers.ModelSerializer):

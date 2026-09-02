@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { MEDIA_BASE_URL } from "../../api/client";
+import { urlArchivo } from "../../api/client";
 import { entregarArchivo, getLaboratorio, iniciarLaboratorio, responderQuiz } from "../../api/labs";
 import EstadoBadge from "../../components/EstadoBadge";
 import DireccionamientoIPPlayer from "../../labs-engine/DireccionamientoIP/DireccionamientoIPPlayer";
@@ -96,7 +96,7 @@ function EntregaArchivoPlayer({ laboratorio, onCompletado }) {
       {estado === "completado" && archivo_entrega && (
         <p>
           Ya entregaste un archivo:{" "}
-          <a href={`${MEDIA_BASE_URL}${archivo_entrega}`} target="_blank" rel="noreferrer">
+          <a href={urlArchivo(archivo_entrega)} target="_blank" rel="noreferrer">
             ver archivo
           </a>
         </p>

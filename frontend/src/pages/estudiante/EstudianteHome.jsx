@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { urlArchivo } from "../../api/client";
 import { getMiPerfilEstudiante } from "../../api/academics";
 import { getMisModulos } from "../../api/content";
 import { getMisLaboratorios } from "../../api/labs";
@@ -50,7 +51,24 @@ export default function EstudianteHome() {
                 {mg.contenidos.length > 0 && (
                   <ul className="lista-contenidos">
                     {mg.contenidos.map((c) => (
-                      <li key={c.id}>{c.titulo}</li>
+                      <li key={c.id}>
+                        {c.titulo}
+                        {c.materiales.length > 0 && (
+                          <ul className="lista-materiales-estudiante">
+                            {c.materiales.map((m) => (
+                              <li key={m.id}>
+                                <a
+                                  href={m.enlace || urlArchivo(m.archivo)}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  📎 {m.nombre}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
                     ))}
                   </ul>
                 )}

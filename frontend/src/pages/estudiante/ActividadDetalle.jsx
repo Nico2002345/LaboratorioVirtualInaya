@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { MEDIA_BASE_URL } from "../../api/client";
+import { urlArchivo } from "../../api/client";
 import { entregarActividad, getActividad } from "../../api/submissions";
 import EstadoBadge from "../../components/EstadoBadge";
 
@@ -153,7 +153,7 @@ export default function ActividadDetalle() {
           {actividad.mi_entrega?.archivo && (
             <p>
               Archivo actual:{" "}
-              <a href={`${MEDIA_BASE_URL}${actividad.mi_entrega.archivo}`} target="_blank" rel="noreferrer">
+              <a href={urlArchivo(actividad.mi_entrega.archivo)} target="_blank" rel="noreferrer">
                 ver archivo
               </a>
             </p>

@@ -6,9 +6,10 @@ from rest_framework.permissions import IsAuthenticated
 from apps.accounts.models import Rol
 from apps.accounts.permissions import IsAdmin, IsAdminOrProfesor
 
-from .models import Contenido, Modulo, ModuloGrado
+from .models import Contenido, Material, Modulo, ModuloGrado
 from .serializers import (
     ContenidoSerializer,
+    MaterialSerializer,
     ModuloGradoConContenidosSerializer,
     ModuloGradoSerializer,
     ModuloSerializer,
@@ -59,7 +60,10 @@ class MisModulosView(generics.ListAPIView):
         return (
             ModuloGrado.objects.select_related("modulo", "grado")
             .prefetch_related(
-                Prefetch("contenidos", queryset=Contenido.objects.filter(publicado=True))
+                Prefetch(
+                    "contenidos",
+                    queryset=Contenido.objects.filter(publicado=True).prefetch_related("materiales"),
+                )
             )
             .filter(grado=estudiante.grado)
         )
@@ -93,4 +97,35 @@ class ContenidoViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         modulo_grado = serializer.validated_data.get("modulo_grado", serializer.instance.modulo_grado)
         self._validar_grado_profesor(modulo_grado)
+        serializer.save()
+
+
+class MaterialViewSet(viewsets.ModelViewSet):
+    """CRUD de materiales de apoyo de un contenido: admin en cualquier grado, profesor en los suyos."""
+
+    serializer_class = MaterialSerializer
+    permission_classes = [IsAdminOrProfesor]
+
+    def get_queryset(self):
+        qs = Material.objects.select_related("contenido__modulo_grado__grado")
+        user = self.request.user
+        if user.rol == Rol.PROFESOR:
+            qs = qs.filter(contenido__modulo_grado__grado__in=user.profesor.grados.all())
+        contenido_id = self.request.query_params.get("contenido")
+        if contenido_id:
+            qs = qs.filter(contenido_id=contenido_id)
+        return qs
+
+    def _validar_grado_profesor(self, contenido):
+        user = self.request.user
+        if user.rol == Rol.PROFESOR and contenido.modulo_grado.grado not in user.profesor.grados.all():
+            raise PermissionDenied("No tienes asignado ese grado.")
+
+    def perform_create(self, serializer):
+        self._validar_grado_profesor(serializer.validated_data["contenido"])
+        serializer.save(subido_por=self.request.user)
+
+    def perform_update(self, serializer):
+        contenido = serializer.validated_data.get("contenido", serializer.instance.contenido)
+        self._validar_grado_profesor(contenido)
         serializer.save()

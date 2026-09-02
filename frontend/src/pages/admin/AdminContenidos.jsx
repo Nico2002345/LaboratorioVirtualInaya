@@ -1,20 +1,108 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { urlArchivo } from "../../api/client";
 import { getGrados } from "../../api/academics";
 import {
   actualizarContenido,
   crearContenido,
+  crearMaterial,
   crearModuloGrado,
   eliminarContenido,
+  eliminarMaterial,
   eliminarModuloGrado,
   getContenidos,
+  getMateriales,
   getModulos,
   getModulosGrado,
 } from "../../api/content";
 
 const CONTENIDO_VACIO = { titulo: "", descripcion: "", cuerpo: "", orden: 1, publicado: true };
+const MATERIAL_VACIO = { nombre: "", tipo: "enlace", enlace: "" };
+const TIPOS_MATERIAL = [
+  { value: "pdf", label: "PDF" },
+  { value: "imagen", label: "Imagen" },
+  { value: "video", label: "Video" },
+  { value: "enlace", label: "Enlace" },
+  { value: "otro", label: "Otro" },
+];
 
-function FilaContenido({ contenido, onGuardado, onEliminar }) {
+function MaterialesContenido({ contenidoId }) {
+  const [materiales, setMateriales] = useState(null);
+  const [nuevo, setNuevo] = useState(MATERIAL_VACIO);
+  const [archivo, setArchivo] = useState(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    getMateriales(contenidoId).then(setMateriales);
+  }, [contenidoId]);
+
+  const onCrear = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const creado = await crearMaterial({ contenido: contenidoId, ...nuevo, archivo });
+      setMateriales([...materiales, creado]);
+      setNuevo(MATERIAL_VACIO);
+      setArchivo(null);
+    } catch {
+      setError("Debes adjuntar un archivo o un enlace.");
+    }
+  };
+
+  const onEliminar = async (id) => {
+    await eliminarMaterial(id);
+    setMateriales(materiales.filter((m) => m.id !== id));
+  };
+
+  if (!materiales) return <p className="cargando">Cargando materiales...</p>;
+
+  return (
+    <div className="materiales-contenido">
+      <h4>Materiales de apoyo</h4>
+      {materiales.length > 0 && (
+        <ul className="lista-materiales">
+          {materiales.map((m) => (
+            <li key={m.id}>
+              <span className="material-tipo">{m.tipo}</span>{" "}
+              <a href={m.enlace || urlArchivo(m.archivo)} target="_blank" rel="noreferrer">
+                {m.nombre}
+              </a>
+              <button type="button" className="boton-x" onClick={() => onEliminar(m.id)}>
+                ×
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <form className="form-gestion form-fila material-form" onSubmit={onCrear}>
+        <input
+          placeholder="Nombre del material"
+          value={nuevo.nombre}
+          onChange={(e) => setNuevo({ ...nuevo, nombre: e.target.value })}
+          required
+        />
+        <select value={nuevo.tipo} onChange={(e) => setNuevo({ ...nuevo, tipo: e.target.value })}>
+          {TIPOS_MATERIAL.map((t) => (
+            <option key={t.value} value={t.value}>
+              {t.label}
+            </option>
+          ))}
+        </select>
+        <input
+          placeholder="Enlace (URL)"
+          value={nuevo.enlace}
+          onChange={(e) => setNuevo({ ...nuevo, enlace: e.target.value })}
+        />
+        <input type="file" onChange={(e) => setArchivo(e.target.files[0])} />
+        <button type="submit">+ Agregar material</button>
+      </form>
+      {error && <p className="error">{error}</p>}
+    </div>
+  );
+}
+
+function ContenidoCard({ contenido, onGuardado, onEliminar }) {
   const [valores, setValores] = useState({
     titulo: contenido.titulo,
     descripcion: contenido.descripcion,
@@ -22,14 +110,12 @@ function FilaContenido({ contenido, onGuardado, onEliminar }) {
     publicado: contenido.publicado,
   });
   const [guardando, setGuardando] = useState(false);
+  const [mostrarMateriales, setMostrarMateriales] = useState(false);
 
   const onGuardar = async () => {
     setGuardando(true);
     try {
-      const actualizado = await actualizarContenido(contenido.id, {
-        ...contenido,
-        ...valores,
-      });
+      const actualizado = await actualizarContenido(contenido.id, { ...contenido, ...valores });
       onGuardado(actualizado);
     } finally {
       setGuardando(false);
@@ -37,40 +123,40 @@ function FilaContenido({ contenido, onGuardado, onEliminar }) {
   };
 
   return (
-    <tr>
-      <td>
+    <div className="contenido-card">
+      <div className="form-fila">
         <input value={valores.titulo} onChange={(e) => setValores({ ...valores, titulo: e.target.value })} />
-      </td>
-      <td>
         <input
           value={valores.descripcion}
           onChange={(e) => setValores({ ...valores, descripcion: e.target.value })}
         />
-      </td>
-      <td>
         <input
           type="number"
           className="input-orden"
           value={valores.orden}
           onChange={(e) => setValores({ ...valores, orden: e.target.value })}
         />
-      </td>
-      <td>
-        <input
-          type="checkbox"
-          checked={valores.publicado}
-          onChange={(e) => setValores({ ...valores, publicado: e.target.checked })}
-        />
-      </td>
-      <td className="acciones-tabla">
+        <label className="opcion-checkbox">
+          <input
+            type="checkbox"
+            checked={valores.publicado}
+            onChange={(e) => setValores({ ...valores, publicado: e.target.checked })}
+          />
+          Publicado
+        </label>
         <button type="button" onClick={onGuardar} disabled={guardando}>
           Guardar
         </button>
         <button type="button" className="boton-eliminar" onClick={() => onEliminar(contenido.id)}>
           Eliminar
         </button>
-      </td>
-    </tr>
+        <button type="button" onClick={() => setMostrarMateriales(!mostrarMateriales)}>
+          {mostrarMateriales ? "Ocultar materiales" : "Materiales"}
+        </button>
+      </div>
+
+      {mostrarMateriales && <MaterialesContenido contenidoId={contenido.id} />}
+    </div>
   );
 }
 
@@ -116,31 +202,16 @@ function GrupoModuloGrado({ moduloGrado, onEliminarAsignacion }) {
         <p className="cargando">Cargando contenidos...</p>
       ) : (
         <>
-          {contenidos.length > 0 && (
-            <table className="tabla-simple">
-              <thead>
-                <tr>
-                  <th>Título</th>
-                  <th>Descripción</th>
-                  <th>Orden</th>
-                  <th>Publicado</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {contenidos.map((c) => (
-                  <FilaContenido
-                    key={c.id}
-                    contenido={c}
-                    onGuardado={(actualizado) =>
-                      setContenidos(contenidos.map((x) => (x.id === actualizado.id ? actualizado : x)))
-                    }
-                    onEliminar={onEliminarContenido}
-                  />
-                ))}
-              </tbody>
-            </table>
-          )}
+          {contenidos.map((c) => (
+            <ContenidoCard
+              key={c.id}
+              contenido={c}
+              onGuardado={(actualizado) =>
+                setContenidos(contenidos.map((x) => (x.id === actualizado.id ? actualizado : x)))
+              }
+              onEliminar={onEliminarContenido}
+            />
+          ))}
 
           <form className="form-gestion form-fila" onSubmit={onCrear}>
             <input
