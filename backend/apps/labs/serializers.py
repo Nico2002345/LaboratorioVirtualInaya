@@ -39,15 +39,22 @@ class ProgresoLaboratorioSerializer(serializers.ModelSerializer):
 
 
 def _configuracion_sin_respuestas(laboratorio):
-    """Oculta las respuestas correctas de un quiz antes de enviarlo al estudiante."""
-    if laboratorio.tipo != Laboratorio.Tipo.QUIZ:
-        return laboratorio.configuracion
+    """Oculta las respuestas correctas antes de enviar la configuración al estudiante."""
     config = laboratorio.configuracion or {}
-    preguntas = config.get("preguntas", [])
-    preguntas_publicas = [
-        {k: v for k, v in p.items() if k != "respuesta_correcta"} for p in preguntas
-    ]
-    return {**config, "preguntas": preguntas_publicas}
+
+    if laboratorio.tipo == Laboratorio.Tipo.QUIZ:
+        preguntas = config.get("preguntas", [])
+        preguntas_publicas = [
+            {k: v for k, v in p.items() if k != "respuesta_correcta"} for p in preguntas
+        ]
+        return {**config, "preguntas": preguntas_publicas}
+
+    if laboratorio.tipo == Laboratorio.Tipo.ENSAMBLE_PC:
+        piezas = config.get("piezas", [])
+        piezas_publicas = [{k: v for k, v in p.items() if k != "zona_correcta"} for p in piezas]
+        return {**config, "piezas": piezas_publicas}
+
+    return config
 
 
 class LaboratorioEstudianteSerializer(serializers.ModelSerializer):

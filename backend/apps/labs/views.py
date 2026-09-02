@@ -232,6 +232,75 @@ class VerificarDireccionamientoIPView(APIView):
         )
 
 
+def _verificar_ensamble(configuracion, colocaciones):
+    if not isinstance(colocaciones, dict):
+        raise ValidationError({"colocaciones": "Debe ser un objeto {pieza_id: zona_id}."})
+
+    piezas = configuracion.get("piezas", [])
+    resultado = {}
+    for pieza in piezas:
+        pieza_id = pieza["id"]
+        zona_correcta = pieza.get("zona_correcta")
+        zona_colocada = colocaciones.get(pieza_id)
+
+        if zona_correcta is None:
+            correcto = zona_colocada in (None, "")
+            mensaje = (
+                "Correcto: esta pieza no va dentro del gabinete."
+                if correcto
+                else "Esta pieza no debe colocarse en el gabinete."
+            )
+        else:
+            correcto = zona_colocada == zona_correcta
+            mensaje = "Ubicación correcta." if correcto else "Ubicación incorrecta para esta pieza."
+
+        resultado[pieza_id] = {"correcto": correcto, "mensaje": mensaje}
+
+    correcto_total = all(c["correcto"] for c in resultado.values())
+    return correcto_total, resultado
+
+
+class VerificarEnsambleView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        estudiante = _get_estudiante_o_403(request)
+        laboratorio = get_object_or_404(
+            Laboratorio,
+            pk=pk,
+            modulo_grado__grado=estudiante.grado,
+            activo=True,
+            tipo=Laboratorio.Tipo.ENSAMBLE_PC,
+        )
+        colocaciones = request.data.get("colocaciones", {})
+        correcto, resultado = _verificar_ensamble(laboratorio.configuracion, colocaciones)
+
+        progreso, _ = ProgresoLaboratorio.objects.get_or_create(
+            estudiante=estudiante, laboratorio=laboratorio
+        )
+        total = len(resultado) or 1
+        correctos = sum(1 for c in resultado.values() if c["correcto"])
+        progreso.datos_estado = {"ultimas_colocaciones": colocaciones, "resultado": resultado}
+        progreso.porcentaje = round((correctos / total) * 100)
+        progreso.estado = (
+            ProgresoLaboratorio.Estado.COMPLETADO if correcto else ProgresoLaboratorio.Estado.EN_PROGRESO
+        )
+        if correcto:
+            progreso.calificacion = 5.0
+            progreso.completado_en = timezone.now()
+        if not progreso.iniciado_en:
+            progreso.iniciado_en = timezone.now()
+        progreso.save()
+
+        return Response(
+            {
+                "correcto": correcto,
+                "resultado": resultado,
+                "progreso": ProgresoLaboratorioSerializer(progreso).data,
+            }
+        )
+
+
 class EntregarArchivoView(APIView):
     permission_classes = [IsAuthenticated]
 

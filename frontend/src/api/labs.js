@@ -19,6 +19,9 @@ export const responderQuiz = (id, respuestas) =>
 export const verificarDireccionamientoIP = (id, datos) =>
   api.post(`/labs/laboratorios/${id}/verificar-ip/`, datos).then((res) => res.data);
 
+export const verificarEnsamble = (id, colocaciones) =>
+  api.post(`/labs/laboratorios/${id}/verificar-ensamble/`, { colocaciones }).then((res) => res.data);
+
 export const entregarArchivo = (id, archivo) => {
   const formData = new FormData();
   formData.append("archivo", archivo);

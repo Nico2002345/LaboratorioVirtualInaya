@@ -4,9 +4,9 @@ import { MEDIA_BASE_URL } from "../../api/client";
 import { entregarArchivo, getLaboratorio, iniciarLaboratorio, responderQuiz } from "../../api/labs";
 import EstadoBadge from "../../components/EstadoBadge";
 import DireccionamientoIPPlayer from "../../labs-engine/DireccionamientoIP/DireccionamientoIPPlayer";
+import EnsamblePCPlayer from "../../labs-engine/EnsamblePC/EnsamblePCPlayer";
 
 const TIPOS_INTERACTIVOS_PENDIENTES = {
-  ensamble_pc: "Ensamble de computador",
   editor_web: "Editor HTML/CSS/JS",
   simulador_bd: "Simulador de base de datos",
 };
@@ -175,6 +175,9 @@ export default function LaboratorioDetalle() {
         )}
         {laboratorio.tipo === "direccionamiento_ip" && (
           <DireccionamientoIPPlayer laboratorio={laboratorio} onProgresoActualizado={actualizarProgreso} />
+        )}
+        {laboratorio.tipo === "ensamble_pc" && (
+          <EnsamblePCPlayer laboratorio={laboratorio} onProgresoActualizado={actualizarProgreso} />
         )}
         {TIPOS_INTERACTIVOS_PENDIENTES[laboratorio.tipo] && (
           <p className="placeholder">

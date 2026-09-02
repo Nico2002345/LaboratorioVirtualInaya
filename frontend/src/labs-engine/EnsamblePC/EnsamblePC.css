@@ -1,0 +1,134 @@
+.simulador-ensamble {
+  max-width: 640px;
+}
+
+.instruccion-dnd {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+.banner-correcto {
+  background: #d1fae5;
+  color: #065f46;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.tablero-ensamble {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.bandeja-piezas,
+.gabinete {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.75rem;
+  background: #fafbfc;
+  min-height: 220px;
+}
+
+.bandeja-piezas h4,
+.gabinete h4 {
+  margin: 0 0 0.6rem;
+  font-size: 0.85rem;
+  color: #1d3557;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.bandeja-vacia {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.pieza {
+  background: #1d3557;
+  color: white;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+  cursor: grab;
+  user-select: none;
+  border: 2px solid transparent;
+}
+
+.pieza-seleccionada {
+  border-color: #f4a261;
+}
+
+.pieza-correcta {
+  outline: 2px solid #10b981;
+}
+
+.pieza-incorrecta {
+  outline: 2px solid #dc2626;
+}
+
+.grid-zonas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.6rem;
+}
+
+.zona-drop {
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  min-height: 80px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  cursor: pointer;
+  background: white;
+}
+
+.zona-nombre {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.zona-ocupada {
+  border-style: solid;
+}
+
+.zona-correcta {
+  border-color: #10b981;
+  background: #ecfdf5;
+}
+
+.zona-incorrecta {
+  border-color: #dc2626;
+  background: #fef2f2;
+}
+
+.pieza-colocada {
+  background: #457b9d;
+  color: white;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: grab;
+}
+
+.simulador-ensamble button {
+  background: #1d3557;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.simulador-ensamble button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

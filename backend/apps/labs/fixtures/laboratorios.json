@@ -190,5 +190,71 @@
       "activo": true,
       "creado_en": "2026-01-15T00:00:00Z"
     }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 11,
+    "fields": {
+      "modulo_grado": 1,
+      "titulo": "Ensamble de un computador",
+      "descripcion": "Arrastra cada pieza hasta el lugar correcto dentro del gabinete.",
+      "objetivo": "Reconocer dónde va cada componente principal de un computador.",
+      "instrucciones": "Arrastra (o selecciona y haz clic) cada pieza y colócala en la zona correspondiente del gabinete. Ten cuidado: no todas las piezas van dentro del gabinete.",
+      "tipo": "ensamble_pc",
+      "configuracion": {
+        "piezas": [
+          {"id": "ram", "nombre": "Memoria RAM", "zona_correcta": "zona-ram"},
+          {"id": "cpu", "nombre": "Procesador (CPU)", "zona_correcta": "zona-cpu"},
+          {"id": "disco", "nombre": "Disco duro", "zona_correcta": "zona-disco"},
+          {"id": "fuente", "nombre": "Fuente de poder", "zona_correcta": "zona-fuente"},
+          {"id": "tarjeta_madre", "nombre": "Tarjeta madre", "zona_correcta": "zona-tarjeta-madre"},
+          {"id": "mouse", "nombre": "Mouse", "zona_correcta": null}
+        ],
+        "zonas": [
+          {"id": "zona-ram", "nombre": "Ranura de memoria"},
+          {"id": "zona-cpu", "nombre": "Zócalo del procesador"},
+          {"id": "zona-disco", "nombre": "Bahía de almacenamiento"},
+          {"id": "zona-fuente", "nombre": "Compartimento de la fuente"},
+          {"id": "zona-tarjeta-madre", "nombre": "Base del gabinete"}
+        ]
+      },
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 12,
+    "fields": {
+      "modulo_grado": 6,
+      "titulo": "Ensamble virtual de un computador",
+      "descripcion": "Identifica y coloca los componentes internos, incluyendo la tarjeta de video.",
+      "objetivo": "Reconocer los componentes internos de un computador y su ubicación.",
+      "instrucciones": "Arrastra (o selecciona y haz clic) cada pieza y colócala en la zona correspondiente del gabinete. Ten cuidado: no todas las piezas van dentro del gabinete.",
+      "tipo": "ensamble_pc",
+      "configuracion": {
+        "piezas": [
+          {"id": "ram", "nombre": "Memoria RAM", "zona_correcta": "zona-ram"},
+          {"id": "cpu", "nombre": "Procesador (CPU)", "zona_correcta": "zona-cpu"},
+          {"id": "disco", "nombre": "Disco duro", "zona_correcta": "zona-disco"},
+          {"id": "fuente", "nombre": "Fuente de poder", "zona_correcta": "zona-fuente"},
+          {"id": "tarjeta_madre", "nombre": "Tarjeta madre", "zona_correcta": "zona-tarjeta-madre"},
+          {"id": "tarjeta_video", "nombre": "Tarjeta de video", "zona_correcta": "zona-video"},
+          {"id": "mouse", "nombre": "Mouse", "zona_correcta": null}
+        ],
+        "zonas": [
+          {"id": "zona-ram", "nombre": "Ranura de memoria"},
+          {"id": "zona-cpu", "nombre": "Zócalo del procesador"},
+          {"id": "zona-disco", "nombre": "Bahía de almacenamiento"},
+          {"id": "zona-fuente", "nombre": "Compartimento de la fuente"},
+          {"id": "zona-tarjeta-madre", "nombre": "Base del gabinete"},
+          {"id": "zona-video", "nombre": "Ranura de expansión (PCIe)"}
+        ]
+      },
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
   }
 ]
