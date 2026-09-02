@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions, viewsets
+from rest_framework import generics, mixins, permissions, viewsets
+from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -16,12 +17,23 @@ from .serializers import (
 )
 
 
-class GradoViewSet(viewsets.ReadOnlyModelViewSet):
-    """Catálogo de grados. Lectura pública: se necesita antes de iniciar sesión (registro)."""
+class GradoViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet,
+):
+    """Catálogo fijo de grados: lectura pública (necesaria antes de iniciar sesión, para el
+    registro), pero solo el administrador puede editar nombre/descripción. No se permite crear
+    ni eliminar grados: los 4 grados son fijos."""
 
     queryset = Grado.objects.all()
     serializer_class = GradoSerializer
-    permission_classes = [AllowAny]
+
+    def get_permissions(self):
+        if self.action in ("list", "retrieve"):
+            return [AllowAny()]
+        return [IsAdmin()]
 
 
 class RegistroEstudianteView(generics.CreateAPIView):
@@ -62,6 +74,15 @@ class EstudianteViewSet(viewsets.ReadOnlyModelViewSet):
             qs = qs.filter(grado_id=grado_id)
         return qs.order_by("grado__orden", "usuario__last_name")
 
+    @action(detail=True, methods=["post"], permission_classes=[IsAdmin])
+    def alternar_activo(self, request, pk=None):
+        """Activa o desactiva la cuenta del estudiante. Solo el administrador."""
+        estudiante = self.get_object()
+        usuario = estudiante.usuario
+        usuario.is_active = not usuario.is_active
+        usuario.save(update_fields=["is_active"])
+        return Response(EstudianteSerializer(estudiante).data)
+
 
 class ProfesorViewSet(viewsets.ModelViewSet):
     """Gestión de profesores: solo el administrador crea/edita."""
@@ -79,6 +100,16 @@ class ProfesorViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         profesor = serializer.save()
         return Response(ProfesorSerializer(profesor).data, status=201)
+
+    @action(detail=True, methods=["post"])
+    def asignar_grados(self, request, pk=None):
+        """Reemplaza los grados asignados a un profesor por la lista recibida."""
+        profesor = self.get_object()
+        grados_ids = request.data.get("grados", [])
+        if not isinstance(grados_ids, list):
+            return Response({"grados": "Debe ser una lista de IDs."}, status=400)
+        profesor.grados.set(grados_ids)
+        return Response(ProfesorSerializer(profesor).data)
 
 
 class MisGradosProfesorView(APIView):

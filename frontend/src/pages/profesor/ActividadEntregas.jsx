@@ -4,6 +4,7 @@ import { MEDIA_BASE_URL } from "../../api/client";
 import { getActividadProfesor } from "../../api/assignments";
 import { calificarEntrega, getEntregasActividad } from "../../api/submissions";
 import EstadoBadge from "../../components/EstadoBadge";
+import { useAuth } from "../../auth/AuthContext";
 
 function FormularioCalificar({ entrega, puntajeMaximo, onCalificado }) {
   const [nota, setNota] = useState(entrega.calificacion?.nota ?? "");
@@ -53,6 +54,8 @@ function FormularioCalificar({ entrega, puntajeMaximo, onCalificado }) {
 
 export default function ActividadEntregas() {
   const { id } = useParams();
+  const { usuario } = useAuth();
+  const base = usuario.rol === "admin" ? "/admin" : "/profesor";
   const [actividad, setActividad] = useState(null);
   const [entregas, setEntregas] = useState(null);
   const [error, setError] = useState("");
@@ -77,7 +80,7 @@ export default function ActividadEntregas() {
 
   return (
     <div className="contenedor">
-      <Link className="volver" to="/profesor">
+      <Link className="volver" to={base}>
         ← Volver al inicio
       </Link>
       <h1>{actividad.titulo}</h1>

@@ -15,6 +15,10 @@ import ProfesorLaboratorios from "../pages/profesor/ProfesorLaboratorios";
 import LaboratorioForm from "../pages/profesor/LaboratorioForm";
 import ProfesorActividades from "../pages/profesor/ProfesorActividades";
 import ActividadForm from "../pages/profesor/ActividadForm";
+import AdminGrados from "../pages/admin/AdminGrados";
+import AdminProfesores from "../pages/admin/AdminProfesores";
+import AdminModulos from "../pages/admin/AdminModulos";
+import AdminContenidos from "../pages/admin/AdminContenidos";
 
 const RUTA_POR_ROL = {
   admin: "/admin",
@@ -137,6 +141,105 @@ export default function AppRoutes() {
           path="/profesor/actividades/:id"
           element={
             <RequireAuth roles={["profesor", "admin"]}>
+              <ActividadEntregas />
+            </RequireAuth>
+          }
+        />
+
+        {/* El admin reutiliza los mismos componentes de gestión que el profesor, con alcance
+            a todos los grados en vez de solo los asignados (ver branching por rol en cada página). */}
+        <Route
+          path="/admin/estudiantes"
+          element={
+            <RequireAuth roles={["admin"]}>
+              <ProfesorEstudiantes />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/profesores"
+          element={
+            <RequireAuth roles={["admin"]}>
+              <AdminProfesores />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/grados"
+          element={
+            <RequireAuth roles={["admin"]}>
+              <AdminGrados />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/modulos"
+          element={
+            <RequireAuth roles={["admin"]}>
+              <AdminModulos />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/contenidos"
+          element={
+            <RequireAuth roles={["admin"]}>
+              <AdminContenidos />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/laboratorios"
+          element={
+            <RequireAuth roles={["admin"]}>
+              <ProfesorLaboratorios />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/laboratorios/nuevo"
+          element={
+            <RequireAuth roles={["admin"]}>
+              <LaboratorioForm />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/laboratorios/:id/editar"
+          element={
+            <RequireAuth roles={["admin"]}>
+              <LaboratorioForm />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/actividades"
+          element={
+            <RequireAuth roles={["admin"]}>
+              <ProfesorActividades />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/actividades/nueva"
+          element={
+            <RequireAuth roles={["admin"]}>
+              <ActividadForm />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/actividades/:id/editar"
+          element={
+            <RequireAuth roles={["admin"]}>
+              <ActividadForm />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/actividades/:id"
+          element={
+            <RequireAuth roles={["admin"]}>
               <ActividadEntregas />
             </RequireAuth>
           }

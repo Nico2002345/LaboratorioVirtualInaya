@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getMisGradosProfesor } from "../../api/academics";
+import { getGrados, getMisGradosProfesor } from "../../api/academics";
+import { useAuth } from "../../auth/AuthContext";
 import {
   actualizarActividad,
   actualizarPregunta,
@@ -113,6 +114,9 @@ function PreguntaRow({ pregunta, onGuardado, onEliminar }) {
 export default function ActividadForm() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { usuario } = useAuth();
+  const esAdmin = usuario.rol === "admin";
+  const base = esAdmin ? "/admin" : "/profesor";
   const esEdicion = Boolean(id);
 
   const [grados, setGrados] = useState([]);
@@ -128,7 +132,7 @@ export default function ActividadForm() {
     const cargar = async () => {
       try {
         const [gradosData, laboratoriosData] = await Promise.all([
-          getMisGradosProfesor(),
+          esAdmin ? getGrados() : getMisGradosProfesor(),
           getLaboratoriosProfesor(),
         ]);
         setGrados(gradosData);
@@ -156,7 +160,7 @@ export default function ActividadForm() {
       }
     };
     cargar();
-  }, [id, esEdicion]);
+  }, [id, esEdicion, esAdmin]);
 
   const onCambiar = (campo) => (e) => setForm({ ...form, [campo]: e.target.value });
 
@@ -180,10 +184,10 @@ export default function ActividadForm() {
       };
       if (esEdicion) {
         await actualizarActividad(id, payload);
-        navigate("/profesor/actividades");
+        navigate(`${base}/actividades`);
       } else {
         const creada = await crearActividad(payload);
-        navigate(`/profesor/actividades/${creada.id}/editar`);
+        navigate(`${base}/actividades/${creada.id}/editar`);
       }
     } catch {
       setError("No se pudo guardar la actividad. Verifica los datos.");
@@ -225,8 +229,8 @@ export default function ActividadForm() {
 
   return (
     <div className="contenedor">
-      <Link className="volver" to="/profesor/actividades">
-        ← Volver a mis actividades
+      <Link className="volver" to={`${base}/actividades`}>
+        ← Volver a actividades
       </Link>
       <h1>{esEdicion ? "Editar actividad" : "Nueva actividad"}</h1>
 

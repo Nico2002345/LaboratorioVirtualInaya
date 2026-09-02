@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { eliminarActividad, getActividadesProfesor } from "../../api/assignments";
+import { useAuth } from "../../auth/AuthContext";
 
 function formatearFecha(fecha) {
   if (!fecha) return "Sin fecha límite";
@@ -13,6 +14,10 @@ function formatearFecha(fecha) {
 }
 
 export default function ProfesorActividades() {
+  const { usuario } = useAuth();
+  const esAdmin = usuario.rol === "admin";
+  const base = esAdmin ? "/admin" : "/profesor";
+
   const [actividades, setActividades] = useState(null);
   const [error, setError] = useState("");
 
@@ -38,12 +43,12 @@ export default function ProfesorActividades() {
 
   return (
     <div className="contenedor">
-      <Link className="volver" to="/profesor">
+      <Link className="volver" to={base}>
         ← Volver al inicio
       </Link>
       <div className="encabezado-lista">
-        <h1>Mis actividades</h1>
-        <Link className="boton-iniciar" to="/profesor/actividades/nueva">
+        <h1>{esAdmin ? "Actividades" : "Mis actividades"}</h1>
+        <Link className="boton-iniciar" to={`${base}/actividades/nueva`}>
           + Nueva actividad
         </Link>
       </div>
@@ -51,7 +56,7 @@ export default function ProfesorActividades() {
       {!actividades ? (
         <p className="cargando">Cargando...</p>
       ) : actividades.length === 0 ? (
-        <p className="placeholder">Aún no has creado actividades.</p>
+        <p className="placeholder">Aún no hay actividades creadas.</p>
       ) : (
         <table className="tabla-simple">
           <thead>
@@ -71,8 +76,8 @@ export default function ProfesorActividades() {
                 <td>{formatearFecha(act.fecha_entrega)}</td>
                 <td>{act.preguntas.length}</td>
                 <td className="acciones-tabla">
-                  <Link to={`/profesor/actividades/${act.id}/editar`}>Editar</Link>
-                  <Link to={`/profesor/actividades/${act.id}`}>Revisar entregas</Link>
+                  <Link to={`${base}/actividades/${act.id}/editar`}>Editar</Link>
+                  <Link to={`${base}/actividades/${act.id}`}>Revisar entregas</Link>
                   <button type="button" className="boton-eliminar" onClick={() => onEliminar(act)}>
                     Eliminar
                   </button>

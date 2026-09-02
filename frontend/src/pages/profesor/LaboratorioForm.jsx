@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getMisGradosProfesor } from "../../api/academics";
+import { getGrados, getMisGradosProfesor } from "../../api/academics";
 import { getModulosGrado } from "../../api/content";
 import { actualizarLaboratorio, crearLaboratorio, getLaboratorioProfesor } from "../../api/labs";
 import { isoADatetimeLocal, datetimeLocalAIso } from "../../utils/fecha";
 import { PLANTILLAS_CONFIGURACION, TIPOS_LABORATORIO } from "./plantillasLaboratorio";
+import { useAuth } from "../../auth/AuthContext";
 
 const VACIO = {
   modulo_grado: "",
@@ -20,6 +21,8 @@ const VACIO = {
 export default function LaboratorioForm() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { usuario } = useAuth();
+  const esAdmin = usuario.rol === "admin";
   const esEdicion = Boolean(id);
 
   const [modulosGrado, setModulosGrado] = useState([]);
@@ -34,7 +37,7 @@ export default function LaboratorioForm() {
   useEffect(() => {
     const cargar = async () => {
       try {
-        const grados = await getMisGradosProfesor();
+        const grados = await (esAdmin ? getGrados() : getMisGradosProfesor());
         const listas = await Promise.all(grados.map((g) => getModulosGrado(g.id)));
         setModulosGrado(listas.flat());
 
@@ -59,7 +62,7 @@ export default function LaboratorioForm() {
       }
     };
     cargar();
-  }, [id, esEdicion]);
+  }, [id, esEdicion, esAdmin]);
 
   const onCambiar = (campo) => (e) => {
     const valor = e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -95,7 +98,7 @@ export default function LaboratorioForm() {
       } else {
         await crearLaboratorio(payload);
       }
-      navigate("/profesor/laboratorios");
+      navigate(esAdmin ? "/admin/laboratorios" : "/profesor/laboratorios");
     } catch {
       setError("No se pudo guardar el laboratorio. Verifica los datos.");
     } finally {
@@ -107,8 +110,8 @@ export default function LaboratorioForm() {
 
   return (
     <div className="contenedor">
-      <Link className="volver" to="/profesor/laboratorios">
-        ← Volver a mis laboratorios
+      <Link className="volver" to={esAdmin ? "/admin/laboratorios" : "/profesor/laboratorios"}>
+        ← Volver a laboratorios
       </Link>
       <h1>{esEdicion ? "Editar laboratorio" : "Nuevo laboratorio"}</h1>
 

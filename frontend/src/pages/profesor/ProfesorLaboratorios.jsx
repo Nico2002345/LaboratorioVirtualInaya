@@ -2,10 +2,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { eliminarLaboratorio, getLaboratoriosProfesor } from "../../api/labs";
 import { TIPOS_LABORATORIO } from "./plantillasLaboratorio";
+import { useAuth } from "../../auth/AuthContext";
 
 const ETIQUETA_TIPO = Object.fromEntries(TIPOS_LABORATORIO.map((t) => [t.value, t.label]));
 
 export default function ProfesorLaboratorios() {
+  const { usuario } = useAuth();
+  const esAdmin = usuario.rol === "admin";
+  const base = esAdmin ? "/admin" : "/profesor";
+
   const [laboratorios, setLaboratorios] = useState(null);
   const [error, setError] = useState("");
 
@@ -31,12 +36,12 @@ export default function ProfesorLaboratorios() {
 
   return (
     <div className="contenedor">
-      <Link className="volver" to="/profesor">
+      <Link className="volver" to={base}>
         ← Volver al inicio
       </Link>
       <div className="encabezado-lista">
-        <h1>Mis laboratorios</h1>
-        <Link className="boton-iniciar" to="/profesor/laboratorios/nuevo">
+        <h1>{esAdmin ? "Laboratorios" : "Mis laboratorios"}</h1>
+        <Link className="boton-iniciar" to={`${base}/laboratorios/nuevo`}>
           + Nuevo laboratorio
         </Link>
       </div>
@@ -44,7 +49,7 @@ export default function ProfesorLaboratorios() {
       {!laboratorios ? (
         <p className="cargando">Cargando...</p>
       ) : laboratorios.length === 0 ? (
-        <p className="placeholder">Aún no has creado laboratorios.</p>
+        <p className="placeholder">Aún no hay laboratorios creados.</p>
       ) : (
         <table className="tabla-simple">
           <thead>
@@ -66,7 +71,7 @@ export default function ProfesorLaboratorios() {
                 <td>{ETIQUETA_TIPO[lab.tipo] || lab.tipo}</td>
                 <td>{lab.activo ? "Sí" : "No"}</td>
                 <td className="acciones-tabla">
-                  <Link to={`/profesor/laboratorios/${lab.id}/editar`}>Editar</Link>
+                  <Link to={`${base}/laboratorios/${lab.id}/editar`}>Editar</Link>
                   <button type="button" className="boton-eliminar" onClick={() => onEliminar(lab)}>
                     Eliminar
                   </button>

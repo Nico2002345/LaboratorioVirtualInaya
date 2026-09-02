@@ -572,6 +572,76 @@ section {
   font-size: 0.85rem;
 }
 
+/* Panel de administración */
+
+.selector-multiple {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.opcion-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 400 !important;
+  background: #f3f4f6;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.form-fila {
+  flex-direction: row !important;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: none !important;
+}
+
+.form-fila input,
+.form-fila select,
+.form-fila textarea {
+  flex: 1;
+  min-width: 140px;
+}
+
+.input-icono {
+  max-width: 60px;
+  flex: none !important;
+  text-align: center;
+}
+
+.input-orden {
+  max-width: 70px;
+  flex: none !important;
+}
+
+.grupo-modulo-grado {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.grupo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.grupo-header h3 {
+  margin: 0;
+  color: #1d3557;
+}
+
+.orden-tag {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 400;
+}
+
 .pregunta-row select,
 .pregunta-row input {
   padding: 0.4rem;
