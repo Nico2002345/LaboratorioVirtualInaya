@@ -3,10 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import { MEDIA_BASE_URL } from "../../api/client";
 import { entregarArchivo, getLaboratorio, iniciarLaboratorio, responderQuiz } from "../../api/labs";
 import EstadoBadge from "../../components/EstadoBadge";
+import DireccionamientoIPPlayer from "../../labs-engine/DireccionamientoIP/DireccionamientoIPPlayer";
 
-const TIPOS_INTERACTIVOS = {
+const TIPOS_INTERACTIVOS_PENDIENTES = {
   ensamble_pc: "Ensamble de computador",
-  direccionamiento_ip: "Direccionamiento IP",
   editor_web: "Editor HTML/CSS/JS",
   simulador_bd: "Simulador de base de datos",
 };
@@ -173,10 +173,13 @@ export default function LaboratorioDetalle() {
         {laboratorio.tipo === "entrega_archivo" && (
           <EntregaArchivoPlayer laboratorio={laboratorio} onCompletado={actualizarProgreso} />
         )}
-        {TIPOS_INTERACTIVOS[laboratorio.tipo] && (
+        {laboratorio.tipo === "direccionamiento_ip" && (
+          <DireccionamientoIPPlayer laboratorio={laboratorio} onProgresoActualizado={actualizarProgreso} />
+        )}
+        {TIPOS_INTERACTIVOS_PENDIENTES[laboratorio.tipo] && (
           <p className="placeholder">
-            El simulador de "{TIPOS_INTERACTIVOS[laboratorio.tipo]}" está en construcción. Por ahora tu
-            progreso queda marcado como "en progreso".
+            El simulador de "{TIPOS_INTERACTIVOS_PENDIENTES[laboratorio.tipo]}" está en construcción. Por
+            ahora tu progreso queda marcado como "en progreso".
           </p>
         )}
       </section>

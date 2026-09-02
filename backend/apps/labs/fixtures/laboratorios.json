@@ -148,5 +148,47 @@
       "activo": true,
       "creado_en": "2026-01-15T00:00:00Z"
     }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 9,
+    "fields": {
+      "modulo_grado": 8,
+      "titulo": "Configura la IP de una estación de trabajo",
+      "descripcion": "Simulador de direccionamiento IP: configura una IP válida para la red asignada.",
+      "objetivo": "Aplicar los conceptos de dirección IP, máscara de subred y gateway.",
+      "instrucciones": "Se te asigna la red 192.168.10.0/24 con gateway 192.168.10.1. Ingresa una IP válida para un equipo de esa red, selecciona la máscara correcta y escribe el gateway.",
+      "tipo": "direccionamiento_ip",
+      "configuracion": {
+        "red": "192.168.10.0",
+        "prefijo": 24,
+        "gateway_esperado": "192.168.10.1",
+        "mascaras_opciones": ["255.255.255.0", "255.255.0.0", "255.0.0.0"]
+      },
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 10,
+    "fields": {
+      "modulo_grado": 14,
+      "titulo": "Configuración de IP y máscara de red (subred)",
+      "descripcion": "Simulador de direccionamiento IP con una subred más pequeña.",
+      "objetivo": "Configurar correctamente una IP dentro de una subred /25.",
+      "instrucciones": "Se te asigna la red 192.168.20.0/25 con gateway 192.168.20.1. Ingresa una IP válida para un equipo de esa red, selecciona la máscara correcta y escribe el gateway.",
+      "tipo": "direccionamiento_ip",
+      "configuracion": {
+        "red": "192.168.20.0",
+        "prefijo": 25,
+        "gateway_esperado": "192.168.20.1",
+        "mascaras_opciones": ["255.255.255.128", "255.255.255.0", "255.255.0.0"]
+      },
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
   }
 ]

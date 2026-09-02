@@ -1,8 +1,9 @@
+import ipaddress
+
 from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import viewsets
-from rest_framework.decorators import action
 from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -128,6 +129,107 @@ class ResponderQuizView(APIView):
         progreso.save()
 
         return Response(ProgresoLaboratorioSerializer(progreso).data)
+
+
+def _verificar_direccionamiento_ip(configuracion, datos):
+    red_str = configuracion.get("red")
+    prefijo = configuracion.get("prefijo")
+    gateway_esperado = configuracion.get("gateway_esperado")
+
+    try:
+        red = ipaddress.ip_network(f"{red_str}/{prefijo}", strict=True)
+    except (ValueError, TypeError):
+        raise ValidationError("Laboratorio mal configurado: red/prefijo inválidos.")
+
+    ip_texto = str(datos.get("ip", "")).strip()
+    mascara_texto = str(datos.get("mascara", "")).strip()
+    gateway_texto = str(datos.get("gateway", "")).strip()
+
+    resultado = {}
+
+    try:
+        ip_obj = ipaddress.ip_address(ip_texto)
+        if ip_obj not in red:
+            resultado["ip"] = {"correcto": False, "mensaje": f"La IP debe pertenecer a la red {red}."}
+        elif ip_obj == red.network_address:
+            resultado["ip"] = {
+                "correcto": False,
+                "mensaje": "Esa es la dirección de red, no se puede asignar a un equipo.",
+            }
+        elif ip_obj == red.broadcast_address:
+            resultado["ip"] = {
+                "correcto": False,
+                "mensaje": "Esa es la dirección de broadcast, no se puede asignar a un equipo.",
+            }
+        elif gateway_esperado and str(ip_obj) == gateway_esperado:
+            resultado["ip"] = {"correcto": False, "mensaje": "Esa dirección ya está asignada al gateway."}
+        else:
+            resultado["ip"] = {"correcto": True, "mensaje": "IP válida."}
+    except ValueError:
+        resultado["ip"] = {"correcto": False, "mensaje": "Formato de IP inválido."}
+
+    mascara_esperada = str(red.netmask)
+    resultado["mascara"] = {
+        "correcto": mascara_texto == mascara_esperada,
+        "mensaje": "Máscara correcta."
+        if mascara_texto == mascara_esperada
+        else f"La máscara para /{prefijo} es {mascara_esperada}.",
+    }
+
+    resultado["gateway"] = {
+        "correcto": gateway_texto == gateway_esperado,
+        "mensaje": "Gateway correcto." if gateway_texto == gateway_esperado else f"El gateway de esta red es {gateway_esperado}.",
+    }
+
+    correcto_total = all(campo["correcto"] for campo in resultado.values())
+    return correcto_total, resultado
+
+
+class VerificarDireccionamientoIPView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        estudiante = _get_estudiante_o_403(request)
+        laboratorio = get_object_or_404(
+            Laboratorio,
+            pk=pk,
+            modulo_grado__grado=estudiante.grado,
+            activo=True,
+            tipo=Laboratorio.Tipo.DIRECCIONAMIENTO_IP,
+        )
+        datos = request.data or {}
+        correcto, resultado = _verificar_direccionamiento_ip(laboratorio.configuracion, datos)
+
+        progreso, _ = ProgresoLaboratorio.objects.get_or_create(
+            estudiante=estudiante, laboratorio=laboratorio
+        )
+        campos_correctos = sum(1 for c in resultado.values() if c["correcto"])
+        progreso.datos_estado = {
+            "ultimo_intento": {
+                "ip": datos.get("ip", ""),
+                "mascara": datos.get("mascara", ""),
+                "gateway": datos.get("gateway", ""),
+            },
+            "resultado": resultado,
+        }
+        progreso.porcentaje = round((campos_correctos / 3) * 100)
+        progreso.estado = (
+            ProgresoLaboratorio.Estado.COMPLETADO if correcto else ProgresoLaboratorio.Estado.EN_PROGRESO
+        )
+        if correcto:
+            progreso.calificacion = 5.0
+            progreso.completado_en = timezone.now()
+        if not progreso.iniciado_en:
+            progreso.iniciado_en = timezone.now()
+        progreso.save()
+
+        return Response(
+            {
+                "correcto": correcto,
+                "resultado": resultado,
+                "progreso": ProgresoLaboratorioSerializer(progreso).data,
+            }
+        )
 
 
 class EntregarArchivoView(APIView):

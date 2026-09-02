@@ -32,6 +32,7 @@ class ProgresoLaboratorioSerializer(serializers.ModelSerializer):
             "porcentaje",
             "calificacion",
             "archivo_entrega",
+            "datos_estado",
             "iniciado_en",
             "completado_en",
         ]

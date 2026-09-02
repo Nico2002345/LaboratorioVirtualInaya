@@ -7,6 +7,7 @@ from .views import (
     LaboratorioViewSet,
     MisLaboratoriosView,
     ResponderQuizView,
+    VerificarDireccionamientoIPView,
 )
 
 router = DefaultRouter()
@@ -17,5 +18,10 @@ urlpatterns = [
     path("laboratorios/<int:pk>/iniciar/", IniciarLaboratorioView.as_view(), name="lab-iniciar"),
     path("laboratorios/<int:pk>/responder/", ResponderQuizView.as_view(), name="lab-responder"),
     path("laboratorios/<int:pk>/entregar/", EntregarArchivoView.as_view(), name="lab-entregar"),
+    path(
+        "laboratorios/<int:pk>/verificar-ip/",
+        VerificarDireccionamientoIPView.as_view(),
+        name="lab-verificar-ip",
+    ),
     path("", include(router.urls)),
 ]
