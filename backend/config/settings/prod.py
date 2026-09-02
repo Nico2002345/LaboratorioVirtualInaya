@@ -13,3 +13,7 @@ if not os.environ.get("DJANGO_SECRET_KEY"):  # noqa: F405
 SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", "False") == "True"  # noqa: F405
 SESSION_COOKIE_SECURE = os.environ.get("DJANGO_SESSION_COOKIE_SECURE", "False") == "True"  # noqa: F405
 CSRF_COOKIE_SECURE = os.environ.get("DJANGO_CSRF_COOKIE_SECURE", "False") == "True"  # noqa: F405
+
+# Detrás de un proxy que termina TLS (Railway, etc.) la conexión a gunicorn es HTTP plano;
+# sin esto, SECURE_SSL_REDIRECT entra en loop infinito porque Django nunca ve la request como segura.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
