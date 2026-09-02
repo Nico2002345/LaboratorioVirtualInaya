@@ -8,10 +8,7 @@ import EnsamblePCPlayer from "../../labs-engine/EnsamblePC/EnsamblePCPlayer";
 
 // CodeMirror pesa bastante: se carga solo cuando el estudiante abre un laboratorio de este tipo.
 const EditorWebPlayer = lazy(() => import("../../labs-engine/EditorWeb/EditorWebPlayer"));
-
-const TIPOS_INTERACTIVOS_PENDIENTES = {
-  simulador_bd: "Simulador de base de datos",
-};
+const SimuladorBDPlayer = lazy(() => import("../../labs-engine/SimuladorBD/SimuladorBDPlayer"));
 
 function QuizPlayer({ laboratorio, onCompletado }) {
   const [respuestas, setRespuestas] = useState({});
@@ -186,11 +183,10 @@ export default function LaboratorioDetalle() {
             <EditorWebPlayer laboratorio={laboratorio} onProgresoActualizado={actualizarProgreso} />
           </Suspense>
         )}
-        {TIPOS_INTERACTIVOS_PENDIENTES[laboratorio.tipo] && (
-          <p className="placeholder">
-            El simulador de "{TIPOS_INTERACTIVOS_PENDIENTES[laboratorio.tipo]}" está en construcción. Por
-            ahora tu progreso queda marcado como "en progreso".
-          </p>
+        {laboratorio.tipo === "simulador_bd" && (
+          <Suspense fallback={<p className="cargando">Cargando simulador...</p>}>
+            <SimuladorBDPlayer laboratorio={laboratorio} onProgresoActualizado={actualizarProgreso} />
+          </Suspense>
         )}
       </section>
     </div>

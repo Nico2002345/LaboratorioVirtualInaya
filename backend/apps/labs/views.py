@@ -371,6 +371,82 @@ class VerificarCodigoView(APIView):
         )
 
 
+def _verificar_bd(configuracion, modelo):
+    tablas = modelo.get("tablas", [])
+    relaciones = modelo.get("relaciones", [])
+    criterios = configuracion.get("criterios", [])
+    resultado = []
+
+    for criterio in criterios:
+        tipo = criterio.get("tipo")
+        valor = criterio.get("valor", 1)
+        if tipo == "min_tablas":
+            correcto = len(tablas) >= valor
+        elif tipo == "min_campos_por_tabla":
+            correcto = len(tablas) > 0 and all(len(t.get("campos", [])) >= valor for t in tablas)
+        elif tipo == "min_registros_por_tabla":
+            correcto = len(tablas) > 0 and all(len(t.get("registros", [])) >= valor for t in tablas)
+        elif tipo == "min_relaciones":
+            correcto = len(relaciones) >= valor
+        else:
+            correcto = False
+        resultado.append({"tipo": tipo, "mensaje": criterio.get("mensaje", ""), "correcto": correcto})
+
+    if not criterios:
+        # Sin criterios definidos: se acepta cualquier modelo con al menos una tabla.
+        correcto_total = len(tablas) >= 1
+    else:
+        correcto_total = all(r["correcto"] for r in resultado)
+
+    return correcto_total, resultado
+
+
+class VerificarBDView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        estudiante = _get_estudiante_o_403(request)
+        laboratorio = get_object_or_404(
+            Laboratorio,
+            pk=pk,
+            modulo_grado__grado=estudiante.grado,
+            activo=True,
+            tipo=Laboratorio.Tipo.SIMULADOR_BD,
+        )
+        tablas = request.data.get("tablas", [])
+        relaciones = request.data.get("relaciones", [])
+        if not isinstance(tablas, list) or not isinstance(relaciones, list):
+            raise ValidationError({"tablas": "Debe ser una lista.", "relaciones": "Debe ser una lista."})
+
+        modelo = {"tablas": tablas, "relaciones": relaciones}
+        correcto, resultado = _verificar_bd(laboratorio.configuracion, modelo)
+
+        progreso, _ = ProgresoLaboratorio.objects.get_or_create(
+            estudiante=estudiante, laboratorio=laboratorio
+        )
+        total = len(resultado) or 1
+        correctos = sum(1 for c in resultado if c["correcto"]) if resultado else (1 if correcto else 0)
+        progreso.datos_estado = {"modelo": modelo, "resultado": resultado}
+        progreso.porcentaje = round((correctos / total) * 100)
+        progreso.estado = (
+            ProgresoLaboratorio.Estado.COMPLETADO if correcto else ProgresoLaboratorio.Estado.EN_PROGRESO
+        )
+        if correcto:
+            progreso.calificacion = 5.0
+            progreso.completado_en = timezone.now()
+        if not progreso.iniciado_en:
+            progreso.iniciado_en = timezone.now()
+        progreso.save()
+
+        return Response(
+            {
+                "correcto": correcto,
+                "resultado": resultado,
+                "progreso": ProgresoLaboratorioSerializer(progreso).data,
+            }
+        )
+
+
 class EntregarArchivoView(APIView):
     permission_classes = [IsAuthenticated]
 

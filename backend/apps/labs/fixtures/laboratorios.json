@@ -306,5 +306,53 @@
       "activo": true,
       "creado_en": "2026-01-15T00:00:00Z"
     }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 15,
+    "fields": {
+      "modulo_grado": 13,
+      "titulo": "Modela una base de datos escolar",
+      "descripcion": "Crea tablas, campos, registros y relaciones de forma visual.",
+      "objetivo": "Aplicar los conceptos de tablas, campos, registros y relaciones en un modelo sencillo.",
+      "instrucciones": "Crea al menos 2 tablas (por ejemplo Estudiantes y Cursos), agrégales campos y un registro de ejemplo, y relaciona las tablas entre sí.",
+      "tipo": "simulador_bd",
+      "configuracion": {
+        "consigna": "Crea 2 tablas relacionadas (por ejemplo Estudiantes y Cursos), cada una con al menos 2 campos y 1 registro, y define la relación entre ellas.",
+        "criterios": [
+          {"tipo": "min_tablas", "valor": 2, "mensaje": "Debes crear al menos 2 tablas."},
+          {"tipo": "min_campos_por_tabla", "valor": 2, "mensaje": "Cada tabla debe tener al menos 2 campos."},
+          {"tipo": "min_registros_por_tabla", "valor": 1, "mensaje": "Cada tabla debe tener al menos 1 registro de ejemplo."},
+          {"tipo": "min_relaciones", "valor": 1, "mensaje": "Debes crear al menos 1 relación entre tablas."}
+        ]
+      },
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 16,
+    "fields": {
+      "modulo_grado": 18,
+      "titulo": "Modela la base de datos de un sistema",
+      "descripcion": "Diseña un modelo de base de datos más completo para un sistema real.",
+      "objetivo": "Diseñar un modelo relacional con varias tablas conectadas entre sí.",
+      "instrucciones": "Diseña al menos 3 tablas relacionadas entre sí (por ejemplo, para un sistema de biblioteca o de pedidos), con campos, un registro de ejemplo por tabla y al menos 2 relaciones.",
+      "tipo": "simulador_bd",
+      "configuracion": {
+        "consigna": "Diseña un modelo con al menos 3 tablas, cada una con 3 o más campos y 1 registro de ejemplo, conectadas por al menos 2 relaciones.",
+        "criterios": [
+          {"tipo": "min_tablas", "valor": 3, "mensaje": "Debes crear al menos 3 tablas."},
+          {"tipo": "min_campos_por_tabla", "valor": 3, "mensaje": "Cada tabla debe tener al menos 3 campos."},
+          {"tipo": "min_registros_por_tabla", "valor": 1, "mensaje": "Cada tabla debe tener al menos 1 registro de ejemplo."},
+          {"tipo": "min_relaciones", "valor": 2, "mensaje": "Debes crear al menos 2 relaciones entre tablas."}
+        ]
+      },
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
   }
 ]

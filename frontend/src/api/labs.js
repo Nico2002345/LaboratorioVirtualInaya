@@ -25,6 +25,9 @@ export const verificarEnsamble = (id, colocaciones) =>
 export const verificarCodigo = (id, codigo) =>
   api.post(`/labs/laboratorios/${id}/verificar-codigo/`, codigo).then((res) => res.data);
 
+export const verificarBD = (id, modelo) =>
+  api.post(`/labs/laboratorios/${id}/verificar-bd/`, modelo).then((res) => res.data);
+
 export const entregarArchivo = (id, archivo) => {
   const formData = new FormData();
   formData.append("archivo", archivo);

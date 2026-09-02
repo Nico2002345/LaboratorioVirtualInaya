@@ -56,9 +56,9 @@ docker compose up --build
 - ✅ Módulo `accounts`: usuarios con rol (admin/profesor/estudiante), login JWT, `/me`.
 - ✅ Módulo `academics`: grados fijos (8°-11°), registro público de estudiante, gestión de profesores y su asignación a grados.
 - ✅ Módulo `content`: catálogo de módulos, asignación módulo-grado, contenidos, con datos reales de 8° a 11°. El estudiante ve sus propios módulos y contenidos en `/api/content/mis-modulos/`.
-- ✅ Módulo `labs`: laboratorios tipo `quiz` (autocalificado), `entrega_archivo`, `direccionamiento_ip`, `ensamble_pc` y **`editor_web`** (CodeMirror con pestañas HTML/CSS/JS, vista previa en vivo en `<iframe sandbox>` y validación por criterios configurables) funcionando de punta a punta. Tipo `simulador_bd` modelado pero pendiente de construir su UI.
-- ✅ Frontend: login, registro con selección de grado, pantallas de inicio por rol. La de estudiante muestra módulos, contenidos y laboratorios reales de su grado, con reproductor de laboratorio (quiz / entrega de archivo / IP / ensamble de PC / editor web en `src/labs-engine/`). CodeMirror se carga en un chunk aparte (`React.lazy`) para no pesar el bundle principal de quienes no abren este tipo de laboratorio.
-- ⏳ Pendiente: simulador de base de datos; `assignments`/`submissions` (actividades formales, entregas, calificaciones, observaciones del profesor).
+- ✅ Módulo `labs` **completo**: los 6 tipos de laboratorio funcionando de punta a punta — `quiz` (autocalificado), `entrega_archivo`, `direccionamiento_ip`, `ensamble_pc` (drag & drop), `editor_web` (CodeMirror + vista previa en vivo) y `simulador_bd` (crear tablas/campos/registros/relaciones, validado por criterios configurables: mínimo de tablas, campos, registros y relaciones).
+- ✅ Frontend: login, registro con selección de grado, pantallas de inicio por rol. La de estudiante muestra módulos, contenidos y laboratorios reales de su grado, con reproductor de laboratorio para los 6 tipos (`src/labs-engine/`). CodeMirror se carga en un chunk aparte (`React.lazy`) para no pesar el bundle principal de quienes no abren ese tipo de laboratorio.
+- ⏳ Pendiente: `assignments`/`submissions` (actividades formales que envuelven laboratorios, entregas, calificaciones y observaciones del profesor); paneles de gestión para admin y profesor (hoy solo tienen API + Django admin, sin UI propia en el frontend).
 
 ## Usuarios de prueba (solo entorno local)
 
