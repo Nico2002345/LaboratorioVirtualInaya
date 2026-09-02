@@ -70,6 +70,38 @@ docker compose up --build
 - Frontend (Nginx sirviendo el build de React) en `:5173`
 - Postgres persistido en volumen `db_data`
 
+## Despliegue en Railway
+
+Los `Dockerfile` de `backend/` y `frontend/` ya sirven tal cual para Railway (build method "Dockerfile", root
+directory `/backend` y `/frontend` respectivamente). El backend escucha en `$PORT` (variable que Railway
+inyecta automáticamente; localmente cae a `8000` si no está definida).
+
+Tres servicios en el mismo proyecto de Railway:
+
+1. **Postgres** — plugin nativo (un clic). Genera `DATABASE_URL` automáticamente; `config/settings/base.py`
+   ya lo lee con `dj_database_url`, no requiere configuración adicional.
+2. **Backend** (root `/backend`):
+   - `DJANGO_SETTINGS_MODULE=config.settings.prod`
+   - `DJANGO_SECRET_KEY` (uno nuevo, distinto al de desarrollo)
+   - `DJANGO_ALLOWED_HOSTS` = dominio público del backend (el que da Railway, o el propio si ya lo agregaste)
+   - `CORS_ALLOWED_ORIGINS` = dominio público del frontend
+   - `DJANGO_SECURE_SSL_REDIRECT=True`, `SESSION_COOKIE_SECURE=True`, `CSRF_COOKIE_SECURE=True` (Railway da HTTPS)
+   - Agregar un **Volume** montado en `/app/media`: sin esto, los materiales/entregas subidos se pierden en
+     cada redeploy porque el filesystem del contenedor no es persistente.
+3. **Frontend** (root `/frontend`):
+   - `VITE_API_URL` = URL pública del backend + `/api`. Ojo: Vite la "hornea" en el build, así que debe
+     estar configurada *antes* de que Railway corra `npm run build` (no se puede cambiar después sin
+     re-desplegar).
+
+**Dominio**: cada servicio tiene su propio dominio en Railway (pestaña *Settings → Networking*).
+- *Generar dominio gratis*: botón "Generate Domain" → da un subdominio `algo.up.railway.app` con HTTPS
+  automático al instante, sin configurar nada más. Sirve para probar antes de tener dominio propio.
+- *Dominio propio*: cómpralo donde sea (Namecheap, etc.), luego en la misma pestaña "Custom Domain" →
+  escribe el dominio → Railway muestra un registro `CNAME` → lo agregas en el DNS del proveedor del dominio
+  → Railway detecta la propagación y emite el certificado TLS solo (usualmente minutos, a veces unas horas).
+  Normalmente solo hace falta ponerle dominio propio al **frontend** (ej. `app.tudominio.com`); el backend
+  puede quedarse con su subdominio de Railway, referenciado en `VITE_API_URL`.
+
 ## Estado actual
 
 - ✅ Módulo `accounts`: usuarios con rol (admin/profesor/estudiante), login JWT, `/me`.
