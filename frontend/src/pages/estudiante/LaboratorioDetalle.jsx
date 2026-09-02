@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { MEDIA_BASE_URL } from "../../api/client";
 import { entregarArchivo, getLaboratorio, iniciarLaboratorio, responderQuiz } from "../../api/labs";
@@ -6,8 +6,10 @@ import EstadoBadge from "../../components/EstadoBadge";
 import DireccionamientoIPPlayer from "../../labs-engine/DireccionamientoIP/DireccionamientoIPPlayer";
 import EnsamblePCPlayer from "../../labs-engine/EnsamblePC/EnsamblePCPlayer";
 
+// CodeMirror pesa bastante: se carga solo cuando el estudiante abre un laboratorio de este tipo.
+const EditorWebPlayer = lazy(() => import("../../labs-engine/EditorWeb/EditorWebPlayer"));
+
 const TIPOS_INTERACTIVOS_PENDIENTES = {
-  editor_web: "Editor HTML/CSS/JS",
   simulador_bd: "Simulador de base de datos",
 };
 
@@ -178,6 +180,11 @@ export default function LaboratorioDetalle() {
         )}
         {laboratorio.tipo === "ensamble_pc" && (
           <EnsamblePCPlayer laboratorio={laboratorio} onProgresoActualizado={actualizarProgreso} />
+        )}
+        {laboratorio.tipo === "editor_web" && (
+          <Suspense fallback={<p className="cargando">Cargando editor...</p>}>
+            <EditorWebPlayer laboratorio={laboratorio} onProgresoActualizado={actualizarProgreso} />
+          </Suspense>
         )}
         {TIPOS_INTERACTIVOS_PENDIENTES[laboratorio.tipo] && (
           <p className="placeholder">

@@ -1,0 +1,114 @@
+.editor-web {
+  max-width: 900px;
+}
+
+.banner-correcto {
+  background: #d1fae5;
+  color: #065f46;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.editor-web-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.editor-panel,
+.preview-panel {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+}
+
+.tabs-editor {
+  display: flex;
+  background: #f3f4f6;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tab-boton {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.tab-activa {
+  background: white;
+  color: #1d3557;
+  border-bottom: 2px solid #1d3557;
+}
+
+.preview-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-panel h4 {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  background: #f3f4f6;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.8rem;
+  color: #1d3557;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.preview-frame {
+  flex: 1;
+  min-height: 280px;
+  border: none;
+  width: 100%;
+  background: white;
+}
+
+.lista-criterios {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.criterio-ok {
+  color: #065f46;
+  font-size: 0.85rem;
+}
+
+.criterio-falta {
+  color: #b91c1c;
+  font-size: 0.85rem;
+}
+
+.boton-guardar {
+  background: #1d3557;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.boton-guardar:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+@media (max-width: 720px) {
+  .editor-web-layout {
+    grid-template-columns: 1fr;
+  }
+}

@@ -22,6 +22,9 @@ export const verificarDireccionamientoIP = (id, datos) =>
 export const verificarEnsamble = (id, colocaciones) =>
   api.post(`/labs/laboratorios/${id}/verificar-ensamble/`, { colocaciones }).then((res) => res.data);
 
+export const verificarCodigo = (id, codigo) =>
+  api.post(`/labs/laboratorios/${id}/verificar-codigo/`, codigo).then((res) => res.data);
+
 export const entregarArchivo = (id, archivo) => {
   const formData = new FormData();
   formData.append("archivo", archivo);

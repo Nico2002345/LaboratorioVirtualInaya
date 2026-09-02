@@ -256,5 +256,55 @@
       "activo": true,
       "creado_en": "2026-01-15T00:00:00Z"
     }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 13,
+    "fields": {
+      "modulo_grado": 12,
+      "titulo": "Crea tu primera página web",
+      "descripcion": "Escribe HTML y CSS y observa el resultado en vivo.",
+      "objetivo": "Practicar la estructura básica de una página web y aplicarle estilos simples.",
+      "instrucciones": "Completa el HTML (solo el contenido, sin <html> ni <body>) con un título principal y un párrafo, y dale color a algo con CSS. Haz clic en \"Guardar y verificar\" cuando termines.",
+      "tipo": "editor_web",
+      "configuracion": {
+        "html_inicial": "<!-- Escribe aquí el contenido de tu página -->\n",
+        "css_inicial": "body {\n  font-family: sans-serif;\n}\n",
+        "js_inicial": "",
+        "criterios": [
+          {"campo": "html", "contiene": "<h1", "mensaje": "Tu página debe tener un título principal <h1>."},
+          {"campo": "html", "contiene": "<p", "mensaje": "Tu página debe tener al menos un párrafo <p>."},
+          {"campo": "css", "contiene": "color", "mensaje": "Tu CSS debe definir al menos un color."}
+        ]
+      },
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 14,
+    "fields": {
+      "modulo_grado": 16,
+      "titulo": "Página web con estilos e interactividad",
+      "descripcion": "Escribe HTML, CSS y JavaScript para crear una pequeña interacción.",
+      "objetivo": "Combinar HTML, CSS y JavaScript para responder a un evento del usuario.",
+      "instrucciones": "El botón ya está en el HTML (solo contenido, sin <html> ni <body>). Escribe JavaScript para que, al hacer clic, se muestre un mensaje en el párrafo con id \"mensaje\". Agrega al menos una regla CSS.",
+      "tipo": "editor_web",
+      "configuracion": {
+        "html_inicial": "<button id=\"miBoton\">Haz clic</button>\n<p id=\"mensaje\"></p>\n",
+        "css_inicial": "body {\n  font-family: sans-serif;\n}\n",
+        "js_inicial": "// Escribe aquí tu código\n",
+        "criterios": [
+          {"campo": "html", "contiene": "<button", "mensaje": "Debe existir un elemento <button>."},
+          {"campo": "js", "contiene": "addeventlistener", "mensaje": "Debes usar addEventListener para manejar el clic del botón."},
+          {"campo": "css", "contiene": "{", "mensaje": "Debes escribir al menos una regla CSS."}
+        ]
+      },
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
   }
 ]

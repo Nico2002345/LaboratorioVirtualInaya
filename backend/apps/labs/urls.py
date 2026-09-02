@@ -7,6 +7,7 @@ from .views import (
     LaboratorioViewSet,
     MisLaboratoriosView,
     ResponderQuizView,
+    VerificarCodigoView,
     VerificarDireccionamientoIPView,
     VerificarEnsambleView,
 )
@@ -28,6 +29,11 @@ urlpatterns = [
         "laboratorios/<int:pk>/verificar-ensamble/",
         VerificarEnsambleView.as_view(),
         name="lab-verificar-ensamble",
+    ),
+    path(
+        "laboratorios/<int:pk>/verificar-codigo/",
+        VerificarCodigoView.as_view(),
+        name="lab-verificar-codigo",
     ),
     path("", include(router.urls)),
 ]

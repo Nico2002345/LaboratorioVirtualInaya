@@ -301,6 +301,76 @@ class VerificarEnsambleView(APIView):
         )
 
 
+def _verificar_codigo(configuracion, codigo):
+    criterios = configuracion.get("criterios", [])
+    resultado = []
+    for criterio in criterios:
+        campo = criterio.get("campo", "html")
+        buscado = str(criterio.get("contiene", "")).lower()
+        contenido = str(codigo.get(campo, "")).lower()
+        correcto = buscado in contenido
+        resultado.append(
+            {
+                "campo": campo,
+                "mensaje": criterio.get("mensaje", f"Debe incluir '{criterio.get('contiene', '')}'."),
+                "correcto": correcto,
+            }
+        )
+
+    if not criterios:
+        # Sin criterios definidos: se acepta cualquier entrega con contenido HTML.
+        correcto_total = bool(str(codigo.get("html", "")).strip())
+    else:
+        correcto_total = all(c["correcto"] for c in resultado)
+
+    return correcto_total, resultado
+
+
+class VerificarCodigoView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        estudiante = _get_estudiante_o_403(request)
+        laboratorio = get_object_or_404(
+            Laboratorio,
+            pk=pk,
+            modulo_grado__grado=estudiante.grado,
+            activo=True,
+            tipo=Laboratorio.Tipo.EDITOR_WEB,
+        )
+        codigo = {
+            "html": request.data.get("html", ""),
+            "css": request.data.get("css", ""),
+            "js": request.data.get("js", ""),
+        }
+        correcto, resultado = _verificar_codigo(laboratorio.configuracion, codigo)
+
+        progreso, _ = ProgresoLaboratorio.objects.get_or_create(
+            estudiante=estudiante, laboratorio=laboratorio
+        )
+        total = len(resultado) or 1
+        correctos = sum(1 for c in resultado if c["correcto"]) if resultado else (1 if correcto else 0)
+        progreso.datos_estado = {"codigo": codigo, "resultado": resultado}
+        progreso.porcentaje = round((correctos / total) * 100)
+        progreso.estado = (
+            ProgresoLaboratorio.Estado.COMPLETADO if correcto else ProgresoLaboratorio.Estado.EN_PROGRESO
+        )
+        if correcto:
+            progreso.calificacion = 5.0
+            progreso.completado_en = timezone.now()
+        if not progreso.iniciado_en:
+            progreso.iniciado_en = timezone.now()
+        progreso.save()
+
+        return Response(
+            {
+                "correcto": correcto,
+                "resultado": resultado,
+                "progreso": ProgresoLaboratorioSerializer(progreso).data,
+            }
+        )
+
+
 class EntregarArchivoView(APIView):
     permission_classes = [IsAuthenticated]
 
