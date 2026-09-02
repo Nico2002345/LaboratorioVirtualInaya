@@ -49,10 +49,12 @@ export default function EstudianteHome() {
                 </div>
                 {mg.modulo.descripcion && <p className="modulo-descripcion">{mg.modulo.descripcion}</p>}
                 {mg.contenidos.length > 0 && (
-                  <ul className="lista-contenidos">
+                  <div className="lista-contenidos">
                     {mg.contenidos.map((c) => (
-                      <li key={c.id}>
-                        {c.titulo}
+                      <details key={c.id} className="contenido-detalle">
+                        <summary>{c.titulo}</summary>
+                        {c.descripcion && <p className="contenido-descripcion">{c.descripcion}</p>}
+                        {c.cuerpo && <p className="contenido-cuerpo">{c.cuerpo}</p>}
                         {c.materiales.length > 0 && (
                           <ul className="lista-materiales-estudiante">
                             {c.materiales.map((m) => (
@@ -68,9 +70,9 @@ export default function EstudianteHome() {
                             ))}
                           </ul>
                         )}
-                      </li>
+                      </details>
                     ))}
-                  </ul>
+                  </div>
                 )}
               </article>
             ))}

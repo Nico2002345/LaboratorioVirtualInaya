@@ -50,7 +50,7 @@ class ContenidoResumenSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Contenido
-        fields = ["id", "titulo", "descripcion", "orden", "materiales"]
+        fields = ["id", "titulo", "descripcion", "cuerpo", "orden", "materiales"]
 
 
 class ModuloGradoSerializer(serializers.ModelSerializer):

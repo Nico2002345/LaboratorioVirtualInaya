@@ -107,11 +107,13 @@ function ContenidoCard({ contenido, onGuardado, onEliminar }) {
   const [valores, setValores] = useState({
     titulo: contenido.titulo,
     descripcion: contenido.descripcion,
+    cuerpo: contenido.cuerpo,
     orden: contenido.orden,
     publicado: contenido.publicado,
   });
   const [guardando, setGuardando] = useState(false);
   const [mostrarMateriales, setMostrarMateriales] = useState(false);
+  const [mostrarCuerpo, setMostrarCuerpo] = useState(false);
 
   const onGuardar = async () => {
     setGuardando(true);
@@ -154,7 +156,24 @@ function ContenidoCard({ contenido, onGuardado, onEliminar }) {
         <button type="button" onClick={() => setMostrarMateriales(!mostrarMateriales)}>
           {mostrarMateriales ? "Ocultar materiales" : "Materiales"}
         </button>
+        <button type="button" onClick={() => setMostrarCuerpo(!mostrarCuerpo)}>
+          {mostrarCuerpo ? "Ocultar cuerpo" : "Editar cuerpo"}
+        </button>
       </div>
+
+      {mostrarCuerpo && (
+        <div className="cuerpo-contenido">
+          <textarea
+            rows={6}
+            placeholder="Cuerpo del contenido (texto/markdown)"
+            value={valores.cuerpo}
+            onChange={(e) => setValores({ ...valores, cuerpo: e.target.value })}
+          />
+          <button type="button" onClick={onGuardar} disabled={guardando}>
+            Guardar cuerpo
+          </button>
+        </div>
+      )}
 
       {mostrarMateriales && <MaterialesContenido contenidoId={contenido.id} />}
     </div>

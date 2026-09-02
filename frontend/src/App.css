@@ -108,9 +108,36 @@ section {
 
 .lista-contenidos {
   margin: 0;
-  padding-left: 1.1rem;
   font-size: 0.85rem;
   color: #374151;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.contenido-detalle {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  background: #fafbfc;
+}
+
+.contenido-detalle summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #1d3557;
+}
+
+.contenido-descripcion {
+  color: #6b7280;
+  font-size: 0.8rem;
+  margin: 0.4rem 0 0;
+}
+
+.contenido-cuerpo {
+  white-space: pre-wrap;
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
 }
 
 .lista-materiales-estudiante {
@@ -655,10 +682,22 @@ section {
   margin-bottom: 0.6rem;
 }
 
-.materiales-contenido {
+.materiales-contenido,
+.cuerpo-contenido {
   margin-top: 0.6rem;
   padding-top: 0.6rem;
   border-top: 1px dashed #d1d5db;
+}
+
+.cuerpo-contenido textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: ui-monospace, Consolas, monospace;
+  margin-bottom: 0.4rem;
+  box-sizing: border-box;
 }
 
 .materiales-contenido h4 {
