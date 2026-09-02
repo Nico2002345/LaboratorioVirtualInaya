@@ -102,6 +102,40 @@ Tres servicios en el mismo proyecto de Railway:
   Normalmente solo hace falta ponerle dominio propio al **frontend** (ej. `app.tudominio.com`); el backend
   puede quedarse con su subdominio de Railway, referenciado en `VITE_API_URL`.
 
+### Ya desplegado
+
+- Frontend: https://laboratoriovirtualinaya-production.up.railway.app
+- Backend: https://backend-production-20397.up.railway.app
+
+Proyecto de Railway: `gregarious-serenity` (servicios `LaboratorioVirtualInaya`, `backend`, `Postgres`).
+Dominio propio (`colegiodepartamentalinaya.com`) aún no configurado.
+
+### Redesplegar
+
+Si el auto-deploy de GitHub no dispara (puede pasar si el "deploy trigger" del servicio no quedó bien
+conectado), forzar un deploy directo desde el código local sirve siempre:
+
+```
+railway login
+cd backend  && railway up --service backend --ci
+cd frontend && railway up --service LaboratorioVirtualInaya --ci
+```
+
+### Problemas ya resueltos aquí (por si se repiten en un servicio nuevo)
+
+- **502 / "Application failed to respond"**: el dominio de Railway guarda un `targetPort` aparte del
+  puerto real en el que escucha el contenedor — si no coinciden, da 502 aunque el contenedor esté sano.
+  Verificar con `railway domain list --service <nombre> --json` (campo `targetPort`) contra el puerto que
+  el proceso realmente reporta al arrancar (`railway logs --service <nombre> --deployment`), y corregir con
+  `railway domain update <dominio> --port <puerto>`.
+- **Loop infinito de redirects HTTPS**: con `DJANGO_SECURE_SSL_REDIRECT=True` detrás de un proxy que
+  termina TLS (como Railway), Django necesita `SECURE_PROXY_SSL_HEADER` (ya está en
+  `config/settings/prod.py`) para no redirigirse a sí mismo indefinidamente.
+- **`VITE_API_URL` no llega al build**: Railway pasa las variables del servicio como build-args del
+  Dockerfile, pero si el Dockerfile no las declara con `ARG`/`ENV` (como ya hace `frontend/Dockerfile`),
+  Docker las ignora en silencio y el bundle queda con la URL vieja (se nota porque el hash del archivo
+  compilado no cambia entre builds).
+
 ## Estado actual
 
 - ✅ Módulo `accounts`: usuarios con rol (admin/profesor/estudiante), login JWT, `/me`.
@@ -111,9 +145,11 @@ Tres servicios en el mismo proyecto de Railway:
 - ✅ Módulos `assignments`/`submissions`: actividades (opcionalmente ligadas a un laboratorio, con preguntas propias) creadas por admin/profesor por grado; el estudiante entrega (respuestas + archivo opcional), las opción-múltiple/verdadero-falso se autocalifican, y el profesor revisa, califica y escribe observaciones desde el frontend.
 - ✅ Frontend: login, registro con selección de grado, pantallas de inicio por rol. Estudiante ve módulos, contenidos, laboratorios y actividades reales de su grado (con calificación y observaciones una vez revisadas). CodeMirror se carga en un chunk aparte (`React.lazy`).
 - ✅ **Panel del profesor**: `/profesor/estudiantes`, `/profesor/contenidos` (asignar/quitar módulos a sus propios grados, y crear/editar/eliminar los contenidos y materiales de apoyo dentro de ellos), `/profesor/laboratorios` (crear/editar/eliminar los 6 tipos, con plantilla de configuración JSON por tipo) y `/profesor/actividades` (crear/editar/eliminar, preguntas, revisar/calificar entregas). Todo restringido a los grados asignados al profesor, tanto en frontend como en el backend (`ModuloGradoViewSet` valida que el grado esté entre `profesor.grados`).
-- ✅ **Panel de administración** (`/admin/...`): reutiliza las mismas pantallas del profesor (estudiantes, contenidos, laboratorios, actividades) pero sin restricción de grado (branching por rol dentro de cada componente), más pantallas propias: `/admin/profesores` (crear profesores y asignarles/reasignarles grados), `/admin/grados` (editar descripción de los 4 grados fijos) y `/admin/modulos` (catálogo global de módulos, y asignación de módulos a grados sin restricción). El admin también puede activar/desactivar cuentas de estudiante.
+- ✅ **Panel de administración** (`/admin/...`): reutiliza las mismas pantallas del profesor (estudiantes, contenidos, laboratorios, actividades) pero sin restricción de grado (branching por rol dentro de cada componente), más pantallas propias: `/admin/profesores` (crear profesores y asignarles/reasignarles grados), `/admin/grados` (agregar secciones nuevas como "8B"/"9C" además de editar la descripción de las existentes) y `/admin/modulos` (catálogo global de módulos, y asignación de módulos a grados sin restricción). El admin también puede activar/desactivar cuentas de estudiante.
 - ✅ El cuerpo de un contenido se edita después de creado desde "Editar cuerpo" en la tarjeta del contenido (con vista previa en vivo), y se renderiza como **Markdown** (títulos, negrita, listas, tablas, código, citas) tanto en esa vista previa como al expandir el tema en "Mis módulos" del estudiante (`react-markdown` + `remark-gfm`, cargado en un chunk aparte vía `React.lazy` para no pesar el inicio del estudiante).
-- ✅ **Diseño visual**: tema oscuro "futurista" (glassmorphism, acentos neón cian/violeta, tipografías Orbitron/Space Grotesk) aplicado de forma consistente en `App.css` (paneles, formularios, tablas, badges) y en los 4 simuladores de laboratorio interactivos (`labs-engine/*`), incluido el tema oscuro de CodeMirror en el editor web.
+- ✅ **Diseño visual**: tema oscuro "futurista" (glassmorphism, acentos neón cian/violeta, tipografías Orbitron/Space Grotesk) aplicado de forma consistente en `App.css` (paneles, formularios, tablas, badges) y en los 4 simuladores de laboratorio interactivos (`labs-engine/*`), incluido el tema oscuro de CodeMirror en el editor web, más robots animados en las pantallas de login/registro (`components/RobotFlotante.jsx`).
+- ✅ Cualquier usuario autenticado puede cambiar su propia contraseña desde `/cambiar-password` (`POST /api/auth/cambiar-password/`, valida la contraseña actual y las reglas de complejidad de Django).
+- ✅ **Desplegado en Railway** (Docker, no Nixpacks): backend + frontend + Postgres, ver la sección de Railway más arriba para las URLs y notas del despliegue.
 
 ## Usuarios de prueba (solo entorno local)
 
