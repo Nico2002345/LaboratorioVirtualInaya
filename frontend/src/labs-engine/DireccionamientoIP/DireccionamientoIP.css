@@ -3,11 +3,13 @@
 }
 
 .escenario-ip {
-  background: #eef4fb;
+  background: var(--surface, rgba(148, 163, 255, 0.06));
+  border: 1px solid var(--surface-border, rgba(148, 163, 255, 0.16));
   border-radius: 8px;
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
   font-size: 0.9rem;
+  color: var(--text, #e8ecfb);
 }
 
 .escenario-ip p {
@@ -15,8 +17,10 @@
 }
 
 .banner-correcto {
-  background: #d1fae5;
-  color: #065f46;
+  background: rgba(53, 230, 160, 0.12);
+  border: 1px solid rgba(53, 230, 160, 0.35);
+  box-shadow: 0 0 14px rgba(53, 230, 160, 0.15);
+  color: var(--success, #35e6a0);
   padding: 0.6rem 1rem;
   border-radius: 8px;
   font-weight: 600;
@@ -35,52 +39,65 @@
   gap: 0.3rem;
   font-size: 0.9rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--text-dim, #96a2c7);
 }
 
 .campo-ip input,
 .campo-ip select {
   padding: 0.5rem 0.65rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--surface-border, rgba(148, 163, 255, 0.16));
   border-radius: 8px;
   font-size: 0.95rem;
   font-weight: 400;
+  background: rgba(5, 7, 13, 0.5);
+  color: var(--text, #e8ecfb);
+  font-family: var(--font-ui, inherit);
 }
 
 .campo-ip.campo-correcto input,
 .campo-ip.campo-correcto select {
-  border-color: #10b981;
+  border-color: var(--success, #35e6a0);
+  box-shadow: 0 0 10px rgba(53, 230, 160, 0.2);
 }
 
 .campo-ip.campo-incorrecto input,
 .campo-ip.campo-incorrecto select {
-  border-color: #dc2626;
+  border-color: var(--danger, #ff5d7a);
+  box-shadow: 0 0 10px rgba(255, 93, 122, 0.2);
 }
 
 .mensaje-ok {
-  color: #065f46;
+  color: var(--success, #35e6a0);
   font-weight: 400;
   font-size: 0.8rem;
 }
 
 .mensaje-error {
-  color: #b91c1c;
+  color: var(--danger, #ff5d7a);
   font-weight: 400;
   font-size: 0.8rem;
 }
 
 .form-ip button {
   align-self: flex-start;
-  background: #1d3557;
-  color: white;
+  background: var(--gradient-accent, linear-gradient(135deg, #22e0ff, #b478ff));
+  color: #05070d;
   border: none;
   padding: 0.6rem 1.2rem;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  box-shadow: var(--glow-accent-soft, 0 0 14px rgba(34, 224, 255, 0.16));
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.form-ip button:hover:not(:disabled) {
+  box-shadow: var(--glow-accent, 0 0 24px rgba(34, 224, 255, 0.28));
+  transform: translateY(-1px);
 }
 
 .form-ip button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: default;
+  box-shadow: none;
 }

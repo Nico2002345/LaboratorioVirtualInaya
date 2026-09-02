@@ -1,15 +1,42 @@
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html,
 body {
   margin: 0;
+  background: #05070d;
 }
 
 #root {
   min-height: 100svh;
+}
+
+::selection {
+  background: rgba(34, 224, 255, 0.35);
+  color: #f5f8ff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #05070d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #22e0ff, #b478ff);
+  border-radius: 999px;
+  border: 2px solid #05070d;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a3a6a #05070d;
 }

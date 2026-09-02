@@ -81,6 +81,7 @@ export default function EditorWebPlayer({ laboratorio, onProgresoActualizado }) 
           <CodeMirror
             value={codigo[pestanaActiva]}
             height="280px"
+            theme="dark"
             extensions={[pestana.extension]}
             onChange={actualizarCodigo}
           />

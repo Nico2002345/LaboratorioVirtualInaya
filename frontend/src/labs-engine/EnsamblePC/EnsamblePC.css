@@ -4,13 +4,15 @@
 
 .instruccion-dnd {
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--text-dim, #96a2c7);
   margin-bottom: 0.75rem;
 }
 
 .banner-correcto {
-  background: #d1fae5;
-  color: #065f46;
+  background: rgba(53, 230, 160, 0.12);
+  border: 1px solid rgba(53, 230, 160, 0.35);
+  box-shadow: 0 0 14px rgba(53, 230, 160, 0.15);
+  color: var(--success, #35e6a0);
   padding: 0.6rem 1rem;
   border-radius: 8px;
   font-weight: 600;
@@ -26,10 +28,12 @@
 
 .bandeja-piezas,
 .gabinete {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--surface-border, rgba(148, 163, 255, 0.16));
   border-radius: 10px;
   padding: 0.75rem;
-  background: #fafbfc;
+  background: var(--surface, rgba(148, 163, 255, 0.06));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   min-height: 220px;
 }
 
@@ -37,39 +41,44 @@
 .gabinete h4 {
   margin: 0 0 0.6rem;
   font-size: 0.85rem;
-  color: #1d3557;
+  color: var(--accent, #22e0ff);
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
 
 .bandeja-vacia {
   font-size: 0.8rem;
-  color: #9ca3af;
+  color: var(--text-faint, #5c6690);
   font-style: italic;
 }
 
 .pieza {
-  background: #1d3557;
-  color: white;
+  background: var(--gradient-accent, linear-gradient(135deg, #22e0ff, #b478ff));
+  color: #05070d;
   padding: 0.5rem 0.7rem;
   border-radius: 8px;
   font-size: 0.85rem;
+  font-weight: 600;
   margin-bottom: 0.5rem;
   cursor: grab;
   user-select: none;
   border: 2px solid transparent;
+  box-shadow: var(--glow-accent-soft, 0 0 14px rgba(34, 224, 255, 0.16));
 }
 
 .pieza-seleccionada {
-  border-color: #f4a261;
+  border-color: var(--warning, #ffc857);
+  box-shadow: 0 0 12px rgba(255, 200, 87, 0.35);
 }
 
 .pieza-correcta {
-  outline: 2px solid #10b981;
+  outline: 2px solid var(--success, #35e6a0);
+  box-shadow: 0 0 12px rgba(53, 230, 160, 0.35);
 }
 
 .pieza-incorrecta {
-  outline: 2px solid #dc2626;
+  outline: 2px solid var(--danger, #ff5d7a);
+  box-shadow: 0 0 12px rgba(255, 93, 122, 0.35);
 }
 
 .grid-zonas {
@@ -79,7 +88,7 @@
 }
 
 .zona-drop {
-  border: 2px dashed #cbd5e1;
+  border: 2px dashed var(--surface-border-strong, rgba(148, 163, 255, 0.32));
   border-radius: 8px;
   min-height: 80px;
   padding: 0.5rem;
@@ -87,12 +96,12 @@
   flex-direction: column;
   gap: 0.4rem;
   cursor: pointer;
-  background: white;
+  background: rgba(5, 7, 13, 0.35);
 }
 
 .zona-nombre {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--text-dim, #96a2c7);
 }
 
 .zona-ocupada {
@@ -100,18 +109,19 @@
 }
 
 .zona-correcta {
-  border-color: #10b981;
-  background: #ecfdf5;
+  border-color: var(--success, #35e6a0);
+  background: rgba(53, 230, 160, 0.08);
 }
 
 .zona-incorrecta {
-  border-color: #dc2626;
-  background: #fef2f2;
+  border-color: var(--danger, #ff5d7a);
+  background: rgba(255, 93, 122, 0.08);
 }
 
 .pieza-colocada {
-  background: #457b9d;
-  color: white;
+  background: rgba(180, 120, 255, 0.18);
+  border: 1px solid rgba(180, 120, 255, 0.5);
+  color: var(--accent-2, #b478ff);
   padding: 0.4rem 0.6rem;
   border-radius: 6px;
   font-size: 0.8rem;
@@ -119,16 +129,24 @@
 }
 
 .simulador-ensamble button {
-  background: #1d3557;
-  color: white;
+  background: var(--gradient-accent, linear-gradient(135deg, #22e0ff, #b478ff));
+  color: #05070d;
   border: none;
   padding: 0.6rem 1.2rem;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  box-shadow: var(--glow-accent-soft, 0 0 14px rgba(34, 224, 255, 0.16));
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.simulador-ensamble button:hover:not(:disabled) {
+  box-shadow: var(--glow-accent, 0 0 24px rgba(34, 224, 255, 0.28));
+  transform: translateY(-1px);
 }
 
 .simulador-ensamble button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: default;
+  box-shadow: none;
 }

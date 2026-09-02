@@ -3,8 +3,10 @@
 }
 
 .banner-correcto {
-  background: #d1fae5;
-  color: #065f46;
+  background: rgba(53, 230, 160, 0.12);
+  border: 1px solid rgba(53, 230, 160, 0.35);
+  box-shadow: 0 0 14px rgba(53, 230, 160, 0.15);
+  color: var(--success, #35e6a0);
   padding: 0.6rem 1rem;
   border-radius: 8px;
   font-weight: 600;
@@ -12,10 +14,12 @@
 }
 
 .consigna-bd {
-  background: #eef4fb;
+  background: var(--surface, rgba(148, 163, 255, 0.06));
+  border: 1px solid var(--surface-border, rgba(148, 163, 255, 0.16));
   border-radius: 8px;
   padding: 0.65rem 1rem;
   font-size: 0.9rem;
+  color: var(--text, #e8ecfb);
   margin-bottom: 1rem;
 }
 
@@ -27,10 +31,12 @@
 }
 
 .tabla-card {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--surface-border, rgba(148, 163, 255, 0.16));
   border-radius: 10px;
   padding: 0.85rem;
-  background: #fafbfc;
+  background: var(--surface, rgba(148, 163, 255, 0.06));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .tabla-card-header {
@@ -43,17 +49,18 @@
 .tabla-nombre {
   font-weight: 700;
   font-size: 1rem;
-  color: #1d3557;
+  color: var(--accent, #22e0ff);
   border: 1px solid transparent;
   border-radius: 6px;
   padding: 0.25rem 0.4rem;
   background: transparent;
+  font-family: var(--font-ui, inherit);
 }
 
 .tabla-nombre:hover,
 .tabla-nombre:focus {
-  border-color: #d1d5db;
-  background: white;
+  border-color: var(--surface-border, rgba(148, 163, 255, 0.16));
+  background: rgba(5, 7, 13, 0.4);
 }
 
 .tabla-datos {
@@ -61,11 +68,12 @@
   border-collapse: collapse;
   margin-bottom: 0.5rem;
   font-size: 0.85rem;
+  color: var(--text, #e8ecfb);
 }
 
 .tabla-datos th,
 .tabla-datos td {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--surface-border, rgba(148, 163, 255, 0.16));
   padding: 0.35rem;
   text-align: left;
 }
@@ -73,41 +81,59 @@
 .campo-nombre {
   width: 100%;
   border: none;
+  background: transparent;
+  color: var(--text, #e8ecfb);
   font-weight: 600;
   font-size: 0.8rem;
   margin-bottom: 0.15rem;
+  font-family: var(--font-ui, inherit);
 }
 
 .tabla-datos select {
   font-size: 0.75rem;
   width: 100%;
+  background: rgba(5, 7, 13, 0.5);
+  color: var(--text, #e8ecfb);
+  border: 1px solid var(--surface-border, rgba(148, 163, 255, 0.16));
+  border-radius: 4px;
+  font-family: var(--font-ui, inherit);
 }
 
 .tabla-datos input {
   width: 100%;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--surface-border, rgba(148, 163, 255, 0.16));
   border-radius: 4px;
   padding: 0.2rem 0.3rem;
   font-size: 0.8rem;
+  background: rgba(5, 7, 13, 0.5);
+  color: var(--text, #e8ecfb);
+  font-family: var(--font-ui, inherit);
 }
 
 .boton-x {
   background: transparent;
   border: none;
-  color: #b91c1c;
+  color: var(--danger, #ff5d7a);
   cursor: pointer;
   font-size: 0.9rem;
   line-height: 1;
+  padding: 0;
 }
 
 .boton-eliminar {
   background: transparent;
-  border: 1px solid #dc2626;
-  color: #dc2626;
+  border: 1px solid rgba(255, 93, 122, 0.5);
+  color: var(--danger, #ff5d7a);
   border-radius: 6px;
   padding: 0.25rem 0.6rem;
   font-size: 0.8rem;
   cursor: pointer;
+  transition: box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.boton-eliminar:hover {
+  background: rgba(255, 93, 122, 0.1);
+  box-shadow: 0 0 12px rgba(255, 93, 122, 0.25);
 }
 
 .boton-agregar-tabla {
@@ -115,17 +141,19 @@
 }
 
 .relaciones-bd {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--surface-border, rgba(148, 163, 255, 0.16));
   border-radius: 10px;
   padding: 0.85rem;
-  background: white;
+  background: var(--surface, rgba(148, 163, 255, 0.06));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   margin-bottom: 1rem;
 }
 
 .relaciones-bd h4 {
   margin: 0 0 0.6rem;
   font-size: 0.85rem;
-  color: #1d3557;
+  color: var(--accent, #22e0ff);
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
@@ -141,12 +169,15 @@
 .relacion-row select {
   padding: 0.3rem;
   border-radius: 6px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--surface-border, rgba(148, 163, 255, 0.16));
+  background: rgba(5, 7, 13, 0.5);
+  color: var(--text, #e8ecfb);
   font-size: 0.8rem;
+  font-family: var(--font-ui, inherit);
 }
 
 .flecha-relacion {
-  color: #6b7280;
+  color: var(--text-dim, #96a2c7);
 }
 
 .lista-criterios {
@@ -159,35 +190,49 @@
 }
 
 .criterio-ok {
-  color: #065f46;
+  color: var(--success, #35e6a0);
   font-size: 0.85rem;
 }
 
 .criterio-falta {
-  color: #b91c1c;
+  color: var(--danger, #ff5d7a);
   font-size: 0.85rem;
 }
 
 .simulador-bd button {
   cursor: pointer;
   border-radius: 6px;
-  border: 1px solid #d1d5db;
-  background: white;
+  border: 1px solid var(--surface-border, rgba(148, 163, 255, 0.16));
+  background: var(--surface, rgba(148, 163, 255, 0.06));
+  color: var(--text, #e8ecfb);
   padding: 0.35rem 0.7rem;
   font-size: 0.8rem;
+  font-family: var(--font-ui, inherit);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.simulador-bd button:hover:not(:disabled) {
+  background: var(--surface-hover, rgba(148, 163, 255, 0.1));
+  border-color: var(--surface-border-strong, rgba(148, 163, 255, 0.32));
 }
 
 .simulador-bd .boton-guardar {
-  background: #1d3557;
-  color: white;
+  background: var(--gradient-accent, linear-gradient(135deg, #22e0ff, #b478ff));
+  color: #05070d;
   border: none;
   padding: 0.6rem 1.2rem;
   border-radius: 8px;
   font-weight: 600;
   font-size: 0.9rem;
+  box-shadow: var(--glow-accent-soft, 0 0 14px rgba(34, 224, 255, 0.16));
+}
+
+.simulador-bd .boton-guardar:hover:not(:disabled) {
+  box-shadow: var(--glow-accent, 0 0 24px rgba(34, 224, 255, 0.28));
 }
 
 .simulador-bd .boton-guardar:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: default;
+  box-shadow: none;
 }

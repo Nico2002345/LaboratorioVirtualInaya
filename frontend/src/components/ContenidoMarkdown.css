@@ -1,6 +1,6 @@
 .markdown-cuerpo {
   font-size: 0.85rem;
-  color: #374151;
+  color: var(--text, #e8ecfb);
   line-height: 1.5;
 }
 
@@ -15,7 +15,7 @@
 .markdown-cuerpo h1,
 .markdown-cuerpo h2,
 .markdown-cuerpo h3 {
-  color: #1d3557;
+  color: var(--accent, #22e0ff);
   margin: 0.8rem 0 0.4rem;
 }
 
@@ -31,15 +31,17 @@
 }
 
 .markdown-cuerpo code {
-  background: #f3f4f6;
+  background: rgba(148, 163, 255, 0.1);
+  color: var(--text, #e8ecfb);
   padding: 0.1rem 0.3rem;
   border-radius: 4px;
-  font-family: ui-monospace, Consolas, monospace;
+  font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
   font-size: 0.8rem;
 }
 
 .markdown-cuerpo pre {
-  background: #f3f4f6;
+  background: rgba(5, 7, 13, 0.5);
+  border: 1px solid var(--surface-border, rgba(148, 163, 255, 0.16));
   padding: 0.6rem;
   border-radius: 6px;
   overflow-x: auto;
@@ -53,8 +55,8 @@
 .markdown-cuerpo blockquote {
   margin: 0.4rem 0;
   padding-left: 0.75rem;
-  border-left: 3px solid #d1d5db;
-  color: #6b7280;
+  border-left: 3px solid var(--accent-2, #b478ff);
+  color: var(--text-dim, #96a2c7);
 }
 
 .markdown-cuerpo table {
@@ -65,14 +67,15 @@
 
 .markdown-cuerpo th,
 .markdown-cuerpo td {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--surface-border, rgba(148, 163, 255, 0.16));
   padding: 0.3rem 0.5rem;
 }
 
 .markdown-cuerpo a {
-  color: #457b9d;
+  color: var(--accent, #22e0ff);
 }
 
 .markdown-cuerpo img {
   max-width: 100%;
+  border-radius: 6px;
 }
