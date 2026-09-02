@@ -478,9 +478,13 @@ section {
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .tarjeta-auth {
+  position: relative;
+  z-index: 1;
   background: var(--surface);
   border: 1px solid var(--surface-border);
   border-radius: 16px;

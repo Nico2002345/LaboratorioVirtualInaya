@@ -1,0 +1,143 @@
+.robot-flotante {
+  position: absolute;
+  width: var(--robot-tam, 110px);
+  pointer-events: none;
+  filter: drop-shadow(0 0 14px rgba(34, 224, 255, 0.25));
+  animation: robot-flotar var(--robot-duracion, 6s) ease-in-out infinite;
+  animation-delay: var(--robot-retraso, 0s);
+  opacity: 0.9;
+}
+
+.robot-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.robot-cuerpo {
+  transform-origin: 60px 95px;
+  animation: robot-balanceo var(--robot-duracion, 6s) ease-in-out infinite;
+  animation-delay: var(--robot-retraso, 0s);
+}
+
+.robot-brazo-izq {
+  transform-origin: 9px 74px;
+  animation: robot-brazo-izq calc(var(--robot-duracion, 6s) * 0.7) ease-in-out infinite;
+  animation-delay: var(--robot-retraso, 0s);
+}
+
+.robot-brazo-der {
+  transform-origin: 111px 74px;
+  animation: robot-brazo-der calc(var(--robot-duracion, 6s) * 0.7) ease-in-out infinite;
+  animation-delay: var(--robot-retraso, 0s);
+}
+
+.robot-visor {
+  animation: robot-visor-parpadeo calc(var(--robot-duracion, 6s) * 0.55) ease-in-out infinite;
+  animation-delay: var(--robot-retraso, 0s);
+}
+
+.robot-antena-luz,
+.robot-nucleo {
+  animation: robot-nucleo-pulso calc(var(--robot-duracion, 6s) * 0.5) ease-in-out infinite;
+  animation-delay: var(--robot-retraso, 0s);
+}
+
+@keyframes robot-flotar {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-22px) rotate(2deg);
+  }
+}
+
+@keyframes robot-balanceo {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes robot-brazo-izq {
+  0%,
+  100% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(14deg);
+  }
+}
+
+@keyframes robot-brazo-der {
+  0%,
+  100% {
+    transform: rotate(12deg);
+  }
+  50% {
+    transform: rotate(-14deg);
+  }
+}
+
+@keyframes robot-visor-parpadeo {
+  0%,
+  40%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes robot-nucleo-pulso {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .robot-flotante,
+  .robot-cuerpo,
+  .robot-brazo-izq,
+  .robot-brazo-der,
+  .robot-visor,
+  .robot-antena-luz,
+  .robot-nucleo {
+    animation: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .robot-flotante {
+    display: none;
+  }
+}
+
+.robot-pos-1 {
+  top: 10%;
+  left: 8%;
+}
+
+.robot-pos-2 {
+  top: 62%;
+  left: 14%;
+}
+
+.robot-pos-3 {
+  top: 14%;
+  right: 9%;
+}
+
+.robot-pos-4 {
+  top: 66%;
+  right: 12%;
+}

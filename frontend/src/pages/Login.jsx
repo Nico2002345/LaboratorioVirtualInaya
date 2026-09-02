@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
+import FondoRobots from "../components/FondoRobots";
 
 const RUTA_POR_ROL = {
   admin: "/admin",
@@ -32,6 +33,8 @@ export default function Login() {
 
   return (
     <div className="pantalla-auth">
+      <FondoRobots />
+
       <form className="tarjeta-auth" onSubmit={onSubmit}>
         <h1>Laboratorio Virtual de Informática</h1>
         <p className="subtitulo">Inicia sesión</p>

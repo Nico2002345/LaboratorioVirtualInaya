@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getGrados, registrarEstudiante } from "../api/academics";
 import { useAuth } from "../auth/AuthContext";
+import FondoRobots from "../components/FondoRobots";
 
 export default function Registro() {
   const { login } = useAuth();
@@ -43,6 +44,8 @@ export default function Registro() {
 
   return (
     <div className="pantalla-auth">
+      <FondoRobots />
+
       <form className="tarjeta-auth" onSubmit={onSubmit}>
         <h1>Registro de estudiante</h1>
         <p className="subtitulo">Laboratorio Virtual de Informática</p>
