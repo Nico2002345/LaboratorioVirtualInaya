@@ -1,23 +1,27 @@
 import { useEffect, useState } from "react";
 import { getMiPerfilEstudiante } from "../../api/academics";
 import { getMisModulos } from "../../api/content";
+import { getMisLaboratorios } from "../../api/labs";
+import LaboratorioCard from "../../components/LaboratorioCard";
 
 export default function EstudianteHome() {
   const [perfil, setPerfil] = useState(null);
   const [modulos, setModulos] = useState(null);
+  const [laboratorios, setLaboratorios] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    Promise.all([getMiPerfilEstudiante(), getMisModulos()])
-      .then(([perfilData, modulosData]) => {
+    Promise.all([getMiPerfilEstudiante(), getMisModulos(), getMisLaboratorios()])
+      .then(([perfilData, modulosData, laboratoriosData]) => {
         setPerfil(perfilData);
         setModulos(modulosData);
+        setLaboratorios(laboratoriosData);
       })
       .catch(() => setError("No se pudo cargar tu información."));
   }, []);
 
   if (error) return <p className="error">{error}</p>;
-  if (!perfil || !modulos) return <p className="cargando">Cargando...</p>;
+  if (!perfil || !modulos || !laboratorios) return <p className="cargando">Cargando...</p>;
 
   return (
     <div className="contenedor">
@@ -54,11 +58,15 @@ export default function EstudianteHome() {
 
       <section>
         <h2>Mis laboratorios</h2>
-        <p className="placeholder">
-          Aquí aparecerán tus laboratorios asignados, cada uno con nombre, descripción, objetivo,
-          instrucciones, estado, fecha de entrega y el botón "Iniciar laboratorio" (próximo módulo a
-          construir).
-        </p>
+        {laboratorios.length === 0 ? (
+          <p className="placeholder">Aún no tienes laboratorios asignados.</p>
+        ) : (
+          <div className="grid-laboratorios">
+            {laboratorios.map((lab) => (
+              <LaboratorioCard key={lab.id} laboratorio={lab} />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

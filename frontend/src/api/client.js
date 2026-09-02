@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+export const MEDIA_BASE_URL = API_URL.replace(/\/api\/?$/, "");
 
 const ACCESS_KEY = "lv_access";
 const REFRESH_KEY = "lv_refresh";

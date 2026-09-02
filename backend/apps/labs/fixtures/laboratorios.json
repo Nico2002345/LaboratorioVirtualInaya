@@ -1,0 +1,152 @@
+[
+  {
+    "model": "labs.laboratorio",
+    "pk": 1,
+    "fields": {
+      "modulo_grado": 1,
+      "titulo": "Identificar las partes del computador",
+      "descripcion": "Cuestionario para reconocer las partes básicas de un computador.",
+      "objetivo": "Reconocer los componentes principales de un computador y su función.",
+      "instrucciones": "Responde cada pregunta seleccionando la opción correcta. Al finalizar, envía tus respuestas.",
+      "tipo": "quiz",
+      "configuracion": {
+        "preguntas": [
+          {"id": 1, "enunciado": "¿Cuál dispositivo se usa para escribir texto?", "tipo": "opcion_multiple", "opciones": ["Teclado", "Monitor", "Parlante"], "respuesta_correcta": "Teclado", "puntaje": 1},
+          {"id": 2, "enunciado": "¿Cuál de estos es un periférico de salida?", "tipo": "opcion_multiple", "opciones": ["Mouse", "Monitor", "Teclado"], "respuesta_correcta": "Monitor", "puntaje": 1},
+          {"id": 3, "enunciado": "¿Dónde se guarda la información de forma permanente?", "tipo": "opcion_multiple", "opciones": ["RAM", "Disco duro", "Procesador"], "respuesta_correcta": "Disco duro", "puntaje": 1}
+        ]
+      },
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 2,
+    "fields": {
+      "modulo_grado": 4,
+      "titulo": "Crear un documento de texto",
+      "descripcion": "Elabora un documento breve aplicando formato básico.",
+      "objetivo": "Practicar el uso de un procesador de texto (títulos, negrita, listas).",
+      "instrucciones": "Crea un documento con tu nombre, un título y una lista de 3 elementos. Guárdalo como PDF o Word y súbelo aquí.",
+      "tipo": "entrega_archivo",
+      "configuracion": {},
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 3,
+    "fields": {
+      "modulo_grado": 8,
+      "titulo": "Fundamentos de direcciones IP",
+      "descripcion": "Cuestionario introductorio sobre direccionamiento IP.",
+      "objetivo": "Comprender qué es una dirección IP y para qué sirve.",
+      "instrucciones": "Responde las preguntas según lo visto en el módulo de Redes.",
+      "tipo": "quiz",
+      "configuracion": {
+        "preguntas": [
+          {"id": 1, "enunciado": "¿Qué identifica una dirección IP en una red?", "tipo": "opcion_multiple", "opciones": ["Un dispositivo", "Un archivo", "Un color"], "respuesta_correcta": "Un dispositivo", "puntaje": 1},
+          {"id": 2, "enunciado": "¿Cuántos números separados por puntos tiene una IPv4?", "tipo": "opcion_multiple", "opciones": ["2", "4", "6"], "respuesta_correcta": "4", "puntaje": 1}
+        ]
+      },
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 4,
+    "fields": {
+      "modulo_grado": 6,
+      "titulo": "Identificar componentes internos",
+      "descripcion": "Sube una foto o esquema señalando RAM, procesador, disco y tarjeta madre.",
+      "objetivo": "Reconocer visualmente los componentes internos de un computador.",
+      "instrucciones": "Adjunta una imagen o documento con los componentes identificados.",
+      "tipo": "entrega_archivo",
+      "configuracion": {},
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 5,
+    "fields": {
+      "modulo_grado": 12,
+      "titulo": "Fundamentos de HTML y CSS",
+      "descripcion": "Cuestionario sobre etiquetas HTML y propiedades CSS básicas.",
+      "objetivo": "Reconocer la estructura básica de una página web.",
+      "instrucciones": "Responde según lo visto en el módulo de Desarrollo Web.",
+      "tipo": "quiz",
+      "configuracion": {
+        "preguntas": [
+          {"id": 1, "enunciado": "¿Qué etiqueta define el título principal de una página?", "tipo": "opcion_multiple", "opciones": ["<h1>", "<p>", "<title>"], "respuesta_correcta": "<h1>", "puntaje": 1},
+          {"id": 2, "enunciado": "¿Qué lenguaje se usa para dar estilo a una página web?", "tipo": "opcion_multiple", "opciones": ["HTML", "CSS", "SQL"], "respuesta_correcta": "CSS", "puntaje": 1},
+          {"id": 3, "enunciado": "¿Qué etiqueta se usa para un enlace?", "tipo": "opcion_multiple", "opciones": ["<a>", "<link>", "<img>"], "respuesta_correcta": "<a>", "puntaje": 1}
+        ]
+      },
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 6,
+    "fields": {
+      "modulo_grado": 13,
+      "titulo": "Diseñar una base de datos sencilla",
+      "descripcion": "Diseña en papel o en un documento una base de datos con 2 tablas relacionadas.",
+      "objetivo": "Aplicar los conceptos de tablas, campos y relaciones.",
+      "instrucciones": "Sube un documento o imagen con el diseño de tus tablas y su relación.",
+      "tipo": "entrega_archivo",
+      "configuracion": {},
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 7,
+    "fields": {
+      "modulo_grado": 20,
+      "titulo": "Buenas prácticas de ciberseguridad",
+      "descripcion": "Cuestionario sobre hábitos seguros en el uso de tecnología.",
+      "objetivo": "Reconocer prácticas seguras y riesgos comunes en línea.",
+      "instrucciones": "Responde según lo visto en el módulo de Ciberseguridad.",
+      "tipo": "quiz",
+      "configuracion": {
+        "preguntas": [
+          {"id": 1, "enunciado": "¿Qué debes hacer si recibes un enlace sospechoso?", "tipo": "opcion_multiple", "opciones": ["Hacer clic de inmediato", "No hacer clic y verificar la fuente", "Reenviarlo a tus contactos"], "respuesta_correcta": "No hacer clic y verificar la fuente", "puntaje": 1},
+          {"id": 2, "enunciado": "¿Qué caracteriza a una contraseña segura?", "tipo": "opcion_multiple", "opciones": ["Ser corta y fácil de recordar", "Combinar letras, números y símbolos", "Ser igual en todas las cuentas"], "respuesta_correcta": "Combinar letras, números y símbolos", "puntaje": 1}
+        ]
+      },
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
+  },
+  {
+    "model": "labs.laboratorio",
+    "pk": 8,
+    "fields": {
+      "modulo_grado": 23,
+      "titulo": "Propuesta de proyecto final",
+      "descripcion": "Entrega la propuesta escrita de tu proyecto tecnológico final.",
+      "objetivo": "Definir el alcance y objetivo del proyecto integrador.",
+      "instrucciones": "Sube un documento con el nombre, problema a resolver y tecnologías a usar en tu proyecto.",
+      "tipo": "entrega_archivo",
+      "configuracion": {},
+      "fecha_limite": "2026-11-30T23:59:00Z",
+      "activo": true,
+      "creado_en": "2026-01-15T00:00:00Z"
+    }
+  }
+]

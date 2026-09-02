@@ -22,7 +22,7 @@ cd backend
 python -m venv .venv
 ./.venv/Scripts/pip install -r requirements.txt   # Windows
 ./.venv/Scripts/python manage.py migrate
-./.venv/Scripts/python manage.py loaddata grados modulos modulo_grado contenidos
+./.venv/Scripts/python manage.py loaddata grados modulos modulo_grado contenidos laboratorios
 ./.venv/Scripts/python manage.py createsuperuser
 ./.venv/Scripts/python manage.py runserver 8000
 ```
@@ -56,8 +56,9 @@ docker compose up --build
 - ✅ Módulo `accounts`: usuarios con rol (admin/profesor/estudiante), login JWT, `/me`.
 - ✅ Módulo `academics`: grados fijos (8°-11°), registro público de estudiante, gestión de profesores y su asignación a grados.
 - ✅ Módulo `content`: catálogo de módulos, asignación módulo-grado, contenidos, con datos reales de 8° a 11°. El estudiante ve sus propios módulos y contenidos en `/api/content/mis-modulos/`.
-- ✅ Frontend: login, registro con selección de grado, pantallas de inicio por rol. La de estudiante ya muestra módulos y contenidos reales de su grado.
-- ⏳ Pendiente: `labs` (laboratorios interactivos), `assignments`/`submissions` (actividades, entregas, calificaciones).
+- ✅ Módulo `labs`: laboratorios tipo `quiz` (autocalificado) y `entrega_archivo` funcionando de punta a punta (iniciar, responder/entregar, progreso). Tipos interactivos (`ensamble_pc`, `direccionamiento_ip`, `editor_web`, `simulador_bd`) modelados pero pendientes de construir su UI.
+- ✅ Frontend: login, registro con selección de grado, pantallas de inicio por rol. La de estudiante muestra módulos, contenidos y laboratorios reales de su grado, con reproductor de laboratorio (quiz / entrega de archivo).
+- ⏳ Pendiente: simuladores interactivos de `labs`, `assignments`/`submissions` (actividades formales, entregas, calificaciones, observaciones del profesor).
 
 ## Usuarios de prueba (solo entorno local)
 

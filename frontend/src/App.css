@@ -113,6 +113,164 @@ section {
   color: #374151;
 }
 
+.grid-laboratorios {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.tarjeta-laboratorio {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+  background: #fafbfc;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.tarjeta-laboratorio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.tarjeta-laboratorio-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #1d3557;
+}
+
+.lab-descripcion,
+.lab-objetivo,
+.lab-fecha {
+  font-size: 0.85rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+.lab-fecha {
+  color: #6b7280;
+}
+
+.badge-estado {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.badge-no_iniciado {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.badge-en_progreso {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge-completado {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.boton-iniciar {
+  margin-top: 0.4rem;
+  align-self: flex-start;
+  background: #1d3557;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.boton-iniciar:hover {
+  background: #16294a;
+}
+
+.volver {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #457b9d;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.detalle-lab-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.detalle-lab-header h1 {
+  margin: 0;
+}
+
+.form-quiz fieldset {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.form-quiz legend {
+  font-weight: 600;
+  color: #1d3557;
+  padding: 0 0.3rem;
+}
+
+.opcion-quiz {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 400;
+  padding: 0.25rem 0;
+}
+
+.form-quiz button,
+.form-entrega button {
+  background: #1d3557;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.form-quiz button:disabled,
+.form-entrega button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.form-entrega label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
+
+.resultado-lab {
+  background: #d1fae5;
+  color: #065f46;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.calificacion {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
 .lista-grados {
   display: flex;
   gap: 0.5rem;
