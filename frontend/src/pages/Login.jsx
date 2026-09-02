@@ -14,6 +14,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [mostrarPassword, setMostrarPassword] = useState(false);
   const [error, setError] = useState("");
   const [enviando, setEnviando] = useState(false);
 
@@ -46,7 +47,23 @@ export default function Login() {
 
         <label>
           Contraseña
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <div className="campo-password">
+            <input
+              type={mostrarPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              className="btn-mostrar-password"
+              onClick={() => setMostrarPassword((v) => !v)}
+              aria-label={mostrarPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+              tabIndex={-1}
+            >
+              {mostrarPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
         </label>
 
         {error && <p className="error">{error}</p>}

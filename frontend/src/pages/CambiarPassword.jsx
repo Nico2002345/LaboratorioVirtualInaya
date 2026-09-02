@@ -15,6 +15,7 @@ export default function CambiarPassword() {
   const [passwordActual, setPasswordActual] = useState("");
   const [passwordNueva, setPasswordNueva] = useState("");
   const [confirmacion, setConfirmacion] = useState("");
+  const [mostrarPassword, setMostrarPassword] = useState(false);
   const [error, setError] = useState("");
   const [exito, setExito] = useState(false);
   const [enviando, setEnviando] = useState(false);
@@ -61,34 +62,67 @@ export default function CambiarPassword() {
       <form className="form-gestion" onSubmit={onSubmit}>
         <label>
           Contraseña actual
-          <input
-            type="password"
-            value={passwordActual}
-            onChange={(e) => setPasswordActual(e.target.value)}
-            required
-          />
+          <div className="campo-password">
+            <input
+              type={mostrarPassword ? "text" : "password"}
+              value={passwordActual}
+              onChange={(e) => setPasswordActual(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              className="btn-mostrar-password"
+              onClick={() => setMostrarPassword((v) => !v)}
+              aria-label={mostrarPassword ? "Ocultar contraseñas" : "Mostrar contraseñas"}
+              tabIndex={-1}
+            >
+              {mostrarPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
         </label>
 
         <label>
           Nueva contraseña
-          <input
-            type="password"
-            value={passwordNueva}
-            onChange={(e) => setPasswordNueva(e.target.value)}
-            minLength={8}
-            required
-          />
+          <div className="campo-password">
+            <input
+              type={mostrarPassword ? "text" : "password"}
+              value={passwordNueva}
+              onChange={(e) => setPasswordNueva(e.target.value)}
+              minLength={8}
+              required
+            />
+            <button
+              type="button"
+              className="btn-mostrar-password"
+              onClick={() => setMostrarPassword((v) => !v)}
+              aria-label={mostrarPassword ? "Ocultar contraseñas" : "Mostrar contraseñas"}
+              tabIndex={-1}
+            >
+              {mostrarPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
         </label>
 
         <label>
           Confirmar nueva contraseña
-          <input
-            type="password"
-            value={confirmacion}
-            onChange={(e) => setConfirmacion(e.target.value)}
-            minLength={8}
-            required
-          />
+          <div className="campo-password">
+            <input
+              type={mostrarPassword ? "text" : "password"}
+              value={confirmacion}
+              onChange={(e) => setConfirmacion(e.target.value)}
+              minLength={8}
+              required
+            />
+            <button
+              type="button"
+              className="btn-mostrar-password"
+              onClick={() => setMostrarPassword((v) => !v)}
+              aria-label={mostrarPassword ? "Ocultar contraseñas" : "Mostrar contraseñas"}
+              tabIndex={-1}
+            >
+              {mostrarPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
         </label>
 
         {error && <p className="error">{error}</p>}

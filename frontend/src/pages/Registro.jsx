@@ -15,6 +15,7 @@ export default function Registro() {
     password: "",
     grado: "",
   });
+  const [mostrarPassword, setMostrarPassword] = useState(false);
   const [error, setError] = useState("");
   const [enviando, setEnviando] = useState(false);
 
@@ -67,13 +68,24 @@ export default function Registro() {
 
         <label>
           Contraseña
-          <input
-            type="password"
-            value={form.password}
-            onChange={onChange("password")}
-            minLength={8}
-            required
-          />
+          <div className="campo-password">
+            <input
+              type={mostrarPassword ? "text" : "password"}
+              value={form.password}
+              onChange={onChange("password")}
+              minLength={8}
+              required
+            />
+            <button
+              type="button"
+              className="btn-mostrar-password"
+              onClick={() => setMostrarPassword((v) => !v)}
+              aria-label={mostrarPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+              tabIndex={-1}
+            >
+              {mostrarPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
         </label>
 
         <label>
