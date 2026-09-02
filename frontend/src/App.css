@@ -1,0 +1,176 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #f4f6f9;
+  color: #1f2933;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1d3557;
+  color: white;
+  padding: 0.75rem 1.5rem;
+}
+
+.navbar-marca {
+  font-weight: 600;
+}
+
+.navbar-usuario {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.navbar-usuario button {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 0.35rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.navbar-usuario button:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.contenedor {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.contenedor h1 {
+  margin-bottom: 0.25rem;
+}
+
+.mi-grado {
+  color: #457b9d;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+section {
+  background: white;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.placeholder {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.lista-grados {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.lista-grados li {
+  background: #e9f1fb;
+  color: #1d3557;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.pantalla-auth {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.tarjeta-auth {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.tarjeta-auth h1 {
+  font-size: 1.3rem;
+  margin: 0;
+  text-align: center;
+  color: #1d3557;
+}
+
+.subtitulo {
+  text-align: center;
+  color: #6b7280;
+  margin: 0 0 0.5rem;
+}
+
+.tarjeta-auth label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.tarjeta-auth input,
+.tarjeta-auth select {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.tarjeta-auth button {
+  background: #1d3557;
+  color: white;
+  border: none;
+  padding: 0.65rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.tarjeta-auth button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.tarjeta-auth button:hover:not(:disabled) {
+  background: #16294a;
+}
+
+.ayuda {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.error {
+  color: #b91c1c;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.cargando {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}

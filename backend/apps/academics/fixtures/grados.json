@@ -1,0 +1,22 @@
+[
+  {
+    "model": "academics.grado",
+    "pk": 1,
+    "fields": {"nombre": "8°", "descripcion": "Grado octavo", "orden": 1}
+  },
+  {
+    "model": "academics.grado",
+    "pk": 2,
+    "fields": {"nombre": "9°", "descripcion": "Grado noveno", "orden": 2}
+  },
+  {
+    "model": "academics.grado",
+    "pk": 3,
+    "fields": {"nombre": "10°", "descripcion": "Grado décimo", "orden": 3}
+  },
+  {
+    "model": "academics.grado",
+    "pk": 4,
+    "fields": {"nombre": "11°", "descripcion": "Grado once", "orden": 4}
+  }
+]
