@@ -1,0 +1,28 @@
+[
+  {"model": "content.modulogrado", "pk": 1, "fields": {"modulo": 1, "grado": 1, "orden": 1}},
+  {"model": "content.modulogrado", "pk": 2, "fields": {"modulo": 2, "grado": 1, "orden": 2}},
+  {"model": "content.modulogrado", "pk": 3, "fields": {"modulo": 3, "grado": 1, "orden": 3}},
+  {"model": "content.modulogrado", "pk": 4, "fields": {"modulo": 4, "grado": 1, "orden": 4}},
+  {"model": "content.modulogrado", "pk": 5, "fields": {"modulo": 5, "grado": 1, "orden": 5}},
+
+  {"model": "content.modulogrado", "pk": 6, "fields": {"modulo": 1, "grado": 2, "orden": 1}},
+  {"model": "content.modulogrado", "pk": 7, "fields": {"modulo": 2, "grado": 2, "orden": 2}},
+  {"model": "content.modulogrado", "pk": 8, "fields": {"modulo": 6, "grado": 2, "orden": 3}},
+  {"model": "content.modulogrado", "pk": 9, "fields": {"modulo": 4, "grado": 2, "orden": 4}},
+  {"model": "content.modulogrado", "pk": 10, "fields": {"modulo": 7, "grado": 2, "orden": 5}},
+
+  {"model": "content.modulogrado", "pk": 11, "fields": {"modulo": 8, "grado": 3, "orden": 1}},
+  {"model": "content.modulogrado", "pk": 12, "fields": {"modulo": 9, "grado": 3, "orden": 2}},
+  {"model": "content.modulogrado", "pk": 13, "fields": {"modulo": 10, "grado": 3, "orden": 3}},
+  {"model": "content.modulogrado", "pk": 14, "fields": {"modulo": 6, "grado": 3, "orden": 4}},
+  {"model": "content.modulogrado", "pk": 15, "fields": {"modulo": 11, "grado": 3, "orden": 5}},
+
+  {"model": "content.modulogrado", "pk": 16, "fields": {"modulo": 9, "grado": 4, "orden": 1}},
+  {"model": "content.modulogrado", "pk": 17, "fields": {"modulo": 8, "grado": 4, "orden": 2}},
+  {"model": "content.modulogrado", "pk": 18, "fields": {"modulo": 10, "grado": 4, "orden": 3}},
+  {"model": "content.modulogrado", "pk": 19, "fields": {"modulo": 6, "grado": 4, "orden": 4}},
+  {"model": "content.modulogrado", "pk": 20, "fields": {"modulo": 12, "grado": 4, "orden": 5}},
+  {"model": "content.modulogrado", "pk": 21, "fields": {"modulo": 13, "grado": 4, "orden": 6}},
+  {"model": "content.modulogrado", "pk": 22, "fields": {"modulo": 14, "grado": 4, "orden": 7}},
+  {"model": "content.modulogrado", "pk": 23, "fields": {"modulo": 15, "grado": 4, "orden": 8}}
+]

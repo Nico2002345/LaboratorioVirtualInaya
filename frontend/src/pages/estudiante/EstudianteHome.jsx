@@ -1,18 +1,23 @@
 import { useEffect, useState } from "react";
 import { getMiPerfilEstudiante } from "../../api/academics";
+import { getMisModulos } from "../../api/content";
 
 export default function EstudianteHome() {
   const [perfil, setPerfil] = useState(null);
+  const [modulos, setModulos] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    getMiPerfilEstudiante()
-      .then(setPerfil)
+    Promise.all([getMiPerfilEstudiante(), getMisModulos()])
+      .then(([perfilData, modulosData]) => {
+        setPerfil(perfilData);
+        setModulos(modulosData);
+      })
       .catch(() => setError("No se pudo cargar tu información."));
   }, []);
 
   if (error) return <p className="error">{error}</p>;
-  if (!perfil) return <p className="cargando">Cargando...</p>;
+  if (!perfil || !modulos) return <p className="cargando">Cargando...</p>;
 
   return (
     <div className="contenedor">
@@ -23,10 +28,28 @@ export default function EstudianteHome() {
 
       <section>
         <h2>Mis módulos</h2>
-        <p className="placeholder">
-          Aquí aparecerán los módulos de {perfil.grado.nombre} (se cargarán cuando esté listo el módulo de
-          contenidos).
-        </p>
+        {modulos.length === 0 ? (
+          <p className="placeholder">Aún no hay módulos publicados para tu grado.</p>
+        ) : (
+          <div className="grid-modulos">
+            {modulos.map((mg) => (
+              <article key={mg.id} className="tarjeta-modulo">
+                <div className="tarjeta-modulo-titulo">
+                  <span className="icono-modulo">{mg.modulo.icono}</span>
+                  <h3>{mg.modulo.nombre}</h3>
+                </div>
+                {mg.modulo.descripcion && <p className="modulo-descripcion">{mg.modulo.descripcion}</p>}
+                {mg.contenidos.length > 0 && (
+                  <ul className="lista-contenidos">
+                    {mg.contenidos.map((c) => (
+                      <li key={c.id}>{c.titulo}</li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            ))}
+          </div>
+        )}
       </section>
 
       <section>

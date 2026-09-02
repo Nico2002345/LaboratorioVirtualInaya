@@ -1,0 +1,17 @@
+[
+  {"model": "content.modulo", "pk": 1, "fields": {"nombre": "Hardware", "descripcion": "Partes del computador y componentes internos.", "icono": "🖥️"}},
+  {"model": "content.modulo", "pk": 2, "fields": {"nombre": "Sistemas Operativos", "descripcion": "Manejo de sistemas operativos, archivos y carpetas.", "icono": "🗂️"}},
+  {"model": "content.modulo", "pk": 3, "fields": {"nombre": "Archivos y Carpetas", "descripcion": "Organización y gestión de archivos y carpetas.", "icono": "📁"}},
+  {"model": "content.modulo", "pk": 4, "fields": {"nombre": "Ofimática", "descripcion": "Procesadores de texto, presentaciones y hojas de cálculo.", "icono": "📝"}},
+  {"model": "content.modulo", "pk": 5, "fields": {"nombre": "Internet y Seguridad Básica", "descripcion": "Uso responsable de Internet y amenazas básicas.", "icono": "🌐"}},
+  {"model": "content.modulo", "pk": 6, "fields": {"nombre": "Redes", "descripcion": "Redes de computadores, direccionamiento IP y configuración.", "icono": "🔌"}},
+  {"model": "content.modulo", "pk": 7, "fields": {"nombre": "Algoritmos", "descripcion": "Diagramas de flujo y lógica de programación.", "icono": "🧩"}},
+  {"model": "content.modulo", "pk": 8, "fields": {"nombre": "Programación", "descripcion": "Fundamentos y práctica de programación.", "icono": "💻"}},
+  {"model": "content.modulo", "pk": 9, "fields": {"nombre": "Desarrollo Web", "descripcion": "HTML, CSS, JavaScript y desarrollo de aplicaciones web.", "icono": "🌍"}},
+  {"model": "content.modulo", "pk": 10, "fields": {"nombre": "Bases de Datos", "descripcion": "Modelado y gestión de bases de datos.", "icono": "🗄️"}},
+  {"model": "content.modulo", "pk": 11, "fields": {"nombre": "Seguridad Informática", "descripcion": "Conceptos y prácticas de seguridad informática.", "icono": "🔒"}},
+  {"model": "content.modulo", "pk": 12, "fields": {"nombre": "Ciberseguridad", "descripcion": "Prácticas avanzadas de ciberseguridad.", "icono": "🛡️"}},
+  {"model": "content.modulo", "pk": 13, "fields": {"nombre": "Ingeniería de Software", "descripcion": "Procesos y buenas prácticas de desarrollo de software.", "icono": "🧱"}},
+  {"model": "content.modulo", "pk": 14, "fields": {"nombre": "Inteligencia Artificial", "descripcion": "Introducción a conceptos de inteligencia artificial.", "icono": "🤖"}},
+  {"model": "content.modulo", "pk": 15, "fields": {"nombre": "Proyecto Tecnológico Final", "descripcion": "Desarrollo de un proyecto tecnológico integrador.", "icono": "🚀"}}
+]
