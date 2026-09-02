@@ -4,6 +4,7 @@ import RequireAuth from "../auth/RequireAuth";
 import { useAuth } from "../auth/AuthContext";
 import Login from "../pages/Login";
 import Registro from "../pages/Registro";
+import CambiarPassword from "../pages/CambiarPassword";
 import AdminHome from "../pages/admin/AdminHome";
 import ProfesorHome from "../pages/profesor/ProfesorHome";
 import EstudianteHome from "../pages/estudiante/EstudianteHome";
@@ -41,6 +42,14 @@ export default function AppRoutes() {
         <Route path="/" element={<Inicio />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
+        <Route
+          path="/cambiar-password"
+          element={
+            <RequireAuth>
+              <CambiarPassword />
+            </RequireAuth>
+          }
+        />
         <Route
           path="/admin"
           element={

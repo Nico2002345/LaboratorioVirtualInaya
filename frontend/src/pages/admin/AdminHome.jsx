@@ -43,6 +43,15 @@ export default function AdminHome() {
           </Link>
         </div>
       </section>
+
+      <section>
+        <h2>Mi cuenta</h2>
+        <div className="nav-panel">
+          <Link className="boton-iniciar" to="/cambiar-password">
+            Cambiar contraseña
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
