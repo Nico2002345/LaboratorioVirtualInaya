@@ -2,26 +2,30 @@ import { useEffect, useState } from "react";
 import { getMiPerfilEstudiante } from "../../api/academics";
 import { getMisModulos } from "../../api/content";
 import { getMisLaboratorios } from "../../api/labs";
+import { getMisActividades } from "../../api/submissions";
 import LaboratorioCard from "../../components/LaboratorioCard";
+import ActividadCard from "../../components/ActividadCard";
 
 export default function EstudianteHome() {
   const [perfil, setPerfil] = useState(null);
   const [modulos, setModulos] = useState(null);
   const [laboratorios, setLaboratorios] = useState(null);
+  const [actividades, setActividades] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    Promise.all([getMiPerfilEstudiante(), getMisModulos(), getMisLaboratorios()])
-      .then(([perfilData, modulosData, laboratoriosData]) => {
+    Promise.all([getMiPerfilEstudiante(), getMisModulos(), getMisLaboratorios(), getMisActividades()])
+      .then(([perfilData, modulosData, laboratoriosData, actividadesData]) => {
         setPerfil(perfilData);
         setModulos(modulosData);
         setLaboratorios(laboratoriosData);
+        setActividades(actividadesData);
       })
       .catch(() => setError("No se pudo cargar tu información."));
   }, []);
 
   if (error) return <p className="error">{error}</p>;
-  if (!perfil || !modulos || !laboratorios) return <p className="cargando">Cargando...</p>;
+  if (!perfil || !modulos || !laboratorios || !actividades) return <p className="cargando">Cargando...</p>;
 
   return (
     <div className="contenedor">
@@ -64,6 +68,19 @@ export default function EstudianteHome() {
           <div className="grid-laboratorios">
             {laboratorios.map((lab) => (
               <LaboratorioCard key={lab.id} laboratorio={lab} />
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section>
+        <h2>Mis actividades</h2>
+        {actividades.length === 0 ? (
+          <p className="placeholder">Aún no tienes actividades asignadas.</p>
+        ) : (
+          <div className="grid-laboratorios">
+            {actividades.map((act) => (
+              <ActividadCard key={act.id} actividad={act} />
             ))}
           </div>
         )}

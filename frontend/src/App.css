@@ -320,6 +320,104 @@ section {
   margin: 0 0 0.5rem;
 }
 
+/* Actividades / entregas / calificaciones */
+
+.badge-pendiente {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.badge-entregado {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-tarde {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge-revisado {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.actividad-nota {
+  font-weight: 600;
+  color: #1d3557;
+  margin: 0;
+}
+
+.campo-archivo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+  margin: 0.75rem 0;
+}
+
+.lista-respuestas {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.form-calificar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.form-calificar label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-calificar input,
+.form-calificar textarea {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.form-calificar input[type="number"] {
+  width: 100px;
+}
+
+.form-calificar textarea {
+  width: 260px;
+}
+
+.form-calificar button {
+  background: #1d3557;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  height: fit-content;
+}
+
+.form-calificar button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 .tarjeta-auth label {
   display: flex;
   flex-direction: column;

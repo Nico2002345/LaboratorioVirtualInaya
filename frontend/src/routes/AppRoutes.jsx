@@ -8,6 +8,8 @@ import AdminHome from "../pages/admin/AdminHome";
 import ProfesorHome from "../pages/profesor/ProfesorHome";
 import EstudianteHome from "../pages/estudiante/EstudianteHome";
 import LaboratorioDetalle from "../pages/estudiante/LaboratorioDetalle";
+import ActividadDetalle from "../pages/estudiante/ActividadDetalle";
+import ActividadEntregas from "../pages/profesor/ActividadEntregas";
 
 const RUTA_POR_ROL = {
   admin: "/admin",
@@ -59,6 +61,22 @@ export default function AppRoutes() {
           element={
             <RequireAuth roles={["estudiante"]}>
               <LaboratorioDetalle />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/estudiante/actividades/:id"
+          element={
+            <RequireAuth roles={["estudiante"]}>
+              <ActividadDetalle />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/profesor/actividades/:id"
+          element={
+            <RequireAuth roles={["profesor", "admin"]}>
+              <ActividadEntregas />
             </RequireAuth>
           }
         />

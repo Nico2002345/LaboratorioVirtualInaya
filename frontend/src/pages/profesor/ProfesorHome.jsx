@@ -1,14 +1,29 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getMisGradosProfesor } from "../../api/academics";
+import { getActividadesProfesor } from "../../api/assignments";
+
+function formatearFecha(fecha) {
+  if (!fecha) return "Sin fecha límite";
+  return new Date(fecha).toLocaleDateString("es-CO", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
 
 export default function ProfesorHome() {
   const [grados, setGrados] = useState([]);
+  const [actividades, setActividades] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    getMisGradosProfesor()
-      .then(setGrados)
-      .catch(() => setError("No se pudieron cargar tus grados asignados."));
+    Promise.all([getMisGradosProfesor(), getActividadesProfesor()])
+      .then(([gradosData, actividadesData]) => {
+        setGrados(gradosData);
+        setActividades(actividadesData);
+      })
+      .catch(() => setError("No se pudo cargar tu información."));
   }, []);
 
   if (error) return <p className="error">{error}</p>;
@@ -31,10 +46,34 @@ export default function ProfesorHome() {
       </section>
 
       <section>
-        <h2>Estudiantes, laboratorios y actividades</h2>
+        <h2>Mis actividades</h2>
+        {!actividades ? (
+          <p className="cargando">Cargando...</p>
+        ) : actividades.length === 0 ? (
+          <p className="placeholder">Aún no has creado actividades para tus grados.</p>
+        ) : (
+          <div className="grid-laboratorios">
+            {actividades.map((act) => (
+              <article key={act.id} className="tarjeta-laboratorio">
+                <div className="tarjeta-laboratorio-header">
+                  <h3>{act.titulo}</h3>
+                  <span className="badge-estado badge-en_progreso">{act.grado.nombre}</span>
+                </div>
+                <p className="lab-fecha">Fecha de entrega: {formatearFecha(act.fecha_entrega)}</p>
+                <Link className="boton-iniciar" to={`/profesor/actividades/${act.id}`}>
+                  Revisar entregas
+                </Link>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section>
+        <h2>Estudiantes y laboratorios</h2>
         <p className="placeholder">
-          Próximo módulo a construir: consulta de estudiantes por grado, creación de laboratorios y
-          actividades, revisión de entregas y calificación.
+          Próximo paso: consulta de estudiantes por grado y creación de laboratorios/actividades desde el
+          frontend (hoy se gestionan desde el panel de administración de Django).
         </p>
       </section>
     </div>

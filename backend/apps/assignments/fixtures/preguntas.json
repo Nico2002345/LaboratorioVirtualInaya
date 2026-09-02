@@ -1,0 +1,67 @@
+[
+  {
+    "model": "assignments.pregunta",
+    "pk": 1,
+    "fields": {
+      "actividad": 1,
+      "enunciado": "¿Qué significa HTML?",
+      "tipo": "opcion_multiple",
+      "opciones": ["HyperText Markup Language", "High Tech Modern Language", "Home Tool Markup Language"],
+      "respuesta_correcta": "HyperText Markup Language",
+      "puntaje": 2,
+      "orden": 1
+    }
+  },
+  {
+    "model": "assignments.pregunta",
+    "pk": 2,
+    "fields": {
+      "actividad": 1,
+      "enunciado": "Describe con tus palabras qué etiqueta usaste para el título principal de tu página y por qué.",
+      "tipo": "abierta",
+      "opciones": [],
+      "respuesta_correcta": "",
+      "puntaje": 3,
+      "orden": 2
+    }
+  },
+  {
+    "model": "assignments.pregunta",
+    "pk": 3,
+    "fields": {
+      "actividad": 2,
+      "enunciado": "¿El teclado es un periférico de entrada o de salida?",
+      "tipo": "opcion_multiple",
+      "opciones": ["Entrada", "Salida"],
+      "respuesta_correcta": "Entrada",
+      "puntaje": 1,
+      "orden": 1
+    }
+  },
+  {
+    "model": "assignments.pregunta",
+    "pk": 4,
+    "fields": {
+      "actividad": 2,
+      "enunciado": "¿Qué componente ejecuta las instrucciones del computador?",
+      "tipo": "opcion_multiple",
+      "opciones": ["RAM", "Procesador", "Disco duro"],
+      "respuesta_correcta": "Procesador",
+      "puntaje": 1,
+      "orden": 2
+    }
+  },
+  {
+    "model": "assignments.pregunta",
+    "pk": 5,
+    "fields": {
+      "actividad": 2,
+      "enunciado": "Describe con tus palabras qué es el hardware.",
+      "tipo": "abierta",
+      "opciones": [],
+      "respuesta_correcta": "",
+      "puntaje": 3,
+      "orden": 3
+    }
+  }
+]

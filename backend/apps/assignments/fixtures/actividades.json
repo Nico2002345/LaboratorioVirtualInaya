@@ -1,0 +1,30 @@
+[
+  {
+    "model": "assignments.actividad",
+    "pk": 1,
+    "fields": {
+      "grado": 3,
+      "laboratorio": 13,
+      "titulo": "Evaluación: Primera página web",
+      "descripcion": "Completa el laboratorio de HTML/CSS y responde estas preguntas de cierre.",
+      "instrucciones": "Primero completa el laboratorio \"Crea tu primera página web\". Luego responde las preguntas y entrega.",
+      "fecha_publicacion": "2026-01-15T00:00:00Z",
+      "fecha_entrega": "2026-11-30T23:59:00Z",
+      "puntaje_maximo": 5
+    }
+  },
+  {
+    "model": "assignments.actividad",
+    "pk": 2,
+    "fields": {
+      "grado": 1,
+      "laboratorio": null,
+      "titulo": "Evaluación de Hardware",
+      "descripcion": "Preguntas de repaso sobre las partes del computador.",
+      "instrucciones": "Responde cada pregunta y adjunta, si quieres, un archivo con tus apuntes.",
+      "fecha_publicacion": "2026-01-15T00:00:00Z",
+      "fecha_entrega": "2026-11-30T23:59:00Z",
+      "puntaje_maximo": 5
+    }
+  }
+]
