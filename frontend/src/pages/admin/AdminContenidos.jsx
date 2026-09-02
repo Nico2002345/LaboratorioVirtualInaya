@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { urlArchivo } from "../../api/client";
-import { getGrados } from "../../api/academics";
+import { getGrados, getMisGradosProfesor } from "../../api/academics";
+import { useAuth } from "../../auth/AuthContext";
 import {
   actualizarContenido,
   crearContenido,
@@ -160,7 +161,7 @@ function ContenidoCard({ contenido, onGuardado, onEliminar }) {
   );
 }
 
-function GrupoModuloGrado({ moduloGrado, onEliminarAsignacion }) {
+function GrupoModuloGrado({ moduloGrado, onEliminarAsignacion, puedeGestionarModulos }) {
   const [contenidos, setContenidos] = useState(null);
   const [nuevo, setNuevo] = useState(CONTENIDO_VACIO);
 
@@ -189,13 +190,15 @@ function GrupoModuloGrado({ moduloGrado, onEliminarAsignacion }) {
           {moduloGrado.modulo.icono} {moduloGrado.modulo.nombre}{" "}
           <span className="orden-tag">orden {moduloGrado.orden}</span>
         </h3>
-        <button
-          type="button"
-          className="boton-eliminar"
-          onClick={() => onEliminarAsignacion(moduloGrado.id)}
-        >
-          Quitar módulo de este grado
-        </button>
+        {puedeGestionarModulos && (
+          <button
+            type="button"
+            className="boton-eliminar"
+            onClick={() => onEliminarAsignacion(moduloGrado.id)}
+          >
+            Quitar módulo de este grado
+          </button>
+        )}
       </div>
 
       {!contenidos ? (
@@ -240,6 +243,10 @@ function GrupoModuloGrado({ moduloGrado, onEliminarAsignacion }) {
 }
 
 export default function AdminContenidos() {
+  const { usuario } = useAuth();
+  const esAdmin = usuario.rol === "admin";
+  const base = esAdmin ? "/admin" : "/profesor";
+
   const [grados, setGrados] = useState([]);
   const [modulos, setModulos] = useState([]);
   const [gradoSeleccionado, setGradoSeleccionado] = useState("");
@@ -249,14 +256,14 @@ export default function AdminContenidos() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    Promise.all([getGrados(), getModulos()])
+    Promise.all([esAdmin ? getGrados() : getMisGradosProfesor(), getModulos()])
       .then(([g, m]) => {
         setGrados(g);
         setModulos(m);
         if (g.length > 0) setGradoSeleccionado(String(g[0].id));
       })
       .catch(() => setError("No se pudo cargar la información."));
-  }, []);
+  }, [esAdmin]);
 
   const cargarModulosGrado = (gradoId) => {
     setModulosGrado(null);
@@ -297,13 +304,21 @@ export default function AdminContenidos() {
 
   return (
     <div className="contenedor">
-      <Link className="volver" to="/admin">
+      <Link className="volver" to={base}>
         ← Volver al inicio
       </Link>
-      <h1>Contenidos por grado</h1>
-      <p>
-        <Link to="/admin/modulos">Ir al catálogo de módulos →</Link>
-      </p>
+      <h1>{esAdmin ? "Contenidos por grado" : "Mis contenidos"}</h1>
+      {esAdmin && (
+        <p>
+          <Link to="/admin/modulos">Ir al catálogo de módulos →</Link>
+        </p>
+      )}
+      {!esAdmin && (
+        <p className="placeholder">
+          Puedes crear/editar contenidos y materiales de apoyo en los módulos ya asignados a tus grados. La
+          asignación de módulos a un grado la administra el administrador.
+        </p>
+      )}
 
       <label className="selector-grado">
         Grado
@@ -316,23 +331,25 @@ export default function AdminContenidos() {
         </select>
       </label>
 
-      <form className="form-gestion form-fila" onSubmit={onAsignar}>
-        <select value={moduloParaAsignar} onChange={(e) => setModuloParaAsignar(e.target.value)}>
-          <option value="">Selecciona un módulo para asignar</option>
-          {modulosDisponibles.map((m) => (
-            <option key={m.id} value={m.id}>
-              {m.nombre}
-            </option>
-          ))}
-        </select>
-        <input
-          type="number"
-          className="input-orden"
-          value={ordenParaAsignar}
-          onChange={(e) => setOrdenParaAsignar(e.target.value)}
-        />
-        <button type="submit">+ Asignar al grado</button>
-      </form>
+      {esAdmin && (
+        <form className="form-gestion form-fila" onSubmit={onAsignar}>
+          <select value={moduloParaAsignar} onChange={(e) => setModuloParaAsignar(e.target.value)}>
+            <option value="">Selecciona un módulo para asignar</option>
+            {modulosDisponibles.map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.nombre}
+              </option>
+            ))}
+          </select>
+          <input
+            type="number"
+            className="input-orden"
+            value={ordenParaAsignar}
+            onChange={(e) => setOrdenParaAsignar(e.target.value)}
+          />
+          <button type="submit">+ Asignar al grado</button>
+        </form>
+      )}
 
       {!modulosGrado ? (
         <p className="cargando">Cargando...</p>
@@ -340,7 +357,12 @@ export default function AdminContenidos() {
         <p className="placeholder">Este grado aún no tiene módulos asignados.</p>
       ) : (
         modulosGrado.map((mg) => (
-          <GrupoModuloGrado key={mg.id} moduloGrado={mg} onEliminarAsignacion={onEliminarAsignacion} />
+          <GrupoModuloGrado
+            key={mg.id}
+            moduloGrado={mg}
+            onEliminarAsignacion={onEliminarAsignacion}
+            puedeGestionarModulos={esAdmin}
+          />
         ))
       )}
     </div>

@@ -145,6 +145,14 @@ export default function AppRoutes() {
             </RequireAuth>
           }
         />
+        <Route
+          path="/profesor/contenidos"
+          element={
+            <RequireAuth roles={["profesor", "admin"]}>
+              <AdminContenidos />
+            </RequireAuth>
+          }
+        />
 
         {/* El admin reutiliza los mismos componentes de gestión que el profesor, con alcance
             a todos los grados en vez de solo los asignados (ver branching por rol en cada página). */}
