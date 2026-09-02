@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { urlArchivo } from "../../api/client";
 import { getGrados, getMisGradosProfesor } from "../../api/academics";
 import { useAuth } from "../../auth/AuthContext";
+
+const ContenidoMarkdown = lazy(() => import("../../components/ContenidoMarkdown"));
 import {
   actualizarContenido,
   crearContenido,
@@ -163,12 +165,20 @@ function ContenidoCard({ contenido, onGuardado, onEliminar }) {
 
       {mostrarCuerpo && (
         <div className="cuerpo-contenido">
-          <textarea
-            rows={6}
-            placeholder="Cuerpo del contenido (texto/markdown)"
-            value={valores.cuerpo}
-            onChange={(e) => setValores({ ...valores, cuerpo: e.target.value })}
-          />
+          <div className="editor-cuerpo-layout">
+            <textarea
+              rows={8}
+              placeholder="Cuerpo del contenido en Markdown: # títulos, **negrita**, - listas, tablas..."
+              value={valores.cuerpo}
+              onChange={(e) => setValores({ ...valores, cuerpo: e.target.value })}
+            />
+            <div className="vista-previa-cuerpo">
+              <span className="vista-previa-etiqueta">Vista previa</span>
+              <Suspense fallback={<p>Cargando vista previa...</p>}>
+                <ContenidoMarkdown texto={valores.cuerpo} />
+              </Suspense>
+            </div>
+          </div>
           <button type="button" onClick={onGuardar} disabled={guardando}>
             Guardar cuerpo
           </button>

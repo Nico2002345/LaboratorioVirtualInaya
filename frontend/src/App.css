@@ -689,6 +689,13 @@ section {
   border-top: 1px dashed #d1d5db;
 }
 
+.editor-cuerpo-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
 .cuerpo-contenido textarea {
   width: 100%;
   padding: 0.5rem;
@@ -696,8 +703,31 @@ section {
   border-radius: 6px;
   font-size: 0.85rem;
   font-family: ui-monospace, Consolas, monospace;
-  margin-bottom: 0.4rem;
   box-sizing: border-box;
+  resize: vertical;
+}
+
+.vista-previa-cuerpo {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 0.5rem 0.6rem;
+  background: white;
+  overflow-y: auto;
+}
+
+.vista-previa-etiqueta {
+  display: block;
+  font-size: 0.7rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.3rem;
+}
+
+@media (max-width: 720px) {
+  .editor-cuerpo-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 .materiales-contenido h4 {

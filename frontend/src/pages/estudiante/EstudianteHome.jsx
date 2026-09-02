@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { urlArchivo } from "../../api/client";
 import { getMiPerfilEstudiante } from "../../api/academics";
 import { getMisModulos } from "../../api/content";
@@ -6,6 +6,10 @@ import { getMisLaboratorios } from "../../api/labs";
 import { getMisActividades } from "../../api/submissions";
 import LaboratorioCard from "../../components/LaboratorioCard";
 import ActividadCard from "../../components/ActividadCard";
+
+// El renderizador de Markdown solo se necesita al expandir un tema; se carga aparte
+// para no pesar el inicio del estudiante, que se visita en cada sesión.
+const ContenidoMarkdown = lazy(() => import("../../components/ContenidoMarkdown"));
 
 export default function EstudianteHome() {
   const [perfil, setPerfil] = useState(null);
@@ -54,7 +58,11 @@ export default function EstudianteHome() {
                       <details key={c.id} className="contenido-detalle">
                         <summary>{c.titulo}</summary>
                         {c.descripcion && <p className="contenido-descripcion">{c.descripcion}</p>}
-                        {c.cuerpo && <p className="contenido-cuerpo">{c.cuerpo}</p>}
+                        {c.cuerpo && (
+                          <Suspense fallback={<p className="contenido-cuerpo">{c.cuerpo}</p>}>
+                            <ContenidoMarkdown texto={c.cuerpo} />
+                          </Suspense>
+                        )}
                         {c.materiales.length > 0 && (
                           <ul className="lista-materiales-estudiante">
                             {c.materiales.map((m) => (
