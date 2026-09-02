@@ -372,12 +372,12 @@ Estos 4 tipos ya cubren el espectro de interacción pedido por el usuario. Los d
 
 ---
 
-## Próximos pasos sugeridos
+## Estado de implementación
 
-1. Confirmar/ajustar este documento.
-2. Construir el esqueleto: proyecto Django + apps vacías + proyecto React + Docker Compose.
-3. Módulo `accounts` (usuarios, roles, registro de estudiante con grado, login JWT).
-4. Módulo `academics` (grados fijos por fixture, profesores, asignación de grados).
-5. Módulo `content` (módulos, contenidos, materiales) + pantalla de inicio del estudiante.
-6. Módulo `labs` con tipos `quiz` y `entrega_archivo` primero, luego los 4 interactivos.
-7. Módulo `assignments`/`submissions` (actividades, entregas, calificaciones, observaciones).
+Este documento es el diseño original de arquitectura; el plan de "próximos pasos" con el que se escribió
+ya se ejecutó por completo (los 6 apps de backend, los 6 tipos de laboratorio y los paneles de estudiante,
+profesor y administrador están construidos). Para el estado actual, real y actualizado del proyecto —
+qué está hecho y qué queda pendiente — ver [`README.md`](../README.md#estado-actual) en la raíz del
+repositorio, que se mantiene al día en cada módulo nuevo. Este archivo se conserva como referencia del
+diseño original y para entender el razonamiento detrás de decisiones como el modelo de datos o el
+"motor de laboratorios".

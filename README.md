@@ -40,6 +40,25 @@ npm run dev
 
 Variable de entorno: `VITE_API_URL` (ver `frontend/.env.example`). Por defecto apunta a `http://localhost:8000/api`.
 
+### Pruebas
+
+```
+cd backend
+./.venv/Scripts/python manage.py test apps.accounts apps.academics apps.labs apps.submissions
+```
+
+Cubren lo más crítico: login/JWT, que el registro asigna el grado elegido, que un profesor solo ve
+estudiantes/entregas de sus grados asignados (y un admin no tiene esa restricción), que un estudiante no
+puede acceder a laboratorios de otro grado, que la respuesta correcta de un quiz nunca viaja al estudiante,
+y que la autocalificación de opción múltiple funciona. No es una suite exhaustiva (`content` y
+`assignments` aún no tienen pruebas propias), pero cubre los límites de permisos de los que depende el
+aislamiento de datos entre grados y roles en toda la plataforma.
+
+```
+cd frontend
+npm run lint
+```
+
 ## Despliegue con Docker Compose (Postgres + backend + frontend)
 
 ```
