@@ -1,5 +1,6 @@
 from rest_framework import generics, mixins, permissions, viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -22,12 +23,14 @@ class GradoViewSet(
     mixins.RetrieveModelMixin,
     mixins.CreateModelMixin,
     mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
     viewsets.GenericViewSet,
 ):
     """Catálogo de grados: lectura pública (necesaria antes de iniciar sesión, para el
-    registro); solo el administrador puede crear secciones nuevas (ej. "8B") o editar
-    nombre/descripción. No se permite eliminar: podría arrastrar estudiantes/contenidos ya
-    asociados."""
+    registro); solo el administrador puede crear secciones nuevas (ej. "8B"), editar
+    nombre/descripción, o eliminar un grado. Un grado solo se puede eliminar si está vacío
+    (sin estudiantes, módulos ni actividades asignadas) para no arrastrar en cascada
+    contenidos/laboratorios/entregas ya existentes."""
 
     queryset = Grado.objects.all()
     serializer_class = GradoSerializer
@@ -36,6 +39,15 @@ class GradoViewSet(
         if self.action in ("list", "retrieve"):
             return [AllowAny()]
         return [IsAdmin()]
+
+    def perform_destroy(self, instance):
+        if instance.estudiantes.exists():
+            raise ValidationError("No se puede eliminar: tiene estudiantes asignados.")
+        if instance.modulos.exists():
+            raise ValidationError("No se puede eliminar: tiene módulos/contenidos asignados. Quítalos primero.")
+        if instance.actividades.exists():
+            raise ValidationError("No se puede eliminar: tiene actividades asignadas. Quítalas primero.")
+        instance.delete()
 
 
 class RegistroEstudianteView(generics.CreateAPIView):

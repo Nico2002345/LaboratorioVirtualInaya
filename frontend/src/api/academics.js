@@ -24,6 +24,8 @@ export const actualizarGrado = (id, payload) =>
 
 export const crearGrado = (payload) => api.post("/academics/grados/", payload).then((res) => res.data);
 
+export const eliminarGrado = (id) => api.delete(`/academics/grados/${id}/`);
+
 export const getProfesores = () =>
   api.get("/academics/profesores/").then((res) => res.data.results ?? res.data);
 

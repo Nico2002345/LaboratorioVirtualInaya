@@ -1,12 +1,22 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { actualizarGrado, crearGrado, getGrados } from "../../api/academics";
+import { actualizarGrado, crearGrado, eliminarGrado, getGrados } from "../../api/academics";
 
 const GRADO_VACIO = { nombre: "", descripcion: "", orden: 0 };
 
-function FilaGrado({ grado, onGuardado }) {
+const extraerError = (err, mensajePorDefecto) => {
+  const data = err.response?.data;
+  if (Array.isArray(data)) return data[0];
+  if (Array.isArray(data?.detail)) return data.detail[0];
+  if (data?.detail) return data.detail;
+  return mensajePorDefecto;
+};
+
+function FilaGrado({ grado, onGuardado, onEliminado }) {
   const [descripcion, setDescripcion] = useState(grado.descripcion);
   const [guardando, setGuardando] = useState(false);
+  const [eliminando, setEliminando] = useState(false);
+  const [errorEliminar, setErrorEliminar] = useState("");
 
   const onGuardar = async () => {
     setGuardando(true);
@@ -18,6 +28,20 @@ function FilaGrado({ grado, onGuardado }) {
     }
   };
 
+  const onEliminar = async () => {
+    if (!window.confirm(`¿Eliminar el grado "${grado.nombre}"? Esta acción no se puede deshacer.`)) return;
+    setErrorEliminar("");
+    setEliminando(true);
+    try {
+      await eliminarGrado(grado.id);
+      onEliminado(grado.id);
+    } catch (err) {
+      setErrorEliminar(extraerError(err, "No se pudo eliminar el grado."));
+    } finally {
+      setEliminando(false);
+    }
+  };
+
   return (
     <tr>
       <td>
@@ -26,10 +50,14 @@ function FilaGrado({ grado, onGuardado }) {
       <td>
         <input value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
       </td>
-      <td>
+      <td className="acciones-tabla">
         <button type="button" onClick={onGuardar} disabled={guardando}>
           Guardar
         </button>
+        <button type="button" className="boton-eliminar" onClick={onEliminar} disabled={eliminando}>
+          {eliminando ? "Eliminando..." : "Eliminar"}
+        </button>
+        {errorEliminar && <p className="error">{errorEliminar}</p>}
       </td>
     </tr>
   );
@@ -57,7 +85,7 @@ export default function AdminGrados() {
       setGrados([...grados, creado]);
       setNuevo(GRADO_VACIO);
     } catch (err) {
-      setErrorCreacion(err.response?.data?.nombre?.[0] || "No se pudo crear el grado.");
+      setErrorCreacion(err.response?.data?.nombre?.[0] || extraerError(err, "No se pudo crear el grado."));
     } finally {
       setCreando(false);
     }
@@ -73,8 +101,8 @@ export default function AdminGrados() {
       <h1>Grados</h1>
       <p className="placeholder">
         Los 4 grados base (8° a 11°) vienen precargados. Puedes agregar secciones adicionales
-        (ej. "8B", "9C") con el formulario de abajo; no se pueden eliminar grados, solo editar su
-        descripción.
+        (ej. "8B", "9C") con el formulario de abajo. Un grado solo se puede eliminar si está
+        vacío (sin estudiantes, módulos ni actividades asignadas).
       </p>
 
       <form className="form-gestion form-fila" onSubmit={onCrear}>
@@ -122,6 +150,7 @@ export default function AdminGrados() {
                 onGuardado={(actualizado) =>
                   setGrados(grados.map((x) => (x.id === actualizado.id ? actualizado : x)))
                 }
+                onEliminado={(id) => setGrados(grados.filter((x) => x.id !== id))}
               />
             ))}
           </tbody>
