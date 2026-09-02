@@ -10,3 +10,8 @@ export const getMiPerfilEstudiante = () =>
 
 export const getMisGradosProfesor = () =>
   api.get("/academics/profesores/mis-grados/").then((res) => res.data);
+
+export const getEstudiantes = (gradoId) =>
+  api
+    .get("/academics/estudiantes/", { params: gradoId ? { grado: gradoId } : {} })
+    .then((res) => res.data.results ?? res.data);

@@ -28,6 +28,20 @@ export const verificarCodigo = (id, codigo) =>
 export const verificarBD = (id, modelo) =>
   api.post(`/labs/laboratorios/${id}/verificar-bd/`, modelo).then((res) => res.data);
 
+export const getLaboratoriosProfesor = () =>
+  api.get("/labs/laboratorios/").then((res) => res.data.results ?? res.data);
+
+export const getLaboratorioProfesor = (id) =>
+  api.get(`/labs/laboratorios/${id}/`).then((res) => res.data);
+
+export const crearLaboratorio = (payload) =>
+  api.post("/labs/laboratorios/", payload).then((res) => res.data);
+
+export const actualizarLaboratorio = (id, payload) =>
+  api.put(`/labs/laboratorios/${id}/`, payload).then((res) => res.data);
+
+export const eliminarLaboratorio = (id) => api.delete(`/labs/laboratorios/${id}/`);
+
 export const entregarArchivo = (id, archivo) => {
   const formData = new FormData();
   formData.append("archivo", archivo);

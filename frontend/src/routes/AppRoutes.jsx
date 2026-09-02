@@ -10,6 +10,11 @@ import EstudianteHome from "../pages/estudiante/EstudianteHome";
 import LaboratorioDetalle from "../pages/estudiante/LaboratorioDetalle";
 import ActividadDetalle from "../pages/estudiante/ActividadDetalle";
 import ActividadEntregas from "../pages/profesor/ActividadEntregas";
+import ProfesorEstudiantes from "../pages/profesor/ProfesorEstudiantes";
+import ProfesorLaboratorios from "../pages/profesor/ProfesorLaboratorios";
+import LaboratorioForm from "../pages/profesor/LaboratorioForm";
+import ProfesorActividades from "../pages/profesor/ProfesorActividades";
+import ActividadForm from "../pages/profesor/ActividadForm";
 
 const RUTA_POR_ROL = {
   admin: "/admin",
@@ -69,6 +74,62 @@ export default function AppRoutes() {
           element={
             <RequireAuth roles={["estudiante"]}>
               <ActividadDetalle />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/profesor/estudiantes"
+          element={
+            <RequireAuth roles={["profesor", "admin"]}>
+              <ProfesorEstudiantes />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/profesor/laboratorios"
+          element={
+            <RequireAuth roles={["profesor", "admin"]}>
+              <ProfesorLaboratorios />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/profesor/laboratorios/nuevo"
+          element={
+            <RequireAuth roles={["profesor", "admin"]}>
+              <LaboratorioForm />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/profesor/laboratorios/:id/editar"
+          element={
+            <RequireAuth roles={["profesor", "admin"]}>
+              <LaboratorioForm />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/profesor/actividades"
+          element={
+            <RequireAuth roles={["profesor", "admin"]}>
+              <ProfesorActividades />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/profesor/actividades/nueva"
+          element={
+            <RequireAuth roles={["profesor", "admin"]}>
+              <ActividadForm />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/profesor/actividades/:id/editar"
+          element={
+            <RequireAuth roles={["profesor", "admin"]}>
+              <ActividadForm />
             </RequireAuth>
           }
         />

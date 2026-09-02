@@ -46,18 +46,33 @@ export default function ProfesorHome() {
       </section>
 
       <section>
-        <h2>Mis actividades</h2>
+        <h2>Gestión</h2>
+        <div className="nav-panel">
+          <Link className="boton-iniciar" to="/profesor/estudiantes">
+            Mis estudiantes
+          </Link>
+          <Link className="boton-iniciar" to="/profesor/laboratorios">
+            Mis laboratorios
+          </Link>
+          <Link className="boton-iniciar" to="/profesor/actividades">
+            Mis actividades
+          </Link>
+        </div>
+      </section>
+
+      <section>
+        <h2>Actividades recientes</h2>
         {!actividades ? (
           <p className="cargando">Cargando...</p>
         ) : actividades.length === 0 ? (
           <p className="placeholder">Aún no has creado actividades para tus grados.</p>
         ) : (
           <div className="grid-laboratorios">
-            {actividades.map((act) => (
+            {actividades.slice(0, 4).map((act) => (
               <article key={act.id} className="tarjeta-laboratorio">
                 <div className="tarjeta-laboratorio-header">
                   <h3>{act.titulo}</h3>
-                  <span className="badge-estado badge-en_progreso">{act.grado.nombre}</span>
+                  <span className="badge-estado badge-en_progreso">{act.grado_detalle.nombre}</span>
                 </div>
                 <p className="lab-fecha">Fecha de entrega: {formatearFecha(act.fecha_entrega)}</p>
                 <Link className="boton-iniciar" to={`/profesor/actividades/${act.id}`}>
@@ -67,14 +82,6 @@ export default function ProfesorHome() {
             ))}
           </div>
         )}
-      </section>
-
-      <section>
-        <h2>Estudiantes y laboratorios</h2>
-        <p className="placeholder">
-          Próximo paso: consulta de estudiantes por grado y creación de laboratorios/actividades desde el
-          frontend (hoy se gestionan desde el panel de administración de Django).
-        </p>
       </section>
     </div>
   );

@@ -1,16 +1,21 @@
 from rest_framework import serializers
 
+from apps.content.serializers import ModuloGradoSerializer
+
 from .models import Laboratorio, ProgresoLaboratorio
 
 
 class LaboratorioSerializer(serializers.ModelSerializer):
     """Uso administrativo (admin/profesor): incluye la configuración completa, con respuestas correctas."""
 
+    modulo_grado_detalle = ModuloGradoSerializer(source="modulo_grado", read_only=True)
+
     class Meta:
         model = Laboratorio
         fields = [
             "id",
             "modulo_grado",
+            "modulo_grado_detalle",
             "titulo",
             "descripcion",
             "objetivo",
