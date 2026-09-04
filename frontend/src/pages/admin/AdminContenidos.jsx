@@ -337,11 +337,9 @@ export default function AdminContenidos() {
         ← Volver al inicio
       </Link>
       <h1>{esAdmin ? "Contenidos por grado" : "Mis contenidos"}</h1>
-      {esAdmin && (
-        <p>
-          <Link to="/admin/modulos">Ir al catálogo de módulos →</Link>
-        </p>
-      )}
+      <p>
+        <Link to={`${base}/modulos`}>Ir al catálogo de módulos →</Link>
+      </p>
       {!esAdmin && (
         <p className="placeholder">
           Puedes asignar módulos a tus grados y crear/editar sus contenidos y materiales de apoyo.

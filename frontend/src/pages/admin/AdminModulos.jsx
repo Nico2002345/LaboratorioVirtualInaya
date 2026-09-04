@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { actualizarModulo, crearModulo, eliminarModulo, getModulos } from "../../api/content";
+import { useAuth } from "../../auth/AuthContext";
 
 const VACIO = { nombre: "", descripcion: "", icono: "" };
 
@@ -53,6 +54,10 @@ function FilaModulo({ modulo, onGuardado, onEliminar }) {
 }
 
 export default function AdminModulos() {
+  const { usuario } = useAuth();
+  const esAdmin = usuario.rol === "admin";
+  const base = esAdmin ? "/admin" : "/profesor";
+
   const [modulos, setModulos] = useState(null);
   const [nuevo, setNuevo] = useState(VACIO);
   const [error, setError] = useState("");
@@ -91,12 +96,12 @@ export default function AdminModulos() {
 
   return (
     <div className="contenedor">
-      <Link className="volver" to="/admin">
+      <Link className="volver" to={base}>
         ← Volver al inicio
       </Link>
       <h1>Catálogo de módulos</h1>
       <p>
-        <Link to="/admin/contenidos">Ir a asignación de módulos por grado y contenidos →</Link>
+        <Link to={`${base}/contenidos`}>Ir a asignación de módulos por grado y contenidos →</Link>
       </p>
 
       <form className="form-gestion form-fila" onSubmit={onCrear}>

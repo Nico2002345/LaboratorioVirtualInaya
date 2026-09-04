@@ -54,6 +54,9 @@ export default function ProfesorHome() {
           <Link className="boton-iniciar" to="/profesor/contenidos">
             Mis contenidos
           </Link>
+          <Link className="boton-iniciar" to="/profesor/modulos">
+            Módulos
+          </Link>
           <Link className="boton-iniciar" to="/profesor/laboratorios">
             Mis laboratorios
           </Link>

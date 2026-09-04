@@ -4,7 +4,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 
 from apps.accounts.models import Rol
-from apps.accounts.permissions import IsAdmin, IsAdminOrProfesor
+from apps.accounts.permissions import IsAdminOrProfesor
 
 from .models import Contenido, Material, Modulo, ModuloGrado
 from .serializers import (
@@ -17,15 +17,11 @@ from .serializers import (
 
 
 class ModuloViewSet(viewsets.ModelViewSet):
-    """Catálogo global de módulos. Solo el administrador lo gestiona; profesores pueden consultarlo."""
+    """Catálogo global de módulos. Administradores y profesores pueden gestionarlo por igual."""
 
     queryset = Modulo.objects.all()
     serializer_class = ModuloSerializer
-
-    def get_permissions(self):
-        if self.action in ("list", "retrieve"):
-            return [IsAdminOrProfesor()]
-        return [IsAdmin()]
+    permission_classes = [IsAdminOrProfesor]
 
 
 class ModuloGradoViewSet(viewsets.ModelViewSet):

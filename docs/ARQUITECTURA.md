@@ -233,7 +233,8 @@ erDiagram
 | Gestionar grados (editar catálogo) | ✅ | ❌ | ❌ |
 | Gestionar profesores (crear/asignar grados) | ✅ | ❌ | ❌ |
 | Gestionar estudiantes (ver/editar/desactivar) | ✅ | 🔸 solo lectura, solo sus grados | ❌ |
-| Administrar módulos/contenidos (catálogo global) | ✅ | 🔸 crear contenido solo en sus grados | ❌ |
+| Administrar catálogo global de módulos (crear/editar/eliminar) | ✅ | ✅ | ❌ |
+| Crear/editar/eliminar contenidos y materiales | ✅ (todos) | 🔸 (solo en sus grados) | ❌ |
 | Crear/editar/eliminar laboratorios | ✅ (todos) | 🔸 (solo en sus grados) | ❌ |
 | Crear actividades / preguntas | ✅ | ✅ (solo en sus grados) | ❌ |
 | Definir fechas de entrega | ✅ | ✅ | ❌ |
@@ -315,7 +316,7 @@ LaboratorioVirtual/
 ## 7. Flujo del Profesor
 
 1. Inicia sesión → ve únicamente los **grados que tiene asignados**.
-2. Selecciona un grado → ve sus módulos, contenidos y laboratorios existentes.
+2. Selecciona un grado → ve sus módulos, contenidos y laboratorios existentes. Puede crear/editar/eliminar módulos en el catálogo global (igual que el admin) y luego asignarlos a sus grados.
 3. Consulta el listado de **estudiantes** de ese grado.
 4. Crea un **laboratorio**: elige tipo (ensamble, IP, código, BD, quiz, entrega de archivo), redacta instrucciones/objetivo, configura los parámetros específicos del tipo, y lo asigna al grado correspondiente.
 5. Crea una **actividad**: puede envolver un laboratorio o ser independiente; agrega instrucciones, archivos de apoyo y preguntas; define fecha de entrega y puntaje máximo.
