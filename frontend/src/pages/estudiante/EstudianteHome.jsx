@@ -6,12 +6,14 @@ import { getMisLaboratorios } from "../../api/labs";
 import { getMisActividades } from "../../api/submissions";
 import LaboratorioCard from "../../components/LaboratorioCard";
 import ActividadCard from "../../components/ActividadCard";
+import { useAuth } from "../../auth/AuthContext";
 
 // El renderizador de Markdown solo se necesita al expandir un tema; se carga aparte
 // para no pesar el inicio del estudiante, que se visita en cada sesión.
 const ContenidoMarkdown = lazy(() => import("../../components/ContenidoMarkdown"));
 
 export default function EstudianteHome() {
+  const { usuario } = useAuth();
   const [perfil, setPerfil] = useState(null);
   const [modulos, setModulos] = useState(null);
   const [laboratorios, setLaboratorios] = useState(null);
@@ -34,7 +36,7 @@ export default function EstudianteHome() {
 
   return (
     <div className="contenedor">
-      <h1>Inicio</h1>
+      <h1>¡Bienvenido/a, {usuario?.first_name}!</h1>
       <p className="mi-grado">
         Mi grado: <strong>{perfil.grado.nombre}</strong>
       </p>

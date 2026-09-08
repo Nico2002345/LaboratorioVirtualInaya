@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getMisGradosProfesor } from "../../api/academics";
 import { getActividadesProfesor } from "../../api/assignments";
+import { useAuth } from "../../auth/AuthContext";
 
 function formatearFecha(fecha) {
   if (!fecha) return "Sin fecha límite";
@@ -13,6 +14,7 @@ function formatearFecha(fecha) {
 }
 
 export default function ProfesorHome() {
+  const { usuario } = useAuth();
   const [grados, setGrados] = useState([]);
   const [actividades, setActividades] = useState(null);
   const [error, setError] = useState("");
@@ -30,7 +32,7 @@ export default function ProfesorHome() {
 
   return (
     <div className="contenedor">
-      <h1>Inicio</h1>
+      <h1>¡Bienvenido/a, {usuario?.first_name}!</h1>
 
       <section>
         <h2>Mis grados asignados</h2>

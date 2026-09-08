@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext";
 
 export default function AdminHome() {
+  const { usuario } = useAuth();
   return (
     <div className="contenedor">
-      <h1>Panel de administración</h1>
+      <h1>¡Bienvenido/a, {usuario?.first_name}!</h1>
+      <p className="subtitulo">Panel de administración</p>
 
       <section>
         <h2>Personas</h2>
