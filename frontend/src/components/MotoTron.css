@@ -1,0 +1,65 @@
+.moto-tron {
+  position: fixed;
+  width: var(--moto-tam, 150px);
+  top: var(--moto-top, 20%);
+  pointer-events: none;
+  opacity: 0.85;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: var(--moto-duracion, 8s);
+  animation-delay: var(--moto-retraso, 0s);
+}
+
+.moto-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.moto-tron-cian {
+  filter: drop-shadow(0 0 10px rgba(34, 224, 255, 0.55));
+}
+
+.moto-tron-naranja {
+  filter: drop-shadow(0 0 10px rgba(255, 149, 0, 0.55));
+}
+
+.moto-tron-derecha {
+  animation-name: moto-avanzar-derecha;
+}
+
+.moto-tron-izquierda {
+  animation-name: moto-avanzar-izquierda;
+  transform: scaleX(-1);
+}
+
+@keyframes moto-avanzar-derecha {
+  from {
+    left: -20%;
+  }
+  to {
+    left: 105%;
+  }
+}
+
+@keyframes moto-avanzar-izquierda {
+  from {
+    left: 105%;
+  }
+  to {
+    left: -20%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moto-tron {
+    animation: none;
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .moto-tron {
+    display: none;
+  }
+}

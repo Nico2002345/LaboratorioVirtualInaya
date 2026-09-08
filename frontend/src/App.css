@@ -130,6 +130,8 @@ button:disabled {
   max-width: 900px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .contenedor h1 {
