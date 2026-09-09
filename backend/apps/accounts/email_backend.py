@@ -37,6 +37,9 @@ class ResendEmailBackend(BaseEmailBackend):
                 headers={
                     "Authorization": f"Bearer {settings.RESEND_API_KEY}",
                     "Content-Type": "application/json",
+                    # Cloudflare (delante de la API de Resend) rechaza el User-Agent por
+                    # defecto de urllib ("Python-urllib/3.x") como firma de bot (error 1010).
+                    "User-Agent": "LaboratorioVirtual/1.0 (+https://resend.com)",
                 },
                 method="POST",
             )
