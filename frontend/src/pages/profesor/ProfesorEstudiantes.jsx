@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { alternarActivoEstudiante, getEstudiantes, getGrados, getMisGradosProfesor } from "../../api/academics";
+import {
+  alternarActivoEstudiante,
+  eliminarEstudiante,
+  getEstudiantes,
+  getGrados,
+  getMisGradosProfesor,
+} from "../../api/academics";
 import { useAuth } from "../../auth/AuthContext";
 
 export default function ProfesorEstudiantes() {
@@ -36,6 +42,17 @@ export default function ProfesorEstudiantes() {
       setEstudiantes(estudiantes.map((e) => (e.id === estudiante.id ? actualizado : e)));
     } catch {
       setError("No se pudo cambiar el estado del estudiante.");
+    }
+  };
+
+  const onEliminar = async (estudiante) => {
+    const nombre = `${estudiante.usuario.first_name} ${estudiante.usuario.last_name}`;
+    if (!window.confirm(`¿Eliminar a ${nombre}? Esta acción no se puede deshacer.`)) return;
+    try {
+      await eliminarEstudiante(estudiante.id);
+      setEstudiantes(estudiantes.filter((e) => e.id !== estudiante.id));
+    } catch {
+      setError("No se pudo eliminar el estudiante.");
     }
   };
 
@@ -76,6 +93,7 @@ export default function ProfesorEstudiantes() {
                   <th>Fecha de ingreso</th>
                   <th>Estado</th>
                   {esAdmin && <th></th>}
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -98,6 +116,11 @@ export default function ProfesorEstudiantes() {
                         </button>
                       </td>
                     )}
+                    <td>
+                      <button type="button" className="boton-eliminar" onClick={() => onEliminar(e)}>
+                        Eliminar
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

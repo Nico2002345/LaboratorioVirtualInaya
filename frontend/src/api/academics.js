@@ -19,6 +19,8 @@ export const getEstudiantes = (gradoId) =>
 export const alternarActivoEstudiante = (id) =>
   api.post(`/academics/estudiantes/${id}/alternar_activo/`).then((res) => res.data);
 
+export const eliminarEstudiante = (id) => api.delete(`/academics/estudiantes/${id}/`);
+
 export const actualizarGrado = (id, payload) =>
   api.patch(`/academics/grados/${id}/`, payload).then((res) => res.data);
 

@@ -72,8 +72,15 @@ class MiPerfilEstudianteView(generics.RetrieveAPIView):
         return Estudiante.objects.select_related("usuario", "grado").get(usuario=self.request.user)
 
 
-class EstudianteViewSet(viewsets.ReadOnlyModelViewSet):
-    """Admin ve todos los estudiantes (filtrables por grado); profesor solo los de sus grados."""
+class EstudianteViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet,
+):
+    """Admin ve/elimina todos los estudiantes (filtrables por grado); profesor solo los de sus
+    grados asignados (tanto para verlos como para eliminarlos: `get_queryset` ya los filtra, así
+    que `get_object` responde 404 si un profesor intenta tocar un estudiante de otro grado)."""
 
     serializer_class = EstudianteSerializer
     permission_classes = [IsAdminOrProfesor]
@@ -87,6 +94,11 @@ class EstudianteViewSet(viewsets.ReadOnlyModelViewSet):
         if grado_id:
             qs = qs.filter(grado_id=grado_id)
         return qs.order_by("grado__orden", "usuario__last_name")
+
+    def perform_destroy(self, instance):
+        # Se borra el Usuario (no solo el Estudiante) para eliminar la cuenta por completo;
+        # el resto (entregas, respuestas, progreso de laboratorios) cae en cascada.
+        instance.usuario.delete()
 
     @action(detail=True, methods=["post"], permission_classes=[IsAdmin])
     def alternar_activo(self, request, pk=None):

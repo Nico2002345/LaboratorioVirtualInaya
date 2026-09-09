@@ -78,3 +78,22 @@ class AcademicsPermisosTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.estudiante8_usuario.refresh_from_db()
         self.assertFalse(self.estudiante8_usuario.is_active)
+
+    def test_profesor_puede_eliminar_estudiante_de_su_grado(self):
+        self.client.force_authenticate(user=self.profesor_usuario)
+        response = self.client.delete(f"/api/academics/estudiantes/{self.estudiante8.id}/")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Usuario.objects.filter(email="est8@labvirtual.local").exists())
+
+    def test_profesor_no_puede_eliminar_estudiante_de_otro_grado(self):
+        estudiante9 = Estudiante.objects.get(usuario=self.estudiante9_usuario)
+        self.client.force_authenticate(user=self.profesor_usuario)
+        response = self.client.delete(f"/api/academics/estudiantes/{estudiante9.id}/")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(Usuario.objects.filter(email="est9@labvirtual.local").exists())
+
+    def test_admin_puede_eliminar_cualquier_estudiante(self):
+        self.client.force_authenticate(user=self.admin)
+        response = self.client.delete(f"/api/academics/estudiantes/{self.estudiante8.id}/")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Usuario.objects.filter(email="est8@labvirtual.local").exists())
