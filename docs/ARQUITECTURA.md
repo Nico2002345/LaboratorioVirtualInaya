@@ -233,7 +233,7 @@ erDiagram
 |---|---|---|---|
 | Gestionar grados (editar catálogo) | ✅ | ❌ | ❌ |
 | Gestionar profesores (crear/asignar grados) | ✅ | ❌ | ❌ |
-| Gestionar estudiantes (ver/editar/desactivar) | ✅ | 🔸 solo lectura, solo sus grados | ❌ |
+| Gestionar estudiantes (ver/desactivar/eliminar) | ✅ | 🔸 solo sus grados (ver y eliminar; desactivar es solo admin) | ❌ |
 | Administrar catálogo global de módulos (crear/editar/eliminar) | ✅ | ✅ | ❌ |
 | Crear/editar/eliminar contenidos y materiales | ✅ (todos) | 🔸 (solo en sus grados) | ❌ |
 | Crear/editar/eliminar laboratorios | ✅ (todos) | 🔸 (solo en sus grados) | ❌ |
@@ -307,7 +307,7 @@ LaboratorioVirtual/
 1. Inicia sesión → panel de administración.
 2. Gestiona catálogo de **grados** (editar nombre/descripción — los 4 ya existen por defecto).
 3. Crea/edita **profesores** y les asigna uno o varios grados.
-4. Consulta/gestiona **estudiantes** (filtrar por grado, activar/desactivar cuentas).
+4. Consulta/gestiona **estudiantes** (filtrar por grado, activar/desactivar cuentas, eliminar cuentas).
 5. Administra **módulos** y **contenidos** por módulo-grado (puede delegar creación de contenido a profesores).
 6. Crea/edita/elimina **laboratorios** de cualquier grado (mismo motor que usan los profesores, sin restricción de grado asignado).
 7. Crea **actividades** globales si aplica (ej. evaluación institucional).
@@ -318,7 +318,7 @@ LaboratorioVirtual/
 
 1. Inicia sesión → ve únicamente los **grados que tiene asignados**.
 2. Selecciona un grado → ve sus módulos, contenidos y laboratorios existentes. Puede crear/editar/eliminar módulos en el catálogo global (igual que el admin) y luego asignarlos a sus grados.
-3. Consulta el listado de **estudiantes** de ese grado.
+3. Consulta el listado de **estudiantes** de ese grado; puede eliminar cuentas de estudiantes de sus grados asignados.
 4. Crea un **laboratorio**: elige tipo (ensamble, IP, código, BD, quiz, entrega de archivo), redacta instrucciones/objetivo, configura los parámetros específicos del tipo, y lo asigna al grado correspondiente.
 5. Crea una **actividad**: puede envolver un laboratorio o ser independiente; agrega instrucciones, archivos de apoyo y preguntas; define fecha de entrega y puntaje máximo.
 6. Publica la actividad → queda visible solo para estudiantes de ese grado.
