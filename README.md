@@ -148,6 +148,16 @@ cd frontend && railway up --service LaboratorioVirtualInaya --ci
   transaccional por API HTTPS (Resend, recomendado por Railway) en vez de SMTP. El backend ya tiene esto
   resuelto (`apps/accounts/email_backend.py` + `RESEND_API_KEY`); solo aplica si se agrega SMTP a mano en
   un servicio nuevo. SMTP normal solo funciona a partir del plan Pro.
+- **Resend responde 403 "domain is not verified"**: `DEFAULT_FROM_EMAIL` debe ser un dominio verificado en
+  Resend. Sin dominio propio verificado, el único remitente válido es `onboarding@resend.dev` (y solo se
+  puede enviar al correo con el que te registraste en Resend — ver limitación más abajo).
+  Diagnóstico: como `DEBUG=False` en producción, Django no muestra el traceback en la respuesta 500 ni lo
+  imprime en consola (solo iría a `mail_admins`, no configurado); hay que entrar con
+  `railway ssh --service backend` y reproducir la llamada a mano (`python manage.py shell`) para ver el
+  error real.
+- **Resend responde 403 "error code: 1010" (Cloudflare)**: el `User-Agent` por defecto de `urllib` de
+  Python (`Python-urllib/3.x`) lo bloquea Cloudflare como firma de bot. Hay que fijar un `User-Agent`
+  normal en la request (ya corregido en `apps/accounts/email_backend.py`).
 
 ## Estado actual
 
@@ -162,7 +172,7 @@ cd frontend && railway up --service LaboratorioVirtualInaya --ci
 - ✅ El cuerpo de un contenido se edita después de creado desde "Editar cuerpo" en la tarjeta del contenido (con vista previa en vivo), y se renderiza como **Markdown** (títulos, negrita, listas, tablas, código, citas) tanto en esa vista previa como al expandir el tema en "Mis módulos" del estudiante (`react-markdown` + `remark-gfm`, cargado en un chunk aparte vía `React.lazy` para no pesar el inicio del estudiante).
 - ✅ **Diseño visual**: tema oscuro "futurista" (glassmorphism, acentos neón cian/violeta, tipografías Orbitron/Space Grotesk) aplicado de forma consistente en `App.css` (paneles, formularios, tablas, badges) y en los 4 simuladores de laboratorio interactivos (`labs-engine/*`), incluido el tema oscuro de CodeMirror en el editor web, más robots animados en las pantallas de login/registro (`components/RobotFlotante.jsx`). Las pantallas de inicio por rol saludan al usuario por su nombre ("¡Bienvenido/a, {nombre}!") y tienen de fondo motos de luz estilo Tron animadas cruzando la pantalla (`components/MotoTron.jsx` / `FondoTron.jsx`).
 - ✅ Cualquier usuario autenticado puede cambiar su propia contraseña desde `/cambiar-password` (`POST /api/auth/cambiar-password/`, valida la contraseña actual y las reglas de complejidad de Django).
-- ✅ Recuperación de contraseña por correo: `/olvide-password` (pide el correo, `POST /api/auth/olvide-password/`, respuesta genérica exista o no el correo) y `/restablecer-password?uid=...&token=...` (`POST /api/auth/restablecer-password/`, token firmado con `PasswordResetTokenGenerator` de Django). El envío usa la API HTTPS de Resend (`apps/accounts/email_backend.py`) en vez de SMTP, porque Railway bloquea SMTP saliente en el plan Hobby.
+- ✅ Recuperación de contraseña por correo: `/olvide-password` (pide el correo, `POST /api/auth/olvide-password/`, respuesta genérica exista o no el correo) y `/restablecer-password?uid=...&token=...` (`POST /api/auth/restablecer-password/`, token firmado con `PasswordResetTokenGenerator` de Django). El envío usa la API HTTPS de Resend (`apps/accounts/email_backend.py`) en vez de SMTP, porque Railway bloquea SMTP saliente en el plan Hobby. ⚠️ En producción el remitente sigue siendo el de pruebas (`onboarding@resend.dev`), así que Resend solo entrega a la cuenta con la que se creó la API key (`nicolascalvospina@gmail.com`) — para que le llegue a cualquier estudiante hace falta verificar un dominio propio en Resend.
 - ✅ **Desplegado en Railway** (Docker, no Nixpacks): backend + frontend + Postgres, ver la sección de Railway más arriba para las URLs y notas del despliegue.
 
 ## Usuarios de prueba (solo entorno local)
