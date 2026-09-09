@@ -73,6 +73,10 @@ export default function Login() {
         </button>
 
         <p className="ayuda">
+          <Link to="/olvide-password">¿Olvidaste tu contraseña?</Link>
+        </p>
+
+        <p className="ayuda">
           ¿Eres estudiante y no tienes cuenta? <Link to="/registro">Regístrate aquí</Link>
         </p>
       </form>

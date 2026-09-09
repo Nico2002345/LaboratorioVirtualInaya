@@ -5,6 +5,8 @@ import { useAuth } from "../auth/AuthContext";
 import Login from "../pages/Login";
 import Registro from "../pages/Registro";
 import CambiarPassword from "../pages/CambiarPassword";
+import OlvidePassword from "../pages/OlvidePassword";
+import RestablecerPassword from "../pages/RestablecerPassword";
 import AdminHome from "../pages/admin/AdminHome";
 import ProfesorHome from "../pages/profesor/ProfesorHome";
 import EstudianteHome from "../pages/estudiante/EstudianteHome";
@@ -42,6 +44,8 @@ export default function AppRoutes() {
         <Route path="/" element={<Inicio />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
+        <Route path="/olvide-password" element={<OlvidePassword />} />
+        <Route path="/restablecer-password" element={<RestablecerPassword />} />
         <Route
           path="/cambiar-password"
           element={

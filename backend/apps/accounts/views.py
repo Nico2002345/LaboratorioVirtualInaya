@@ -1,10 +1,16 @@
 from rest_framework.generics import RetrieveAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import CambiarPasswordSerializer, EmailTokenObtainPairSerializer, UsuarioSerializer
+from .serializers import (
+    CambiarPasswordSerializer,
+    ConfirmarResetPasswordSerializer,
+    EmailTokenObtainPairSerializer,
+    SolicitarResetPasswordSerializer,
+    UsuarioSerializer,
+)
 
 
 class EmailTokenObtainPairView(TokenObtainPairView):
@@ -26,6 +32,32 @@ class CambiarPasswordView(APIView):
 
     def post(self, request):
         serializer = CambiarPasswordSerializer(data=request.data, context={"request": request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"detail": "Contraseña actualizada."})
+
+
+class SolicitarResetPasswordView(APIView):
+    """Envía un correo con un enlace para restablecer la contraseña, si el correo está registrado."""
+
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = SolicitarResetPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {"detail": "Si el correo está registrado, recibirás un enlace para restablecer tu contraseña."}
+        )
+
+
+class ConfirmarResetPasswordView(APIView):
+    """Establece una nueva contraseña a partir de un enlace de recuperación válido."""
+
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = ConfirmarResetPasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"detail": "Contraseña actualizada."})
