@@ -46,6 +46,7 @@ Documento vivo: se actualizará a medida que avance el desarrollo por módulos.
 - JWT (access + refresh token) vía SimpleJWT.
 - Un solo modelo `Usuario` (extiende `AbstractUser`) con campo `rol` (admin/profesor/estudiante). Evita duplicar lógica de login.
 - El registro público (`/api/auth/register`) solo permite crear cuentas con rol **estudiante**, y exige `grado`. Profesores y administradores se crean desde el panel de administración (no hay auto-registro de profesor/admin, para evitar suplantación).
+- Recuperación de contraseña por correo (`/api/auth/olvide-password/` + `/api/auth/restablecer-password/`): token firmado con `PasswordResetTokenGenerator` de Django (sin tabla nueva). El correo se envía por la API HTTPS de un proveedor transaccional (Resend) en vez de SMTP, porque los planes gratuitos/Hobby de plataformas como Railway bloquean SMTP saliente.
 
 ---
 

@@ -122,9 +122,15 @@ CORS_ALLOWED_ORIGINS = [
     o.strip() for o in os.environ.get("CORS_ALLOWED_ORIGINS", "http://localhost:5173").split(",") if o.strip()
 ]
 
-# Envío de correo (recuperación de contraseña). Si no se define EMAIL_HOST, los
-# correos se imprimen en la consola en vez de enviarse (útil en desarrollo).
-if os.environ.get("EMAIL_HOST"):
+# Envío de correo (recuperación de contraseña).
+# Railway bloquea SMTP saliente en los planes Free/Trial/Hobby, así que la opción
+# principal es Resend (API HTTPS). Si no hay RESEND_API_KEY, se intenta SMTP (útil
+# en Railway Pro o fuera de Railway); si tampoco hay EMAIL_HOST, los correos se
+# imprimen en la consola (desarrollo local).
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
+if RESEND_API_KEY:
+    EMAIL_BACKEND = "apps.accounts.email_backend.ResendEmailBackend"
+elif os.environ.get("EMAIL_HOST"):
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
