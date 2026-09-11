@@ -38,12 +38,29 @@ class UsuarioManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
+class Avatar(models.TextChoices):
+    ESTUDIANTE = "🧑‍🎓", "Estudiante"
+    ROBOT = "🤖", "Robot"
+    GATO = "🐱", "Gato"
+    ZORRO = "🦊", "Zorro"
+    BUHO = "🦉", "Búho"
+    PULPO = "🐙", "Pulpo"
+    DRAGON = "🐲", "Dragón"
+    ALIEN = "👽", "Alienígena"
+    NINJA = "🥷", "Ninja"
+    UNICORNIO = "🦄", "Unicornio"
+    RAYO = "⚡", "Rayo"
+    COHETE = "🚀", "Cohete"
+
+
 class Usuario(AbstractUser):
     """Usuario único de la plataforma; el campo `rol` define su tipo."""
 
     username = None
     email = models.EmailField("correo electrónico", unique=True)
     rol = models.CharField(max_length=20, choices=Rol.choices)
+    avatar = models.CharField(max_length=10, choices=Avatar.choices, default=Avatar.ESTUDIANTE)
+    apodo = models.CharField("apodo", max_length=30, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

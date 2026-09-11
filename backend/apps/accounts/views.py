@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .serializers import (
+    ActualizarPerfilSerializer,
     CambiarPasswordSerializer,
     ConfirmarResetPasswordSerializer,
     EmailTokenObtainPairSerializer,
@@ -35,6 +36,18 @@ class CambiarPasswordView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"detail": "Contraseña actualizada."})
+
+
+class ActualizarPerfilView(APIView):
+    """Permite a cualquier usuario autenticado cambiar su avatar y/o apodo."""
+
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request):
+        serializer = ActualizarPerfilSerializer(data=request.data, context={"request": request})
+        serializer.is_valid(raise_exception=True)
+        usuario = serializer.save()
+        return Response(UsuarioSerializer(usuario).data)
 
 
 class SolicitarResetPasswordView(APIView):

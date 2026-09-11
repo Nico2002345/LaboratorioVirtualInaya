@@ -5,6 +5,9 @@ export const login = (email, password) =>
 
 export const getMe = () => api.get("/auth/me/").then((res) => res.data);
 
+export const actualizarPerfil = (payload) =>
+  api.patch("/auth/mi-perfil/", payload).then((res) => res.data);
+
 export const cambiarPassword = (passwordActual, passwordNueva) =>
   api
     .post("/auth/cambiar-password/", { password_actual: passwordActual, password_nueva: passwordNueva })

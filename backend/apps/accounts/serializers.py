@@ -7,14 +7,26 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import Usuario
+from .models import Avatar, Usuario
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ["id", "email", "first_name", "last_name", "rol", "is_active", "date_joined"]
+        fields = ["id", "email", "first_name", "last_name", "rol", "is_active", "date_joined", "avatar", "apodo"]
         read_only_fields = fields
+
+
+class ActualizarPerfilSerializer(serializers.Serializer):
+    avatar = serializers.ChoiceField(choices=Avatar.choices, required=False)
+    apodo = serializers.CharField(max_length=30, allow_blank=True, required=False)
+
+    def save(self):
+        usuario = self.context["request"].user
+        for campo, valor in self.validated_data.items():
+            setattr(usuario, campo, valor)
+        usuario.save(update_fields=list(self.validated_data.keys()))
+        return usuario
 
 
 class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
