@@ -21,6 +21,9 @@ export const alternarActivoEstudiante = (id) =>
 
 export const eliminarEstudiante = (id) => api.delete(`/academics/estudiantes/${id}/`);
 
+export const restablecerPasswordEstudiante = (id) =>
+  api.post(`/academics/estudiantes/${id}/restablecer_password/`).then((res) => res.data);
+
 export const actualizarGrado = (id, payload) =>
   api.patch(`/academics/grados/${id}/`, payload).then((res) => res.data);
 

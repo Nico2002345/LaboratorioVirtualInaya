@@ -1,3 +1,6 @@
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError as DjangoValidationError
+from django.utils.crypto import get_random_string
 from rest_framework import generics, mixins, permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
@@ -93,7 +96,7 @@ class EstudianteViewSet(
         grado_id = self.request.query_params.get("grado")
         if grado_id:
             qs = qs.filter(grado_id=grado_id)
-        return qs.order_by("grado__orden", "usuario__last_name")
+        return qs.order_by("grado__orden", "usuario__first_name", "usuario__last_name")
 
     def perform_destroy(self, instance):
         # Se borra el Usuario (no solo el Estudiante) para eliminar la cuenta por completo;
@@ -108,6 +111,31 @@ class EstudianteViewSet(
         usuario.is_active = not usuario.is_active
         usuario.save(update_fields=["is_active"])
         return Response(EstudianteSerializer(estudiante).data)
+
+    @action(detail=True, methods=["post"], permission_classes=[IsAdmin])
+    def restablecer_password(self, request, pk=None):
+        """Genera una contraseña temporal para el estudiante y la devuelve una única vez.
+
+        No se guarda en texto plano en ningún lado (solo su hash) ni se puede volver a
+        consultar después de esta respuesta: el admin debe copiarla y entregársela ahora.
+        """
+        estudiante = self.get_object()
+        usuario = estudiante.usuario
+
+        alfabeto = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789"
+        for _ in range(20):
+            password_temporal = get_random_string(12, allowed_chars=alfabeto)
+            try:
+                validate_password(password_temporal, user=usuario)
+                break
+            except DjangoValidationError:
+                continue
+        else:
+            raise ValidationError("No se pudo generar una contraseña temporal. Intenta de nuevo.")
+
+        usuario.set_password(password_temporal)
+        usuario.save(update_fields=["password"])
+        return Response({"password_temporal": password_temporal})
 
 
 class ProfesorViewSet(viewsets.ModelViewSet):

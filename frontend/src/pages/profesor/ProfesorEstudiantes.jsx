@@ -6,8 +6,16 @@ import {
   getEstudiantes,
   getGrados,
   getMisGradosProfesor,
+  restablecerPasswordEstudiante,
 } from "../../api/academics";
 import { useAuth } from "../../auth/AuthContext";
+
+const nombreCompleto = (e) => `${e.usuario.first_name} ${e.usuario.last_name}`;
+
+const ordenarPorNombre = (lista) =>
+  [...lista].sort((a, b) =>
+    nombreCompleto(a).localeCompare(nombreCompleto(b), "es", { sensitivity: "base" })
+  );
 
 export default function ProfesorEstudiantes() {
   const { usuario } = useAuth();
@@ -17,6 +25,7 @@ export default function ProfesorEstudiantes() {
   const [gradoSeleccionado, setGradoSeleccionado] = useState("");
   const [estudiantes, setEstudiantes] = useState(null);
   const [error, setError] = useState("");
+  const [passwordGenerada, setPasswordGenerada] = useState(null);
 
   useEffect(() => {
     const cargarGrados = esAdmin ? getGrados : getMisGradosProfesor;
@@ -32,7 +41,7 @@ export default function ProfesorEstudiantes() {
     if (!gradoSeleccionado) return;
     setEstudiantes(null);
     getEstudiantes(gradoSeleccionado)
-      .then(setEstudiantes)
+      .then((data) => setEstudiantes(ordenarPorNombre(data)))
       .catch(() => setError("No se pudieron cargar los estudiantes."));
   }, [gradoSeleccionado]);
 
@@ -45,8 +54,19 @@ export default function ProfesorEstudiantes() {
     }
   };
 
+  const onRestablecerPassword = async (estudiante) => {
+    const nombre = nombreCompleto(estudiante);
+    if (!window.confirm(`¿Generar una contraseña temporal nueva para ${nombre}?`)) return;
+    try {
+      const { password_temporal } = await restablecerPasswordEstudiante(estudiante.id);
+      setPasswordGenerada({ nombre, password: password_temporal });
+    } catch {
+      setError("No se pudo restablecer la contraseña.");
+    }
+  };
+
   const onEliminar = async (estudiante) => {
-    const nombre = `${estudiante.usuario.first_name} ${estudiante.usuario.last_name}`;
+    const nombre = nombreCompleto(estudiante);
     if (!window.confirm(`¿Eliminar a ${nombre}? Esta acción no se puede deshacer.`)) return;
     try {
       await eliminarEstudiante(estudiante.id);
@@ -88,17 +108,20 @@ export default function ProfesorEstudiantes() {
             <table className="tabla-simple">
               <thead>
                 <tr>
+                  <th>N°</th>
                   <th>Nombre</th>
                   <th>Correo</th>
                   <th>Fecha de ingreso</th>
                   <th>Estado</th>
                   {esAdmin && <th></th>}
+                  {esAdmin && <th></th>}
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {estudiantes.map((e) => (
+                {estudiantes.map((e, indice) => (
                   <tr key={e.id}>
+                    <td>{indice + 1}</td>
                     <td>
                       {e.usuario.first_name} {e.usuario.last_name}
                     </td>
@@ -116,6 +139,17 @@ export default function ProfesorEstudiantes() {
                         </button>
                       </td>
                     )}
+                    {esAdmin && (
+                      <td>
+                        <button
+                          type="button"
+                          className="boton-eliminar"
+                          onClick={() => onRestablecerPassword(e)}
+                        >
+                          Restablecer contraseña
+                        </button>
+                      </td>
+                    )}
                     <td>
                       <button type="button" className="boton-eliminar" onClick={() => onEliminar(e)}>
                         Eliminar
@@ -127,6 +161,22 @@ export default function ProfesorEstudiantes() {
             </table>
           )}
         </>
+      )}
+
+      {passwordGenerada && (
+        <div className="modal-overlay">
+          <div className="modal-caja">
+            <h2>Contraseña temporal generada</h2>
+            <p>
+              Entrégasela a <strong>{passwordGenerada.nombre}</strong> ahora: por seguridad no se
+              podrá volver a consultar.
+            </p>
+            <p className="password-generada">{passwordGenerada.password}</p>
+            <button type="button" onClick={() => setPasswordGenerada(null)}>
+              Ya la copié / la entregué
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
