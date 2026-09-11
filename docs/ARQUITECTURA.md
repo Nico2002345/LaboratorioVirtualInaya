@@ -64,6 +64,8 @@ Documento vivo: se actualizará a medida que avance el desarrollo por módulos.
 | rol | enum(admin, profesor, estudiante) | |
 | activo | bool | |
 | fecha_registro | datetime | |
+| avatar | enum de emojis | editable por el propio usuario vía `PATCH /api/auth/mi-perfil/` |
+| apodo | varchar, opcional | ídem; se usa en el saludo si está definido |
 
 **grados**
 | id | PK |
@@ -329,13 +331,13 @@ LaboratorioVirtual/
 ## 8. Flujo del Estudiante
 
 1. Se registra: nombre, correo, contraseña y **selección de grado** (8°/9°/10°/11°) desde una lista fija.
-2. Inicia sesión → pantalla de inicio: "Mi grado: 10°", con sus **módulos** y **laboratorios/actividades** del grado, filtrados automáticamente por el backend.
+2. Inicia sesión → pantalla de inicio: panel de **perfil** (elige avatar y apodo, ve su progreso general, promedio y logros desbloqueados), "Mi grado: 10°", con sus **módulos** y **laboratorios/actividades** del grado, filtrados automáticamente por el backend.
 3. Entra a un módulo → ve **contenidos** (teoría/material de apoyo) y los **laboratorios** de ese módulo.
 4. Abre un laboratorio → ve nombre, descripción, objetivo, instrucciones, estado (no iniciado/en progreso/completado), fecha de entrega y botón **"Iniciar laboratorio"**.
 5. Realiza el laboratorio interactivo (arrastrar componentes, configurar IP, escribir código, modelar BD, etc.) — el progreso se guarda automáticamente (`progreso_laboratorio`).
 6. Si el laboratorio es parte de una actividad evaluable: responde preguntas y/o sube un archivo, y **entrega**.
 7. Consulta sus **calificaciones** y **observaciones** del profesor por actividad.
-8. Ve su **progreso general** (laboratorios completados / pendientes por módulo).
+8. Ve su **progreso general** en el panel de perfil (`components/PerfilEstudiante.jsx`): laboratorios completados, actividades entregadas, promedio y logros — todo calculado en el frontend a partir de sus propios datos, sin tablas ni endpoints adicionales.
 
 ---
 
