@@ -233,7 +233,7 @@ erDiagram
 |---|---|---|---|
 | Gestionar grados (editar catálogo) | ✅ | ❌ | ❌ |
 | Gestionar profesores (crear/asignar grados) | ✅ | ❌ | ❌ |
-| Gestionar estudiantes (ver/desactivar/eliminar) | ✅ | 🔸 solo sus grados (ver y eliminar; desactivar es solo admin) | ❌ |
+| Gestionar estudiantes (ver/desactivar/eliminar/restablecer contraseña) | ✅ | 🔸 solo sus grados (ver y eliminar; desactivar y restablecer contraseña son solo admin) | ❌ |
 | Administrar catálogo global de módulos (crear/editar/eliminar) | ✅ | ✅ | ❌ |
 | Crear/editar/eliminar contenidos y materiales | ✅ (todos) | 🔸 (solo en sus grados) | ❌ |
 | Crear/editar/eliminar laboratorios | ✅ (todos) | 🔸 (solo en sus grados) | ❌ |
@@ -307,7 +307,7 @@ LaboratorioVirtual/
 1. Inicia sesión → panel de administración.
 2. Gestiona catálogo de **grados** (editar nombre/descripción — los 4 ya existen por defecto).
 3. Crea/edita **profesores** y les asigna uno o varios grados.
-4. Consulta/gestiona **estudiantes** (filtrar por grado, activar/desactivar cuentas, eliminar cuentas).
+4. Consulta/gestiona **estudiantes** (listado enumerado y ordenado alfabéticamente por nombre, filtrar por grado, activar/desactivar cuentas, restablecer contraseña con una temporal generada al vuelo, eliminar cuentas).
 5. Administra **módulos** y **contenidos** por módulo-grado (puede delegar creación de contenido a profesores).
 6. Crea/edita/elimina **laboratorios** de cualquier grado (mismo motor que usan los profesores, sin restricción de grado asignado).
 7. Crea **actividades** globales si aplica (ej. evaluación institucional).
